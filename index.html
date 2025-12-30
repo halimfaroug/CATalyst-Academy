@@ -8,166 +8,129 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --neon-blue: #6EC1E4;
-            --neon-purple: #B57EDC;
-            --neon-green: #7FFFD4;
-            --neon-pink: #FFB6C1;
-            --dark-bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.8);
+            --primary-blue: #2563eb;
+            --primary-indigo: #4f46e5;
+            --primary-teal: #0d9488;
+            --primary-rose: #e11d48;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
         }
         
         * {
-            transition: all 0.3s ease;
+            transition: all 0.2s ease-in-out;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             min-height: 100vh;
-            color: #e2e8f0;
+            color: var(--text-light);
             overflow-x: hidden;
         }
         
         h1, h2, h3, h4, h5 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 600;
         }
         
-        .neon-blue { color: var(--neon-blue); }
-        .neon-purple { color: var(--neon-purple); }
-        .neon-green { color: var(--neon-green); }
-        .neon-pink { color: var(--neon-pink); }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
         
-        .gradient-text {
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
         
         .glass-card {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(110, 193, 228, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
         
-        .brand-logo {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 800;
-            font-size: 1.8rem;
-            background: linear-gradient(90deg, #6EC1E4, #B57EDC);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+        .card-hover {
+            transition: all 0.3s ease;
         }
         
-        .brand-logo::after {
-            content: '∞';
-            font-size: 1.2rem;
-            margin-left: 4px;
-            color: #7FFFD4;
-            animation: pulse 2s infinite;
+        .card-hover:hover {
+            transform: translateY(-5px);
+            border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
         }
         
-        .brand-subtitle {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            color: #B57EDC;
-            text-transform: uppercase;
-            margin-top: -4px;
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #6EC1E4, #B57EDC);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Progress Bars */
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
             overflow: hidden;
         }
         
-        .logo-icon::before {
-            content: 'CAT';
-            font-family: 'Poppins', sans-serif;
-            font-weight: 800;
-            font-size: 14px;
-            color: white;
-            letter-spacing: 1px;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-teal));
+            border-radius: 4px;
+            transition: width 0.5s ease;
         }
         
-        .logo-icon::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background: #7FFFD4;
-            border-top-left-radius: 6px;
-        }
-        
-        .glow-effect {
-            position: relative;
-        }
-        
-        .glow-effect::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 16px;
-            background: linear-gradient(90deg, transparent, rgba(110, 193, 228, 0.1), transparent);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .glow-effect:hover::after {
-            opacity: 1;
-        }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(110, 193, 228, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(110, 193, 228, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(110, 193, 228, 0); }
-        }
-        
+        /* Flashcard Styles */
         .flashcard {
             perspective: 1000px;
             cursor: pointer;
-            min-height: 350px;
+            min-height: 280px;
         }
         
         .flashcard-inner {
             position: relative;
             width: 100%;
             height: 100%;
-            text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
         }
@@ -181,214 +144,179 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            padding: 32px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px;
-            border-radius: 16px;
         }
         
         .flashcard-front {
-            background: linear-gradient(135deg, rgba(110, 193, 228, 0.2), rgba(181, 126, 220, 0.2));
-            border: 2px solid #6EC1E4;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(79, 70, 229, 0.1));
+            border: 2px solid rgba(37, 99, 235, 0.3);
         }
         
         .flashcard-back {
-            background: linear-gradient(135deg, rgba(181, 126, 220, 0.2), rgba(127, 255, 212, 0.2));
-            border: 2px solid #B57EDC;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(37, 99, 235, 0.1));
+            border: 2px solid rgba(13, 148, 136, 0.3);
             transform: rotateY(180deg);
         }
         
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-        
-        .progress-ring-circle {
-            transition: stroke-dashoffset 0.5s;
-            stroke-linecap: round;
-        }
-        
+        /* Badge Styles */
         .badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            margin: 4px;
         }
         
-        .badge-bronze {
-            background: linear-gradient(135deg, #CD7F32, #B87333);
-            box-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+        .badge-primary {
+            background: rgba(37, 99, 235, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(37, 99, 235, 0.3);
         }
         
-        .badge-silver {
-            background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
-            box-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+        .badge-success {
+            background: rgba(13, 148, 136, 0.2);
+            color: #2dd4bf;
+            border: 1px solid rgba(13, 148, 136, 0.3);
         }
         
-        .badge-gold {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
         
-        .badge-platinum {
-            background: linear-gradient(135deg, #E5E4E2, #C0C0C0);
-            box-shadow: 0 0 10px rgba(229, 228, 226, 0.5);
-        }
-        
-        .matecat-simulation {
-            background: linear-gradient(135deg, #1e3a8a, #0f172a);
-            border: 2px solid #3b82f6;
-        }
-        
-        .matecat-toolbar {
-            background: linear-gradient(90deg, #1e40af, #1e3a8a);
+        /* Input and Select Styles */
+        select, input, textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            padding: 10px;
+            padding: 12px 16px;
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
         }
         
-        .quiz-option {
-            transition: all 0.3s ease;
-            min-height: auto;
-            display: flex;
-            align-items: flex-start;
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+        
+        /* Matecat Simulation */
+        .matecat-editor {
+            background: #1a202c;
+            border: 1px solid #4a5568;
+            border-radius: 12px;
             padding: 20px;
         }
         
-        .quiz-option:hover {
-            transform: translateX(8px);
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
         
-        .quiz-option.correct {
-            background: linear-gradient(135deg, rgba(127, 255, 212, 0.3), rgba(127, 255, 212, 0.1));
-            border-color: #7FFFD4;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .btn-primary, .btn-secondary {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .glass-card {
+                padding: 20px !important;
+            }
+            
+            .flashcard {
+                min-height: 240px;
+            }
+            
+            .flashcard-front, .flashcard-back {
+                padding: 20px;
+            }
         }
         
-        .quiz-option.incorrect {
-            background: linear-gradient(135deg, rgba(255, 105, 105, 0.3), rgba(255, 105, 105, 0.1));
-            border-color: #ff6969;
+        /* Active States */
+        .nav-active {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(79, 70, 229, 0.2));
+            border: 1px solid rgba(37, 99, 235, 0.3);
         }
         
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.2s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Loading Screen */
+        #loading-screen {
+            animation: fadeOut 0.5s ease 1.5s forwards;
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+        
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Developer Credit */
         .developer-credit {
             position: fixed;
             bottom: 20px;
             right: 20px;
             background: rgba(15, 23, 42, 0.95);
-            border: 2px solid var(--neon-blue);
-            border-radius: 12px;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 10px;
             padding: 12px 20px;
-            font-size: 13px;
-            box-shadow: 0 0 20px rgba(110, 193, 228, 0.5);
-            z-index: 1000;
+            font-size: 12px;
             backdrop-filter: blur(10px);
-        }
-        
-        @keyframes loader {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        .animate-loader {
-            animation: loader 1.5s ease-in-out infinite;
-        }
-        
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .highlight {
-            background: linear-gradient(90deg, transparent, rgba(110, 193, 228, 0.2), transparent);
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-        
-        .neon-border {
-            border: 2px solid transparent;
-            background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
-                        linear-gradient(90deg, var(--neon-blue), var(--neon-purple)) border-box;
-        }
-        
-        #loading-screen {
-            position: fixed;
-            inset: 0;
-            background: #0f172a;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s;
-        }
-        
-        .loading-logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #6EC1E4, #B57EDC);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 2rem;
-        }
-        
-        .loading-logo::before {
-            content: 'CAT';
-            font-family: 'Poppins', sans-serif;
-            font-weight: 800;
-            font-size: 24px;
-            color: white;
-            letter-spacing: 2px;
-        }
-        
-        .loading-logo::after {
-            content: '';
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 16px;
-            height: 16px;
-            background: #7FFFD4;
-            border-radius: 50%;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <div id="loading-screen">
+    <div id="loading-screen" class="fixed inset-0 bg-[#0f172a] z-[9999] flex flex-col items-center justify-center">
         <div class="relative mb-8">
-            <div class="loading-logo">
-                <div class="absolute inset-0 bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] animate-pulse rounded-xl"></div>
-                <div class="relative z-10 text-white font-bold text-lg">CAT</div>
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#2563eb] to-[#4f46e5] flex items-center justify-center animate-pulse">
+                <div class="text-white font-bold text-2xl">CAT</div>
             </div>
-            <div class="absolute -inset-4 bg-gradient-to-r from-[#6EC1E4]/20 to-[#B57EDC]/20 rounded-3xl blur-xl animate-ping"></div>
         </div>
-        
         <div class="text-center">
-            <h2 class="text-3xl font-bold gradient-text mb-2">CATalyst Academy</h2>
-            <p class="text-gray-400 mb-6">Loading your translation learning experience...</p>
-            
-            <div class="w-64 h-2 bg-gray-800 rounded-full overflow-hidden">
-                <div class="h-full bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] rounded-full animate-loader"></div>
+            <h2 class="text-3xl font-bold text-white mb-4">CATalyst Academy</h2>
+            <div class="w-64 h-2 bg-gray-800 rounded-full overflow-hidden mt-6">
+                <div class="h-full bg-gradient-to-r from-[#2563eb] to-[#0d9488] rounded-full" style="animation: loader 1.5s ease-in-out infinite"></div>
             </div>
-            
-            <p class="text-xs text-gray-500 mt-6">Powered by React • TailwindCSS • Matecat Simulation</p>
         </div>
+        <style>
+            @keyframes loader {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(100%); }
+            }
+        </style>
     </div>
 
     <div id="root"></div>
     
     <div class="developer-credit">
-        <p class="neon-blue font-semibold text-sm">💻 Developed by</p>
-        <p class="neon-green font-bold text-base">Halim Faroug A. Elhag</p>
-        <p class="text-xs text-gray-400">Lecturer of English Language, UHB/UofK</p>
+        <p class="text-[#60a5fa] font-semibold text-sm">💻 Developed by</p>
+        <p class="text-white font-bold text-base">Halim Faroug A. Elhag</p>
+        <p class="text-[#94a3b8] text-xs">Lecturer of English Language, UHB/UofK</p>
     </div>
 
     <script type="text/babel">
@@ -397,20 +325,20 @@
         // Course Data
         const courseData = {
             topics: [
-                { id: 1, name: "Introduction to CAT", color: "#6EC1E4", icon: "🚀" },
-                { id: 2, name: "Translator's Workstation", color: "#B57EDC", icon: "💻" },
-                { id: 3, name: "Translation Memory Systems", color: "#7FFFD4", icon: "💾" },
-                { id: 4, name: "Terminology Tools", color: "#FFB6C1", icon: "📚" },
-                { id: 5, name: "Localization & Translation", color: "#6EC1E4", icon: "🌍" },
-                { id: 6, name: "Minority Languages", color: "#B57EDC", icon: "🗣️" },
-                { id: 7, name: "Corpora & Translation", color: "#7FFFD4", icon: "📊" },
-                { id: 8, name: "MT Challenges", color: "#FFB6C1", icon: "⚡" },
-                { id: 9, name: "Linguistics in MT", color: "#6EC1E4", icon: "🔤" },
-                { id: 10, name: "Commercial MT", color: "#B57EDC", icon: "💰" },
-                { id: 11, name: "MT Evaluation", color: "#7FFFD4", icon: "📈" },
-                { id: 12, name: "Sublanguage", color: "#FFB6C1", icon: "🎯" },
-                { id: 13, name: "Post-Editing", color: "#6EC1E4", icon: "✏️" },
-                { id: 14, name: "MT in Classroom", color: "#B57EDC", icon: "🏫" }
+                { id: 1, name: "Introduction to CAT", color: "#2563eb", icon: "🚀" },
+                { id: 2, name: "Translator's Workstation", color: "#4f46e5", icon: "💻" },
+                { id: 3, name: "Translation Memory Systems", color: "#0d9488", icon: "💾" },
+                { id: 4, name: "Terminology Tools", color: "#e11d48", icon: "📚" },
+                { id: 5, name: "Localization & Translation", color: "#2563eb", icon: "🌍" },
+                { id: 6, name: "Minority Languages", color: "#4f46e5", icon: "🗣️" },
+                { id: 7, name: "Corpora & Translation", color: "#0d9488", icon: "📊" },
+                { id: 8, name: "MT Challenges", color: "#e11d48", icon: "⚡" },
+                { id: 9, name: "Linguistics in MT", color: "#2563eb", icon: "🔤" },
+                { id: 10, name: "Commercial MT", color: "#4f46e5", icon: "💰" },
+                { id: 11, name: "MT Evaluation", color: "#0d9488", icon: "📈" },
+                { id: 12, name: "Sublanguage", color: "#e11d48", icon: "🎯" },
+                { id: 13, name: "Post-Editing", color: "#2563eb", icon: "✏️" },
+                { id: 14, name: "MT in Classroom", color: "#4f46e5", icon: "🏫" }
             ],
             
             flashcards: [
@@ -418,117 +346,13 @@
                 { id: 2, topic: 1, front: "What was the ALPAC Report and its impact?", back: "A 1966 report that found MT systems slower and more expensive than human translators, leading to a shift toward CAT tools.", mastery: "new" },
                 { id: 3, topic: 1, front: "What is the difference between MT and CAT?", back: "MT tries to automate translation, while CAT supports human translators with tools like TM and terminology databases.", mastery: "new" },
                 { id: 4, topic: 1, front: "When did CAT tools like Trados emerge?", back: "By the 1980s, tools like Trados revolutionized the industry with Translation Memory features.", mastery: "new" },
-                { id: 5, topic: 2, front: "What is a translator's workstation?", back: "An ecosystem of tools designed to enhance productivity, accuracy, and consistency in translation workflows.", mastery: "new" },
-                { id: 6, topic: 2, front: "What are the two categories of Computer-Aided Translation?", back: "MAHT (Machine-Aided Human Translation) and HAMT (Human-Aided Machine Translation).", mastery: "new" },
-                { id: 7, topic: 2, front: "What are mark-up languages used for in translation?", back: "Languages like HTML use tags to define text structure and formatting for global changes.", mastery: "new" },
-                { id: 8, topic: 2, front: "What are the benefits of dictation tools for translators?", back: "Speed, improved style, fewer typos, and health benefits by reducing keyboard strain.", mastery: "new" },
-                { id: 9, topic: 3, front: "What is Translation Memory (TM)?", back: "A computer-based tool that stores previous translations in a database for reuse.", mastery: "new" },
-                { id: 10, topic: 3, front: "What is TMX format?", back: "Translation Memory eXchange format - a standard for exchanging TM databases between different systems.", mastery: "new" },
-                { id: 11, topic: 3, front: "What is a fuzzy match in Translation Memory?", back: "A similar but not identical match to stored segments, calculated using Levenshtein distance.", mastery: "new" },
-                { id: 12, topic: 3, front: "What is a context match?", back: "When the new source segment matches a stored segment exactly, including surrounding context.", mastery: "new" },
-                { id: 13, topic: 3, front: "What are the three ways to build a TM database?", back: "1) Building as you go, 2) Importing someone else's database, 3) Aligning parallel text.", mastery: "new" },
-                { id: 14, topic: 4, front: "What is terminology management?", back: "The process of collecting, organizing, and using specialized terms in different fields.", mastery: "new" },
-                { id: 15, topic: 4, front: "What is the difference between term banks and termbases?", back: "Term banks are comprehensive encyclopedias; termbases are quick reference tools for translators.", mastery: "new" },
-                { id: 16, topic: 4, front: "What are the two main methods of term extraction?", back: "1) Linguistic Approach (grammar patterns), 2) Statistical Approach (frequency analysis).", mastery: "new" },
-                { id: 17, topic: 4, front: "What were the early term banks?", back: "Large organizations developed the first digital terminology databases in the 1960s-1980s.", mastery: "new" },
-                { id: 18, topic: 5, front: "What does L10n stand for?", back: "Localization - making a product linguistically, technically, and culturally appropriate.", mastery: "new" },
-                { id: 19, topic: 5, front: "What does i18n stand for?", back: "Internationalization - designing products to support multiple languages from the start.", mastery: "new" },
-                { id: 20, topic: 5, front: "What does g11n stand for?", back: "Globalization - the entire process of bringing a product to international markets.", mastery: "new" },
-                { id: 21, topic: 5, front: "What are key differences between translation and localization?", back: "Translation: text conversion. Localization: includes cultural and technical adaptation.", mastery: "new" },
-                { id: 22, topic: 5, front: "What are main components of a localization project?", back: "1) Software, 2) Online help, 3) Documentation, 4) Web content.", mastery: "new" },
-                { id: 23, topic: 6, front: "What defines a minority language?", back: "A language spoken by fewer than 50% of the population and lacking formal recognition.", mastery: "new" },
-                { id: 24, topic: 6, front: "What are three tiers of languages based on computational resources?", back: "1) High-resource, 2) Mid-resource, 3) Low-resource languages.", mastery: "new" },
-                { id: 25, topic: 6, front: "What are key categories of computational resources for languages?", back: "Keyboards, OCR, spell-checking, dictionaries, and CAT/MT systems.", mastery: "new" },
-                { id: 26, topic: 6, front: "What methods develop language engineering resources?", back: "Extracting word-lists, building dictionaries, using bilingual corpora, developing grammar rules.", mastery: "new" },
-                { id: 27, topic: 7, front: "What is a corpus?", back: "A collection of texts stored on a computer for analysis.", mastery: "new" },
-                { id: 28, topic: 7, front: "What is a parallel corpus?", back: "A collection of texts in one language with their translations in another language.", mastery: "new" },
-                { id: 29, topic: 7, front: "What is a comparable corpus?", back: "A bilingual corpus containing two collections of original texts in different languages.", mastery: "new" },
-                { id: 30, topic: 7, front: "What is a concordance (KWIC)?", back: "Keyword in Context list - displays occurrences of a word along with its context.", mastery: "new" },
-                { id: 31, topic: 7, front: "What is the Translational English Corpus (TEC)?", back: "A web-based tool created in 1994 for studying translated English.", mastery: "new" },
-                { id: 32, topic: 8, front: "What is the Analysis Problem in MT?", back: "Computers need to analyze meaning, but words have different meanings based on context.", mastery: "new" },
-                { id: 33, topic: 8, front: "What is the Transfer Problem in MT?", back: "Difficulty expressing meaning in the target language due to structural differences.", mastery: "new" },
-                { id: 34, topic: 8, front: "What is the Synthesis Problem in MT?", back: "Choosing the best way to express meaning among many possibilities in the target language.", mastery: "new" },
-                { id: 35, topic: 8, front: "What are four main limitations computers face in translation?", back: "1) Vaguely defined tasks, 2) Learning from experience, 3) Common-sense reasoning, 4) Combinatorial problems.", mastery: "new" },
-                { id: 36, topic: 8, front: "What is Example-Based Machine Translation (EBMT)?", back: "An MT approach that uses a database of examples to find matching translations.", mastery: "new" },
-                { id: 37, topic: 9, front: "What is the role of linguistics in Machine Translation?", back: "Linguistics provides descriptions of languages and theories about how language works.", mastery: "new" },
-                { id: 38, topic: 9, front: "What is difference between formal and functional linguistics in MT?", back: "Formal focuses on clear rules; functional focuses on how people use words and context.", mastery: "new" },
-                { id: 39, topic: 9, front: "What are representations in MT?", back: "Universal bridges between languages that focus on core meaning rather than grammar.", mastery: "new" },
-                { id: 40, topic: 9, front: "What are descriptive components in MT?", back: "Grammars, Lexicons, and Transfer Rules that determine how to translate.", mastery: "new" },
-                { id: 41, topic: 9, front: "What are translation divergences?", back: "Differences in surface structure between languages.", mastery: "new" },
-                { id: 42, topic: 10, front: "What are two main approaches to building MT systems?", back: "1) Rule-Based MT, 2) Data-Driven MT (Statistical & Example-Based).", mastery: "new" },
-                { id: 43, topic: 10, front: "What are three main purposes for MT evaluation?", back: "1) Gisting, 2) Dissemination, 3) Communication.", mastery: "new" },
-                { id: 44, topic: 10, front: "What are two major performance challenges in MT?", back: "1) Linguistic Complexity, 2) Data Limitations.", mastery: "new" },
-                { id: 45, topic: 10, front: "How do users improve MT accuracy?", back: "By customizing MT dictionaries, post-editing, and integrating terminology management.", mastery: "new" },
-                { id: 46, topic: 11, front: "What does BLEU measure?", back: "Bilingual Evaluation Understudy - compares MT output with human translations.", mastery: "new" },
-                { id: 47, topic: 11, front: "What are Adequacy and Fluency in MT evaluation?", back: "Adequacy measures content preservation; Fluency measures how natural translation sounds.", mastery: "new" },
-                { id: 48, topic: 11, front: "What are main types of MT evaluation approaches?", back: "Declarative, Black-box, Glass-box evaluation, and feasibility tests.", mastery: "new" },
-                { id: 49, topic: 11, front: "What are main challenges in MT evaluation?", back: "Subjectivity, multiple correct translations, balancing accuracy and readability.", mastery: "new" },
-                { id: 50, topic: 11, front: "What is the Informativeness evaluation method?", back: "Evaluates whether translated text conveys important information accurately.", mastery: "new" }
+                { id: 5, topic: 2, front: "What is a translator's workstation?", back: "An ecosystem of tools designed to enhance productivity, accuracy, and consistency in translation workflows.", mastery: "new" }
             ],
             
             quizzes: [
                 { id: 1, topic: 1, question: "What was the main finding of the 1966 ALPAC Report?", options: ["MT systems were faster and cheaper", "MT systems were slower and more expensive", "MT systems were ready for commercial deployment", "MT should replace all human translators"], correct: 1, explanation: "The ALPAC report found MT systems were slower, less accurate, and twice as expensive as human translators." },
                 { id: 2, topic: 1, question: "Which feature is NOT a key component of CAT tools?", options: ["Translation Memory", "Terminology Management", "Complete automation", "Quality Assurance checks"], correct: 2, explanation: "CAT tools assist translators, not completely automate translation." },
-                { id: 3, topic: 2, question: "Who proposed the translator's workstation concept in 1980?", options: ["Peter Arthern", "Martin Kay", "Alan Melby", "Warren Weaver"], correct: 1, explanation: "Martin Kay's 1980 memo proposed the translator's workstation concept." },
-                { id: 4, topic: 2, question: "What does MAHT stand for?", options: ["Machine-Aided Human Technology", "Machine-Aided Human Translation", "Manual-Aided Human Translation", "Multiple-Aided Human Translation"], correct: 1, explanation: "MAHT stands for Machine-Aided Human Translation." },
-                { id: 5, topic: 3, question: "What is a fuzzy match in Translation Memory?", options: ["An exact duplicate", "A similar but not identical match", "A match with identical context", "A match of individual words"], correct: 1, explanation: "Fuzzy matches are similar but not identical to stored segments." },
-                { id: 6, topic: 3, question: "When did TM systems become commercially available?", options: ["1970s", "1980s", "Mid-1990s", "2000s"], correct: 2, explanation: "TM systems became commercially available in the mid-1990s." },
-                { id: 7, topic: 4, question: "What is main difference between linguistic and statistical term extraction?", options: ["Linguistic uses frequency", "Linguistic uses grammar patterns", "Both use same methods", "Linguistic is automatic"], correct: 1, explanation: "Linguistic uses grammar patterns; statistical uses frequency analysis." },
-                { id: 8, topic: 4, question: "Which early term bank assisted translators?", options: ["Google Translate", "Eurodicautom", "DeepL", "Microsoft Translator"], correct: 1, explanation: "Eurodicautom was an early terminology database." },
-                { id: 9, topic: 5, question: "What does i18n stand for?", options: ["Integration", "Internationalization", "Implementation", "Intelligence"], correct: 1, explanation: "Internationalization (i18n) means designing products for multiple languages." },
-                { id: 10, topic: 5, question: "Which is NOT a key difference between translation and localization?", options: ["Localization includes software testing", "Translation only handles language", "Localization uses more advanced technology", "Translation is always more expensive"], correct: 3, explanation: "Cost varies by project." },
-                { id: 11, topic: 6, question: "What defines a minority language?", options: ["Spoken by fewer than 1 million", "Spoken by <50% in area, lacks official status", "No writing system", "Only in developing countries"], correct: 1, explanation: "A minority language is spoken by <50% in an area and lacks official status." },
-                { id: 12, topic: 6, question: "What are three tiers of languages based on computational resources?", options: ["Large, medium, small", "High-resource, mid-resource, low-resource", "Official, regional, local", "Written, spoken, signed"], correct: 1, explanation: "High-resource, mid-resource, and low-resource languages." },
-                { id: 13, topic: 7, question: "What is a concordance (KWIC)?", options: ["A type of TM", "A list showing word occurrences with context", "An MT system", "A terminology database"], correct: 1, explanation: "A concordance shows word occurrences with their context." },
-                { id: 14, topic: 7, question: "What type of corpus contains texts and direct translations?", options: ["Comparable corpus", "Monolingual corpus", "Parallel corpus", "Reference corpus"], correct: 2, explanation: "A parallel corpus contains texts and their translations." },
-                { id: 15, topic: 8, question: "Which is NOT one of four main limitations computers face in translation?", options: ["Vaguely defined tasks", "Learning from experience", "Processing large data", "Common-sense reasoning"], correct: 2, explanation: "Computers can process large data." },
-                { id: 16, topic: 8, question: "What MT approach uses a database of examples?", options: ["Rule-Based MT", "Neural MT", "Example-Based MT", "Hybrid MT"], correct: 2, explanation: "Example-Based MT uses a database of examples." },
-                { id: 17, topic: 9, question: "What are 'representations' in MT?", options: ["User interface", "Universal bridges focusing on core meaning", "Quality score", "Marketing materials"], correct: 1, explanation: "Representations are universal bridges between languages." },
-                { id: 18, topic: 9, question: "What do descriptive components include in MT?", options: ["Only dictionaries", "Only grammar rules", "Grammars, Lexicons, Transfer Rules", "Only examples"], correct: 2, explanation: "Grammars, Lexicons, and Transfer Rules." },
-                { id: 19, topic: 10, question: "What are two main approaches to building MT systems?", options: ["Fast and slow", "Rule-Based and Data-Driven", "Free and paid", "Online and offline"], correct: 1, explanation: "Rule-Based MT and Data-Driven MT." },
-                { id: 20, topic: 10, question: "Which MT purpose prioritizes speed over accuracy?", options: ["Dissemination", "Gisting", "Communication", "Publication"], correct: 1, explanation: "Gisting prioritizes speed for quick understanding." },
-                { id: 21, topic: 11, question: "What does BLEU measure?", options: ["Translation speed", "Similarity between MT and human translations", "Translation cost", "Languages supported"], correct: 1, explanation: "BLEU measures similarity between MT output and human translations." },
-                { id: 22, topic: 11, question: "What is main limitation of BLEU?", options: ["Takes too long", "Too expensive", "Doesn't evaluate meaning well", "Only works for English"], correct: 2, explanation: "BLEU doesn't evaluate meaning or fluency well." },
-                { id: 23, topic: 12, question: "Which MT system translates weather reports with >95% accuracy?", options: ["SYSTRAN", "Météo", "Google Translate", "DeepL"], correct: 1, explanation: "The Météo system translates weather bulletins accurately." },
-                { id: 24, topic: 12, question: "Why is sublanguage easier for MT?", options: ["More complex grammar", "Unlimited vocabulary", "Limited vocabulary and clear patterns", "Changes constantly"], correct: 2, explanation: "Sublanguages have limited vocabulary and clear patterns." },
-                { id: 25, topic: 13, question: "What error type is 'The translater has wroten'?", options: ["Syntactic Error", "Misspelling", "Wrong Term", "Omission"], correct: 1, explanation: "Contains misspellings: 'translater' and 'wroten'." }
-            ],
-            
-            mindmaps: Array.from({ length: 30 }, (_, i) => ({
-                id: i + 1,
-                title: `CAT Concept Map ${i + 1}`,
-                topic: (i % 14) + 1,
-                description: `Interactive visualization of CAT topic ${(i % 14) + 1} concepts`
-            })),
-            
-            practicalExercises: Array.from({ length: 10 }, (_, i) => ({
-                id: i + 1,
-                title: `Matecat Exercise ${i + 1}: ${["Interface Basics", "TM Management", "Terminology Work", "Quality Check", "Project Setup", "Alignment Practice", "Export Workflow", "Team Collaboration", "Advanced Features", "Final Project"][i]}`,
-                topic: (i % 14) + 1,
-                description: `Practice ${["navigating Matecat", "using Translation Memory", "managing terminology", "quality assurance", "project setup", "text alignment", "exporting translations", "team collaboration", "advanced features", "complete workflow"][i]} in a simulated environment.`,
-                difficulty: ["Beginner", "Beginner", "Intermediate", "Intermediate", "Beginner", "Intermediate", "Advanced", "Intermediate", "Advanced", "Advanced"][i],
-                estimatedTime: `${15 + i * 5} minutes`,
-                xpReward: 50 + i * 10
-            })),
-            
-            caseStudies: Array.from({ length: 5 }, (_, i) => ({
-                id: i + 1,
-                title: `Case Study ${i + 1}: ${["Global Software Localization", "Medical Documentation Translation", "Legal Contract Localization", "E-commerce Website Translation", "Multilingual App Development"][i]}`,
-                topic: (i % 14) + 1,
-                scenario: `A ${["tech company", "healthcare organization", "law firm", "e-commerce business", "mobile app developer"][i]} needs to ${["localize software into 12 languages", "translate medical documents with strict terminology", "localize legal contracts for international use", "translate product descriptions for global markets", "develop a multilingual app with real-time translation"][i]}.`,
-                challenges: ["Consistent terminology", "Cultural adaptation", "Technical constraints", "Quality assurance at scale"].slice(0, 3 + i % 2),
-                solutions: ["Centralized terminology database", "CAT tools with TM integration", "Pseudo-localization testing", "Reviewer workflow"].slice(0, 3 + i % 2)
-            })),
-            
-            resources: [
-                { id: 1, type: 'pdf', title: "Somers - Computer Assisted Translation Guide", icon: "📘" },
-                { id: 2, type: 'video', title: "Matecat Tutorial Series", icon: "🎥" },
-                { id: 3, type: 'tool', title: "Online TM Alignment Tool", icon: "⚙️" },
-                { id: 4, type: 'article', title: "CAT Trends 2024", icon: "📰" },
-                { id: 5, type: 'glossary', title: "CAT Terminology Database", icon: "📖" },
-                { id: 6, type: 'template', title: "Translation Project Templates", icon: "📝" },
-                { id: 7, type: 'research', title: "MT Evaluation Methods", icon: "🔍" },
-                { id: 8, type: 'cheatsheet', title: "CAT Tools Quick Reference", icon: "📋" }
+                { id: 3, topic: 2, question: "Who proposed the translator's workstation concept in 1980?", options: ["Peter Arthern", "Martin Kay", "Alan Melby", "Warren Weaver"], correct: 1, explanation: "Martin Kay's 1980 memo proposed the translator's workstation concept." }
             ]
         };
 
@@ -537,98 +361,34 @@
             const [currentView, setCurrentView] = useState('dashboard');
             const [selectedTopic, setSelectedTopic] = useState(null);
             const [userProgress, setUserProgress] = useState({
-                completedTopics: [1, 2, 3],
-                totalXP: 450,
+                completedTopics: [1, 2],
+                totalXP: 250,
                 level: 2,
-                streak: 7,
-                badges: ["First Steps", "Quick Learner", "Quiz Beginner"],
-                quizScores: {},
-                flashcardProgress: {},
-                mindmapsCompleted: [1, 2, 3],
-                exercisesCompleted: [1, 2],
-                studyTime: 420,
-                lastActive: new Date()
+                streak: 5,
+                badges: ["First Steps", "Quick Learner"],
+                flashcardProgress: {}
             });
-            
-            const [darkMode, setDarkMode] = useState(true);
-            const [notifications, setNotifications] = useState([
-                { id: 1, text: "New quiz available: CAT Fundamentals", time: "2 hours ago", read: false },
-                { id: 2, text: "You earned the 'Flashcard Master' badge", time: "1 day ago", read: true }
-            ]);
 
             useEffect(() => {
-                // Hide loading screen
                 setTimeout(() => {
                     const loadingScreen = document.getElementById('loading-screen');
                     if (loadingScreen) {
-                        loadingScreen.style.opacity = '0';
-                        setTimeout(() => {
-                            loadingScreen.style.display = 'none';
-                        }, 500);
+                        loadingScreen.style.display = 'none';
                     }
                 }, 1500);
 
-                // Initialize progress
                 const initialProgress = {};
                 courseData.flashcards.forEach(card => {
-                    initialProgress[card.id] = {
-                        mastery: 'new',
-                        nextReview: new Date(),
-                        reviewCount: 0,
-                        lastReviewed: null
-                    };
+                    initialProgress[card.id] = { mastery: 'new', reviewCount: 0 };
                 });
-                
-                setUserProgress(prev => ({
-                    ...prev,
-                    flashcardProgress: initialProgress
-                }));
+                setUserProgress(prev => ({ ...prev, flashcardProgress: initialProgress }));
             }, []);
 
             const addXP = (amount) => {
                 setUserProgress(prev => {
                     const newXP = prev.totalXP + amount;
                     const newLevel = Math.floor(newXP / 250) + 1;
-                    
-                    if (newLevel > prev.level) {
-                        setNotifications(prevNotifs => [
-                            ...prevNotifs,
-                            {
-                                id: Date.now(),
-                                text: `🎉 Level Up! You reached level ${newLevel}`,
-                                time: "Just now",
-                                read: false
-                            }
-                        ]);
-                    }
-                    
                     return { ...prev, totalXP: newXP, level: newLevel };
-                });
-            };
-
-            const completeActivity = (type, id) => {
-                setUserProgress(prev => {
-                    const updated = { ...prev };
-                    
-                    switch(type) {
-                        case 'topic':
-                            if (!updated.completedTopics.includes(id)) {
-                                updated.completedTopics.push(id);
-                            }
-                            break;
-                        case 'mindmap':
-                            if (!updated.mindmapsCompleted.includes(id)) {
-                                updated.mindmapsCompleted.push(id);
-                            }
-                            break;
-                        case 'exercise':
-                            if (!updated.exercisesCompleted.includes(id)) {
-                                updated.exercisesCompleted.push(id);
-                            }
-                            break;
-                    }
-                    
-                    return updated;
                 });
             };
 
@@ -636,21 +396,16 @@
                 <div className="min-h-screen">
                     <Navigation 
                         currentView={currentView} 
-                        setCurrentView={setCurrentView} 
+                        setCurrentView={setCurrentView}
                         userProgress={userProgress}
-                        notifications={notifications}
-                        darkMode={darkMode}
-                        setDarkMode={setDarkMode}
                     />
-                    
-                    <main className="container mx-auto px-4 py-6 max-w-7xl mt-4">
+                    <main className="container mx-auto px-4 py-8 max-w-7xl mt-4">
                         {currentView === 'dashboard' && (
                             <Dashboard 
-                                userProgress={userProgress} 
+                                userProgress={userProgress}
                                 courseData={courseData}
                                 setCurrentView={setCurrentView}
                                 setSelectedTopic={setSelectedTopic}
-                                notifications={notifications}
                             />
                         )}
                         {currentView === 'flashcards' && (
@@ -668,163 +423,49 @@
                                 selectedTopic={selectedTopic}
                                 addXP={addXP}
                                 userProgress={userProgress}
-                                setUserProgress={setUserProgress}
-                            />
-                        )}
-                        {currentView === 'mindmaps' && (
-                            <MindmapView 
-                                courseData={courseData}
-                                selectedTopic={selectedTopic}
-                                completeActivity={completeActivity}
-                            />
-                        )}
-                        {currentView === 'matecat' && (
-                            <MatecatSimulation 
-                                exercises={courseData.practicalExercises}
-                                completeActivity={completeActivity}
-                                addXP={addXP}
                             />
                         )}
                         {currentView === 'progress' && (
-                            <ProgressView 
-                                userProgress={userProgress} 
-                                courseData={courseData} 
-                            />
-                        )}
-                        {currentView === 'resources' && (
-                            <ResourcesView resources={courseData.resources} />
-                        )}
-                        {currentView === 'casestudies' && (
-                            <CaseStudyView caseStudies={courseData.caseStudies} />
+                            <ProgressView userProgress={userProgress} courseData={courseData} />
                         )}
                     </main>
-                    
-                    <StudyTimer 
-                        onTimeUpdate={(time) => {
-                            setUserProgress(prev => ({ ...prev, studyTime: prev.studyTime + time }));
-                        }}
-                    />
-                    
-                    <Footer />
                 </div>
             );
         }
 
         // Navigation Component
-        function Navigation({ currentView, setCurrentView, userProgress, notifications, darkMode, setDarkMode }) {
-            const [showNotifications, setShowNotifications] = useState(false);
-            const [showUserMenu, setShowUserMenu] = useState(false);
-
+        function Navigation({ currentView, setCurrentView, userProgress }) {
             return (
-                <nav className="glass-card sticky top-0 z-50 mx-4 mt-4 border border-[#6EC1E4]/20 rounded-2xl">
+                <nav className="glass-card sticky top-0 z-50 mx-4 mt-4">
                     <div className="container mx-auto px-6">
                         <div className="flex items-center justify-between h-20">
-                            {/* Brand Logo */}
                             <div className="flex items-center gap-4">
-                                <div className="relative group">
-                                    <div className="logo-icon group-hover:scale-110 transition-transform">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] opacity-80 rounded-xl"></div>
-                                        <div className="relative z-10 text-white font-bold text-sm tracking-wider">CAT</div>
-                                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#7FFFD4] rounded-full border-2 border-[#0f172a]"></div>
-                                    </div>
-                                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#FFB6C1] rounded-full animate-pulse"></div>
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#4f46e5] flex items-center justify-center">
+                                    <span className="text-white font-bold">CAT</span>
                                 </div>
                                 <div>
-                                    <h1 className="brand-logo text-2xl">CATalyst</h1>
-                                    <p className="brand-subtitle">Computer Assisted Translation Academy</p>
+                                    <h1 className="text-xl font-bold text-white">CATalyst Academy</h1>
+                                    <p className="text-sm text-[#94a3b8]">Computer Assisted Translation</p>
                                 </div>
                             </div>
 
-                            {/* Main Navigation */}
-                            <div className="hidden lg:flex items-center gap-1">
-                                {[
-                                    { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
-                                    { id: 'flashcards', label: 'Flashcards', icon: '🎴' },
-                                    { id: 'quiz', label: 'Quizzes', icon: '🎯' },
-                                    { id: 'mindmaps', label: 'Mindmaps', icon: '🗺️' },
-                                    { id: 'matecat', label: 'Matecat', icon: '⚙️' },
-                                    { id: 'casestudies', label: 'Case Studies', icon: '📋' },
-                                    { id: 'resources', label: 'Resources', icon: '📚' },
-                                    { id: 'progress', label: 'Progress', icon: '📊' }
-                                ].map(item => (
+                            <div className="hidden md:flex items-center gap-2">
+                                {['dashboard', 'flashcards', 'quiz', 'progress'].map(view => (
                                     <button
-                                        key={item.id}
-                                        onClick={() => setCurrentView(item.id)}
-                                        className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                                            currentView === item.id
-                                                ? 'bg-gradient-to-r from-[#6EC1E4]/20 to-[#B57EDC]/20 text-white border border-[#6EC1E4]/30'
-                                                : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-                                        }`}
+                                        key={view}
+                                        onClick={() => setCurrentView(view)}
+                                        className={`px-4 py-3 rounded-lg font-medium capitalize ${currentView === view ? 'nav-active text-white' : 'text-[#94a3b8] hover:text-white hover:bg-white/5'}`}
                                     >
-                                        <span>{item.icon}</span>
-                                        {item.label}
+                                        {view === 'dashboard' ? '🏠 Dashboard' : 
+                                         view === 'flashcards' ? '🎴 Flashcards' : 
+                                         view === 'quiz' ? '🎯 Quiz' : '📊 Progress'}
                                     </button>
                                 ))}
                             </div>
 
-                            {/* Mobile Menu */}
-                            <div className="lg:hidden">
-                                <select
-                                    value={currentView}
-                                    onChange={(e) => setCurrentView(e.target.value)}
-                                    className="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white"
-                                >
-                                    {[
-                                        { id: 'dashboard', label: '🏠 Dashboard' },
-                                        { id: 'flashcards', label: '🎴 Flashcards' },
-                                        { id: 'quiz', label: '🎯 Quizzes' },
-                                        { id: 'mindmaps', label: '🗺️ Mindmaps' },
-                                        { id: 'matecat', label: '⚙️ Matecat' },
-                                        { id: 'progress', label: '📊 Progress' }
-                                    ].map(item => (
-                                        <option key={item.id} value={item.id}>{item.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Right Side Controls */}
-                            <div className="flex items-center gap-3">
-                                {/* Theme Toggle */}
-                                <button
-                                    onClick={() => setDarkMode(!darkMode)}
-                                    className="p-3 rounded-xl bg-gray-800 hover:bg-gray-700"
-                                >
-                                    {darkMode ? '🌙' : '☀️'}
-                                </button>
-                                
-                                {/* Notifications */}
-                                <div className="relative">
-                                    <button
-                                        onClick={() => setShowNotifications(!showNotifications)}
-                                        className="p-3 rounded-xl bg-gray-800 hover:bg-gray-700 relative"
-                                    >
-                                        <span>🔔</span>
-                                        {notifications.filter(n => !n.read).length > 0 && (
-                                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center">
-                                                {notifications.filter(n => !n.read).length}
-                                            </span>
-                                        )}
-                                    </button>
-                                </div>
-                                
-                                {/* User Profile */}
-                                <div className="relative">
-                                    <button
-                                        onClick={() => setShowUserMenu(!showUserMenu)}
-                                        className="flex items-center gap-3 p-2 rounded-xl bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800"
-                                    >
-                                        <div className="relative">
-                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6EC1E4] to-[#B57EDC] flex items-center justify-center">
-                                                <span className="font-bold">S</span>
-                                            </div>
-                                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#0f172a]"></div>
-                                        </div>
-                                        <div className="text-left hidden lg:block">
-                                            <p className="text-sm font-semibold">Student</p>
-                                            <p className="text-xs text-gray-400">Level {userProgress.level}</p>
-                                        </div>
-                                    </button>
-                                </div>
+                            <div className="text-right">
+                                <p className="text-sm font-semibold text-white">Level {userProgress.level}</p>
+                                <p className="text-xs text-[#94a3b8]">{userProgress.totalXP} XP</p>
                             </div>
                         </div>
                     </div>
@@ -833,271 +474,93 @@
         }
 
         // Dashboard Component
-        function Dashboard({ userProgress, courseData, setCurrentView, setSelectedTopic, notifications }) {
-            const [dailyGoal, setDailyGoal] = useState(60);
-            const [goalProgress, setGoalProgress] = useState(35);
-            
-            const upcomingActivities = [
-                { type: 'quiz', title: 'TM Systems Quiz', topic: 'Translation Memory', time: 'Today' },
-                { type: 'exercise', title: 'Matecat Practice', topic: 'Practical Tools', time: 'Tomorrow' },
-                { type: 'flashcards', title: 'CAT Terminology', topic: 'Introduction', time: 'This Week' }
-            ];
-
+        function Dashboard({ userProgress, courseData, setCurrentView, setSelectedTopic }) {
             return (
-                <div className="space-y-8">
-                    {/* Welcome Banner */}
-                    <div className="relative overflow-hidden rounded-2xl mb-12">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#6EC1E4]/10 via-[#B57EDC]/10 to-[#7FFFD4]/10"></div>
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#6EC1E4] rounded-full -translate-y-32 translate-x-32 opacity-20"></div>
-                        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#B57EDC] rounded-full translate-y-48 -translate-x-48 opacity-20"></div>
-                        
-                        <div className="relative glass-card border border-[#6EC1E4]/30 p-8 backdrop-blur-lg">
-                            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                                <div className="flex-1">
-                                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#6EC1E4]/20 border border-[#6EC1E4]/30 mb-4">
-                                        <span className="text-sm font-semibold neon-blue">🎓 UHB/UofK Official Platform</span>
-                                    </div>
-                                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                                        <span className="gradient-text">CATalyst Academy</span>
-                                    </h1>
-                                    <p className="text-xl text-gray-300 mb-6">
-                                        Master Computer Assisted Translation with intelligent tools, 
-                                        practical simulations, and comprehensive learning pathways.
-                                    </p>
-                                    <div className="flex flex-wrap gap-3">
-                                        <div className="badge badge-gold">
-                                            <span>⚡</span>
-                                            <span>Interactive Learning</span>
-                                        </div>
-                                        <div className="badge badge-silver">
-                                            <span>🎯</span>
-                                            <span>Matecat Certified</span>
-                                        </div>
-                                        <div className="badge badge-bronze">
-                                            <span>🏆</span>
-                                            <span>Gamified Progress</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div className="flex-shrink-0">
-                                    <div className="relative">
-                                        <div className="w-48 h-48 rounded-2xl bg-gradient-to-br from-[#6EC1E4] to-[#B57EDC] p-1">
-                                            <div className="w-full h-full rounded-xl bg-[#0f172a] flex flex-col items-center justify-center p-6">
-                                                <div className="text-4xl mb-4">🚀</div>
-                                                <div className="text-center">
-                                                    <p className="text-lg font-bold">ENGL465</p>
-                                                    <p className="text-sm text-gray-400">CAT Course</p>
-                                                    <div className="mt-4 w-full bg-gray-800 rounded-full h-2">
-                                                        <div className="h-2 rounded-full bg-[#7FFFD4]" style={{ width: '65%' }}></div>
-                                                    </div>
-                                                    <p className="text-xs mt-2">65% Complete</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="absolute -top-4 -right-4 w-16 h-16 rounded-xl bg-gradient-to-br from-[#7FFFD4] to-[#6EC1E4] flex items-center justify-center animate-bounce">
-                                            <span className="text-2xl">✨</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div className="space-y-8 fade-in">
+                    <div className="text-center">
+                        <h1 className="text-4xl font-bold text-white mb-4">Welcome to CATalyst Academy</h1>
+                        <p className="text-lg text-[#94a3b8]">Master Computer Assisted Translation with interactive learning</p>
                     </div>
 
-                    {/* Welcome Header */}
-                    <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold gradient-text mb-4">Welcome Back, Translator!</h2>
-                        <p className="text-xl text-gray-400">Ready to master Computer Assisted Translation tools and techniques?</p>
-                        <div className="flex justify-center gap-4 mt-6">
-                            <div className="badge badge-gold">
-                                <span>🔥</span>
-                                <span>{userProgress.streak} Day Streak</span>
-                            </div>
-                            <div className="badge badge-silver">
-                                <span>🏆</span>
-                                <span>Level {userProgress.level}</span>
-                            </div>
-                            <div className="badge badge-bronze">
-                                <span>⏱️</span>
-                                <span>{Math.floor(userProgress.studyTime / 60)}h Studied</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Quick Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div className="glass-card p-6 hover:scale-105 transition-transform">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-[#6EC1E4]/20">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="glass-card p-6 card-hover">
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#2563eb]/20 to-[#4f46e5]/20 flex items-center justify-center">
                                     <span className="text-2xl">🎴</span>
                                 </div>
-                                <span className="text-sm text-gray-400">50 cards</span>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-white">Flashcards</h3>
+                                    <p className="text-sm text-[#94a3b8]">Master key concepts</p>
+                                </div>
                             </div>
-                            <h3 className="text-2xl font-bold neon-blue">{courseData.flashcards.length}</h3>
-                            <p className="text-gray-400">Flashcards</p>
+                            <button 
+                                onClick={() => setCurrentView('flashcards')}
+                                className="btn-primary w-full mt-4"
+                            >
+                                Start Learning
+                            </button>
                         </div>
-                        
-                        <div className="glass-card p-6 hover:scale-105 transition-transform">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-[#B57EDC]/20">
+
+                        <div className="glass-card p-6 card-hover">
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#0d9488]/20 to-[#2563eb]/20 flex items-center justify-center">
                                     <span className="text-2xl">🎯</span>
                                 </div>
-                                <span className="text-sm text-gray-400">25 quizzes</span>
-                            </div>
-                            <h3 className="text-2xl font-bold neon-purple">{courseData.quizzes.length}</h3>
-                            <p className="text-gray-400">Quiz Questions</p>
-                        </div>
-                        
-                        <div className="glass-card p-6 hover:scale-105 transition-transform">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-[#7FFFD4]/20">
-                                    <span className="text-2xl">🗺️</span>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-white">Quizzes</h3>
+                                    <p className="text-sm text-[#94a3b8]">Test your knowledge</p>
                                 </div>
-                                <span className="text-sm text-gray-400">30 maps</span>
                             </div>
-                            <h3 className="text-2xl font-bold neon-green">30</h3>
-                            <p className="text-gray-400">Mindmaps</p>
+                            <button 
+                                onClick={() => setCurrentView('quiz')}
+                                className="btn-primary w-full mt-4"
+                            >
+                                Take Quiz
+                            </button>
                         </div>
-                        
-                        <div className="glass-card p-6 hover:scale-105 transition-transform">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-[#FFB6C1]/20">
-                                    <span className="text-2xl">⚙️</span>
+
+                        <div className="glass-card p-6 card-hover">
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#e11d48]/20 to-[#4f46e5]/20 flex items-center justify-center">
+                                    <span className="text-2xl">📊</span>
                                 </div>
-                                <span className="text-sm text-gray-400">10 exercises</span>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-white">Progress</h3>
+                                    <p className="text-sm text-[#94a3b8]">Track your learning</p>
+                                </div>
                             </div>
-                            <h3 className="text-2xl font-bold neon-pink">10</h3>
-                            <p className="text-gray-400">Practical Exercises</p>
+                            <button 
+                                onClick={() => setCurrentView('progress')}
+                                className="btn-primary w-full mt-4"
+                            >
+                                View Progress
+                            </button>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Course Progress */}
-                        <div className="lg:col-span-2">
-                            <div className="glass-card p-6">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-2xl font-bold">Course Progress</h2>
-                                    <span className="text-sm neon-blue">
-                                        {((userProgress.completedTopics.length / courseData.topics.length) * 100).toFixed(0)}% Complete
-                                    </span>
-                                </div>
-                                
-                                <div className="space-y-4">
-                                    {courseData.topics.map((topic, index) => {
-                                        const progress = userProgress.completedTopics.includes(topic.id) ? 100 : Math.random() * 70;
-                                        return (
-                                            <button
-                                                key={topic.id}
-                                                onClick={() => {
-                                                    setSelectedTopic(topic.id);
-                                                    setCurrentView('flashcards');
-                                                }}
-                                                className="w-full text-left p-4 rounded-xl bg-gray-800/50 hover:bg-gray-800 transition-all"
-                                            >
-                                                <div className="flex justify-between">
-                                                    <div className="flex items-center gap-3">
-                                                        <span className="text-lg">{topic.icon}</span>
-                                                        <span className="font-medium">{topic.name}</span>
-                                                    </div>
-                                                    <span className="text-sm text-gray-400">{progress.toFixed(0)}%</span>
-                                                </div>
-                                                <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                                                    <div
-                                                        className="h-2 rounded-full transition-all duration-500"
-                                                        style={{ width: `${progress}%`, background: topic.color }}
-                                                    ></div>
-                                                </div>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                                
+                    <div className="glass-card p-6">
+                        <h2 className="text-2xl font-bold text-white mb-6">Course Topics</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {courseData.topics.map(topic => (
                                 <button
-                                    onClick={() => setCurrentView('progress')}
-                                    className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] text-white font-semibold hover:opacity-90"
+                                    key={topic.id}
+                                    onClick={() => {
+                                        setSelectedTopic(topic.id);
+                                        setCurrentView('flashcards');
+                                    }}
+                                    className="glass-card p-4 text-left hover:bg-white/5 transition-all duration-200"
                                 >
-                                    View Detailed Progress
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Right Sidebar */}
-                        <div className="space-y-6">
-                            {/* Daily Goal */}
-                            <div className="glass-card p-6">
-                                <h3 className="text-xl font-bold mb-4">Daily Study Goal</h3>
-                                <div className="space-y-4">
-                                    <div className="flex justify-between">
-                                        <span className="text-sm text-gray-400">Progress</span>
-                                        <span className="text-sm font-semibold">{goalProgress}/{dailyGoal} min</span>
-                                    </div>
-                                    <div className="w-full bg-gray-800 rounded-full h-3">
-                                        <div
-                                            className="h-3 rounded-full bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC]"
-                                            style={{ width: `${(goalProgress / dailyGoal) * 100}%` }}
-                                        ></div>
-                                    </div>
-                                    <button 
-                                        onClick={() => setGoalProgress(Math.min(goalProgress + 15, dailyGoal))}
-                                        className="w-full py-2 rounded-lg border border-[#6EC1E4] text-[#6EC1E4] hover:bg-[#6EC1E4] hover:text-white"
-                                    >
-                                        + Add Study Time
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Quick Actions */}
-                            <div className="glass-card p-6">
-                                <h3 className="text-xl font-bold mb-4">Quick Actions</h3>
-                                <div className="grid grid-cols-2 gap-3">
-                                    <button
-                                        onClick={() => setCurrentView('flashcards')}
-                                        className="p-4 rounded-xl bg-[#6EC1E4]/10 border border-[#6EC1E4]/30 hover:bg-[#6EC1E4]/20 flex flex-col items-center"
-                                    >
-                                        <span className="text-2xl mb-2">🎴</span>
-                                        <span className="text-sm">Flashcards</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setCurrentView('quiz')}
-                                        className="p-4 rounded-xl bg-[#B57EDC]/10 border border-[#B57EDC]/30 hover:bg-[#B57EDC]/20 flex flex-col items-center"
-                                    >
-                                        <span className="text-2xl mb-2">🎯</span>
-                                        <span className="text-sm">Quiz</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setCurrentView('mindmaps')}
-                                        className="p-4 rounded-xl bg-[#7FFFD4]/10 border border-[#7FFFD4]/30 hover:bg-[#7FFFD4]/20 flex flex-col items-center"
-                                    >
-                                        <span className="text-2xl mb-2">🗺️</span>
-                                        <span className="text-sm">Mindmaps</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setCurrentView('matecat')}
-                                        className="p-4 rounded-xl bg-[#FFB6C1]/10 border border-[#FFB6C1]/30 hover:bg-[#FFB6C1]/20 flex flex-col items-center"
-                                    >
-                                        <span className="text-2xl mb-2">⚙️</span>
-                                        <span className="text-sm">Matecat</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Upcoming Activities */}
-                            <div className="glass-card p-6">
-                                <h3 className="text-xl font-bold mb-4">Upcoming Activities</h3>
-                                <div className="space-y-3">
-                                    {upcomingActivities.map((activity, index) => (
-                                        <div key={index} className="p-3 rounded-lg bg-gray-800/50">
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <p className="font-medium">{activity.title}</p>
-                                                    <p className="text-sm text-gray-400">{activity.topic}</p>
-                                                </div>
-                                                <span className="text-xs bg-gray-700 px-2 py-1 rounded">{activity.time}</span>
-                                            </div>
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: topic.color + '20' }}>
+                                            <span className="text-lg">{topic.icon}</span>
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
+                                        <h3 className="font-semibold text-white">{topic.name}</h3>
+                                    </div>
+                                    <div className="progress-bar">
+                                        <div className="progress-fill" style={{ width: '60%' }}></div>
+                                    </div>
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -1109,29 +572,12 @@
             const [currentCardIndex, setCurrentCardIndex] = useState(0);
             const [isFlipped, setIsFlipped] = useState(false);
             const [filterTopic, setFilterTopic] = useState(selectedTopic || 'all');
-            const [studyMode, setStudyMode] = useState('all');
-            const [sessionStats, setSessionStats] = useState({
-                studied: 0,
-                mastered: 0,
-                xpEarned: 0
-            });
             
-            const filteredCards = courseData.flashcards.filter(card => {
-                const topicMatch = filterTopic === 'all' || card.topic === filterTopic;
-                const progress = userProgress.flashcardProgress[card.id] || { mastery: 'new' };
-                
-                if (studyMode === 'all') return topicMatch;
-                if (studyMode === 'new') return topicMatch && progress.mastery === 'new';
-                if (studyMode === 'review') {
-                    const needsReview = progress.nextReview && new Date(progress.nextReview) <= new Date();
-                    return topicMatch && (progress.mastery === 'learning' || needsReview);
-                }
-                if (studyMode === 'mastered') return topicMatch && progress.mastery === 'mastered';
-                return topicMatch;
-            });
+            const filteredCards = filterTopic === 'all' 
+                ? courseData.flashcards 
+                : courseData.flashcards.filter(card => card.topic === filterTopic);
             
             const currentCard = filteredCards[currentCardIndex];
-            const cardProgress = currentCard ? userProgress.flashcardProgress[currentCard.id] : null;
 
             const handleFlip = () => {
                 setIsFlipped(!isFlipped);
@@ -1147,51 +593,21 @@
                 setCurrentCardIndex((prev) => (prev - 1 + filteredCards.length) % filteredCards.length);
             };
 
-            const handleMastery = (level) => {
+            const handleMastery = (masteryLevel) => {
                 if (!currentCard) return;
                 
-                const now = new Date();
-                let nextReview = new Date();
-                let xpEarned = 0;
-                
-                switch(level) {
-                    case 'again':
-                        nextReview.setMinutes(now.getMinutes() + 10);
-                        xpEarned = 5;
-                        break;
-                    case 'hard':
-                        nextReview.setHours(now.getHours() + 6);
-                        xpEarned = 10;
-                        break;
-                    case 'good':
-                        nextReview.setDate(now.getDate() + 1);
-                        xpEarned = 15;
-                        break;
-                    case 'easy':
-                        nextReview.setDate(now.getDate() + 7);
-                        xpEarned = 25;
-                        break;
-                }
-                
-                addXP(xpEarned);
+                const xpMap = { again: 5, hard: 10, good: 15, easy: 25 };
+                addXP(xpMap[masteryLevel] || 10);
                 
                 setUserProgress(prev => ({
                     ...prev,
                     flashcardProgress: {
                         ...prev.flashcardProgress,
                         [currentCard.id]: {
-                            mastery: level === 'easy' ? 'mastered' : level === 'again' ? 'new' : 'learning',
-                            nextReview: nextReview,
-                            reviewCount: (prev.flashcardProgress[currentCard.id]?.reviewCount || 0) + 1,
-                            lastReviewed: now
+                            mastery: masteryLevel === 'easy' ? 'mastered' : masteryLevel === 'again' ? 'new' : 'learning',
+                            reviewCount: (prev.flashcardProgress[currentCard.id]?.reviewCount || 0) + 1
                         }
                     }
-                }));
-                
-                setSessionStats(prev => ({
-                    studied: prev.studied + 1,
-                    mastered: level === 'easy' ? prev.mastered + 1 : prev.mastered,
-                    xpEarned: prev.xpEarned + xpEarned
                 }));
                 
                 handleNext();
@@ -1199,258 +615,164 @@
 
             if (!currentCard) {
                 return (
-                    <div className="text-center py-20">
-                        <div className="text-6xl mb-6">🎉</div>
-                        <h2 className="text-3xl font-bold neon-blue mb-6">No cards to study!</h2>
-                        <p className="text-xl mb-8">You've completed all cards in this category.</p>
-                        <button
-                            onClick={() => setStudyMode('all')}
-                            className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] text-white font-semibold"
+                    <div className="text-center py-12">
+                        <h2 className="text-2xl font-bold text-white mb-4">No flashcards found</h2>
+                        <button 
+                            onClick={() => setFilterTopic('all')}
+                            className="btn-primary"
                         >
-                            Study All Cards
+                            View All Flashcards
                         </button>
                     </div>
                 );
             }
 
             return (
-                <div className="max-w-6xl mx-auto">
-                    <div className="mb-8">
-                        <h2 className="text-3xl font-bold gradient-text mb-6">Flashcard Study</h2>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                            <div className="glass-card p-4">
-                                <div className="flex items-center gap-4">
-                                    <label className="text-sm font-medium">Topic:</label>
-                                    <select
-                                        value={filterTopic}
-                                        onChange={(e) => {
-                                            setFilterTopic(e.target.value === 'all' ? 'all' : parseInt(e.target.value));
-                                            setCurrentCardIndex(0);
-                                            setIsFlipped(false);
-                                        }}
-                                        className="flex-1 px-3 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white text-sm"
-                                    >
-                                        <option value="all">All Topics</option>
-                                        {courseData.topics.map(topic => (
-                                            <option key={topic.id} value={topic.id}>{topic.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
+                <div className="max-w-4xl mx-auto fade-in">
+                    <div className="glass-card p-6 mb-6">
+                        <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+                            <div>
+                                <h2 className="text-2xl font-bold text-white mb-2">Flashcard Study</h2>
+                                <p className="text-[#94a3b8]">Master CAT concepts through active recall</p>
                             </div>
-                            
-                            <div className="glass-card p-4">
-                                <div className="flex items-center gap-4">
-                                    <label className="text-sm font-medium">Study Mode:</label>
-                                    <select
-                                        value={studyMode}
-                                        onChange={(e) => {
-                                            setStudyMode(e.target.value);
-                                            setCurrentCardIndex(0);
-                                            setIsFlipped(false);
-                                        }}
-                                        className="flex-1 px-3 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white text-sm"
-                                    >
-                                        <option value="all">All Cards</option>
-                                        <option value="new">New Cards Only</option>
-                                        <option value="review">Review Needed</option>
-                                        <option value="mastered">Mastered Cards</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div className="glass-card p-4">
-                                <div className="text-center">
-                                    <p className="text-sm text-gray-400">Session Stats</p>
-                                    <p className="text-lg font-bold">
-                                        {sessionStats.studied} studied • {sessionStats.xpEarned} XP
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="glass-card p-4">
-                                <div className="text-center">
-                                    <p className="text-sm text-gray-400">Progress</p>
-                                    <p className="text-lg font-bold">
-                                        {currentCardIndex + 1}/{filteredCards.length}
-                                    </p>
+                            <div className="flex items-center gap-4">
+                                <select 
+                                    value={filterTopic}
+                                    onChange={(e) => {
+                                        setFilterTopic(e.target.value === 'all' ? 'all' : parseInt(e.target.value));
+                                        setCurrentCardIndex(0);
+                                        setIsFlipped(false);
+                                    }}
+                                    className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
+                                >
+                                    <option value="all">All Topics</option>
+                                    {courseData.topics.map(topic => (
+                                        <option key={topic.id} value={topic.id}>{topic.name}</option>
+                                    ))}
+                                </select>
+                                <div className="text-right">
+                                    <p className="text-sm text-white">Card {currentCardIndex + 1} of {filteredCards.length}</p>
+                                    <p className="text-xs text-[#94a3b8]">{Math.round((currentCardIndex + 1) / filteredCards.length * 100)}% complete</p>
                                 </div>
                             </div>
                         </div>
-                        
-                        {/* Progress Bar */}
-                        <div className="w-full bg-gray-800 rounded-full h-2 mb-6">
-                            <div
-                                className="h-2 rounded-full bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] transition-all duration-500"
-                                style={{ width: `${((currentCardIndex + 1) / filteredCards.length) * 100}%` }}
-                            ></div>
-                        </div>
-                    </div>
 
-                    {/* Flashcard */}
-                    <div className="mb-8">
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex items-center gap-3">
-                                <div className="px-3 py-1 rounded-full text-sm"
-                                     style={{ 
-                                         backgroundColor: (cardProgress?.mastery === 'mastered' ? '#7FFFD4' : 
-                                                         cardProgress?.mastery === 'learning' ? '#FFB6C1' : '#6EC1E4') + '20',
-                                         color: cardProgress?.mastery === 'mastered' ? '#7FFFD4' : 
-                                                cardProgress?.mastery === 'learning' ? '#FFB6C1' : '#6EC1E4'
-                                     }}>
-                                    {cardProgress?.mastery?.toUpperCase() || 'NEW'}
-                                </div>
-                                <span className="text-sm text-gray-400">
-                                    Reviewed: {cardProgress?.reviewCount || 0} times
-                                </span>
-                            </div>
-                            <div className="text-sm text-gray-400">
-                                Topic {currentCard.topic}
-                            </div>
+                        <div className="progress-bar mb-6">
+                            <div className="progress-fill" style={{ width: `${((currentCardIndex + 1) / filteredCards.length) * 100}%` }}></div>
                         </div>
-                        
-                        <div
-                            className={`flashcard ${isFlipped ? 'flipped' : ''} mb-8 cursor-pointer`}
-                            onClick={handleFlip}
-                        >
-                            <div className="flashcard-inner">
-                                <div className="flashcard-front glow-blue rounded-2xl">
-                                    <div className="p-8">
-                                        <div className="text-xs neon-blue mb-6 font-semibold tracking-wider">QUESTION</div>
-                                        <p className="text-2xl font-semibold leading-relaxed">{currentCard.front}</p>
-                                        <div className="mt-12">
-                                            <p className="text-sm neon-purple animate-pulse">Click to flip card</p>
+
+                        <div className="mb-8">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-2">
+                                    <span className="badge badge-primary">
+                                        Topic {currentCard.topic}
+                                    </span>
+                                    <span className="text-sm text-[#94a3b8]">
+                                        Reviewed: {userProgress.flashcardProgress[currentCard.id]?.reviewCount || 0} times
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div 
+                                className={`flashcard mb-8 ${isFlipped ? 'flipped' : ''}`}
+                                onClick={handleFlip}
+                            >
+                                <div className="flashcard-inner">
+                                    <div className="flashcard-front">
+                                        <div>
+                                            <p className="text-sm font-semibold text-[#60a5fa] mb-4">QUESTION</p>
+                                            <p className="text-xl font-semibold text-white">{currentCard.front}</p>
+                                            <p className="text-sm text-[#94a3b8] mt-8">Click to flip</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flashcard-back glow-purple rounded-2xl">
-                                    <div className="p-8">
-                                        <div className="text-xs neon-purple mb-6 font-semibold tracking-wider">ANSWER</div>
-                                        <p className="text-lg leading-relaxed">{currentCard.back}</p>
-                                        <div className="mt-12">
-                                            <p className="text-sm neon-green animate-pulse">Click to flip back</p>
+                                    <div className="flashcard-back">
+                                        <div>
+                                            <p className="text-sm font-semibold text-[#2dd4bf] mb-4">ANSWER</p>
+                                            <p className="text-lg text-white leading-relaxed">{currentCard.back}</p>
+                                            <p className="text-sm text-[#94a3b8] mt-8">Click to flip back</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div className="flex justify-between items-center mb-8">
-                            <button
-                                onClick={handlePrevious}
-                                className="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white flex items-center gap-2"
-                            >
-                                <span>←</span>
-                                <span>Previous</span>
-                            </button>
-                            
-                            <div className="text-center">
-                                <p className="text-sm text-gray-400">Card Progress</p>
-                                <p className="text-lg font-bold">
-                                    {Object.values(userProgress.flashcardProgress).filter(p => p.mastery === 'mastered').length}/
-                                    {courseData.flashcards.length} Mastered
-                                </p>
-                            </div>
-                            
-                            <button
-                                onClick={handleNext}
-                                className="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white flex items-center gap-2"
-                            >
-                                <span>Next</span>
-                                <span>→</span>
-                            </button>
-                        </div>
-                    </div>
 
-                    {/* Mastery Buttons */}
-                    {isFlipped && (
-                        <div className="glass-card p-6 rounded-2xl">
-                            <h3 className="text-xl font-bold neon-green mb-6 text-center">How well did you know this?</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                <button
-                                    onClick={() => handleMastery('again')}
-                                    className="p-4 rounded-xl bg-red-500/20 border border-red-500/30 hover:bg-red-500/30 flex flex-col items-center"
-                                >
-                                    <span className="text-2xl mb-2">😕</span>
-                                    <span className="font-semibold">Again</span>
-                                    <span className="text-sm text-gray-400">+5 XP</span>
-                                    <span className="text-xs text-gray-500 mt-2">Review in 10 min</span>
+                            <div className="flex justify-between items-center">
+                                <button onClick={handlePrevious} className="btn-secondary">
+                                    ← Previous
                                 </button>
-                                
-                                <button
-                                    onClick={() => handleMastery('hard')}
-                                    className="p-4 rounded-xl bg-orange-500/20 border border-orange-500/30 hover:bg-orange-500/30 flex flex-col items-center"
-                                >
-                                    <span className="text-2xl mb-2">😓</span>
-                                    <span className="font-semibold">Hard</span>
-                                    <span className="text-sm text-gray-400">+10 XP</span>
-                                    <span className="text-xs text-gray-500 mt-2">Review in 6 hours</span>
-                                </button>
-                                
-                                <button
-                                    onClick={() => handleMastery('good')}
-                                    className="p-4 rounded-xl bg-blue-500/20 border border-blue-500/30 hover:bg-blue-500/30 flex flex-col items-center"
-                                >
-                                    <span className="text-2xl mb-2">😊</span>
-                                    <span className="font-semibold">Good</span>
-                                    <span className="text-sm text-gray-400">+15 XP</span>
-                                    <span className="text-xs text-gray-500 mt-2">Review in 1 day</span>
-                                </button>
-                                
-                                <button
-                                    onClick={() => handleMastery('easy')}
-                                    className="p-4 rounded-xl bg-green-500/20 border border-green-500/30 hover:bg-green-500/30 flex flex-col items-center"
-                                >
-                                    <span className="text-2xl mb-2">😄</span>
-                                    <span className="font-semibold">Easy</span>
-                                    <span className="text-sm text-gray-400">+25 XP</span>
-                                    <span className="text-xs text-gray-500 mt-2">Review in 1 week</span>
+                                <button onClick={handleNext} className="btn-secondary">
+                                    Next →
                                 </button>
                             </div>
                         </div>
-                    )}
+
+                        {isFlipped && (
+                            <div className="glass-card p-6 mt-6">
+                                <h3 className="text-lg font-semibold text-white mb-4">How well did you know this?</h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <button 
+                                        onClick={() => handleMastery('again')}
+                                        className="py-3 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400"
+                                    >
+                                        Again (+5 XP)
+                                    </button>
+                                    <button 
+                                        onClick={() => handleMastery('hard')}
+                                        className="py-3 rounded-lg bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 text-orange-400"
+                                    >
+                                        Hard (+10 XP)
+                                    </button>
+                                    <button 
+                                        onClick={() => handleMastery('good')}
+                                        className="py-3 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 text-blue-400"
+                                    >
+                                        Good (+15 XP)
+                                    </button>
+                                    <button 
+                                        onClick={() => handleMastery('easy')}
+                                        className="py-3 rounded-lg bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 text-green-400"
+                                    >
+                                        Easy (+25 XP)
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             );
         }
 
         // Quiz View Component
-        function QuizView({ courseData, selectedTopic, addXP, userProgress, setUserProgress }) {
+        function QuizView({ courseData, selectedTopic, addXP, userProgress }) {
             const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
             const [selectedAnswer, setSelectedAnswer] = useState(null);
             const [showFeedback, setShowFeedback] = useState(false);
             const [score, setScore] = useState(0);
-            const [quizComplete, setQuizComplete] = useState(false);
-            const [timeLeft, setTimeLeft] = useState(60);
-            const [filterTopic, setFilterTopic] = useState(selectedTopic || 'all');
+            const [timeLeft, setTimeLeft] = useState(30);
             
-            const filteredQuizzes = filterTopic === 'all'
-                ? courseData.quizzes
-                : courseData.quizzes.filter(quiz => quiz.topic === filterTopic);
-
+            const filteredQuizzes = selectedTopic 
+                ? courseData.quizzes.filter(quiz => quiz.topic === selectedTopic)
+                : courseData.quizzes;
+            
             const currentQuestion = filteredQuizzes[currentQuestionIndex];
 
             useEffect(() => {
-                if (!showFeedback && !quizComplete && timeLeft > 0) {
+                if (!showFeedback && timeLeft > 0) {
                     const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
                     return () => clearTimeout(timer);
-                } else if (timeLeft === 0 && !showFeedback) {
-                    handleAnswer(null);
                 }
-            }, [timeLeft, showFeedback, quizComplete]);
+            }, [timeLeft, showFeedback]);
 
             const handleAnswer = (answerIndex) => {
                 setSelectedAnswer(answerIndex);
                 setShowFeedback(true);
                 
-                const isCorrect = answerIndex === currentQuestion.correct;
-                const timeBonus = Math.max(1, Math.floor(timeLeft / 10));
-                const earnedXP = isCorrect ? (20 + timeBonus) : 5;
-                
-                if (isCorrect) {
+                if (answerIndex === currentQuestion.correct) {
                     setScore(score + 1);
+                    const timeBonus = Math.max(1, Math.floor(timeLeft / 5));
+                    addXP(20 + timeBonus);
+                } else {
+                    addXP(5);
                 }
-                
-                addXP(earnedXP);
             };
 
             const handleNext = () => {
@@ -1458,659 +780,116 @@
                     setCurrentQuestionIndex(currentQuestionIndex + 1);
                     setSelectedAnswer(null);
                     setShowFeedback(false);
-                    setTimeLeft(60);
+                    setTimeLeft(30);
                 } else {
-                    setQuizComplete(true);
-                    const percentage = (score / filteredQuizzes.length) * 100;
-                    
-                    if (percentage >= 90) {
-                        const badgeName = `Quiz Master: ${courseData.topics.find(t => t.id === filterTopic)?.name || 'All Topics'}`;
-                        if (!userProgress.badges.includes(badgeName)) {
-                            setUserProgress(prev => ({
-                                ...prev,
-                                badges: [...prev.badges, badgeName]
-                            }));
-                        }
-                        addXP(100);
-                    } else if (percentage >= 80) {
-                        addXP(50);
-                    }
+                    // Quiz complete
+                    alert(`Quiz complete! Score: ${score}/${filteredQuizzes.length}`);
                 }
             };
-
-            const resetQuiz = () => {
-                setCurrentQuestionIndex(0);
-                setSelectedAnswer(null);
-                setShowFeedback(false);
-                setScore(0);
-                setQuizComplete(false);
-                setTimeLeft(60);
-            };
-
-            if (quizComplete) {
-                const percentage = (score / filteredQuizzes.length) * 100;
-                
-                return (
-                    <div className="max-w-4xl mx-auto">
-                        <div className="glass-card p-8 text-center mb-8">
-                            <div className="text-7xl mb-6">
-                                {percentage >= 90 ? '🏆' : percentage >= 70 ? '🎉' : '📚'}
-                            </div>
-                            <h2 className="text-4xl font-bold gradient-text mb-6">Quiz Complete!</h2>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                                <div className="p-6 rounded-xl bg-gray-800/50">
-                                    <p className="text-2xl font-bold neon-green">{score}/{filteredQuizzes.length}</p>
-                                    <p className="text-gray-400">Score</p>
-                                </div>
-                                <div className="p-6 rounded-xl bg-gray-800/50">
-                                    <p className="text-2xl font-bold neon-blue">{percentage.toFixed(1)}%</p>
-                                    <p className="text-gray-400">Accuracy</p>
-                                </div>
-                                <div className="p-6 rounded-xl bg-gray-800/50">
-                                    <p className="text-2xl font-bold neon-purple">+{score * 25} XP</p>
-                                    <p className="text-gray-400">Total Earned</p>
-                                </div>
-                            </div>
-                            
-                            {percentage >= 90 && (
-                                <div className="mb-8 p-6 rounded-xl bg-gradient-to-r from-yellow-900/30 to-yellow-800/30 border border-yellow-700">
-                                    <p className="text-xl neon-pink mb-4">🎖️ Quiz Master Badge Earned!</p>
-                                    <div className="badge badge-gold text-lg mx-auto">
-                                        Quiz Master: {courseData.topics.find(t => t.id === filterTopic)?.name || 'All Topics'}
-                                    </div>
-                                    <p className="text-sm text-gray-400 mt-4">+100 XP Bonus for perfect score!</p>
-                                </div>
-                            )}
-                            
-                            <div className="flex gap-4 justify-center">
-                                <button
-                                    onClick={resetQuiz}
-                                    className="px-8 py-3 rounded-xl bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] text-white font-semibold hover:opacity-90"
-                                >
-                                    Try Again
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setFilterTopic('all');
-                                        resetQuiz();
-                                    }}
-                                    className="px-8 py-3 rounded-xl border border-gray-600 text-gray-400 hover:text-white"
-                                >
-                                    Try Different Topic
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
 
             if (!currentQuestion) {
                 return (
-                    <div className="text-center py-20">
-                        <h2 className="text-3xl font-bold neon-blue mb-6">No quiz questions available</h2>
-                        <p className="text-xl">Select a different topic or view all questions</p>
+                    <div className="text-center py-12">
+                        <h2 className="text-2xl font-bold text-white mb-4">No questions available</h2>
+                        <p className="text-[#94a3b8] mb-6">Select a different topic or try all questions</p>
                     </div>
                 );
             }
 
             return (
-                <div className="max-w-4xl mx-auto">
-                    <div className="mb-8">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                            <div>
-                                <h2 className="text-3xl font-bold gradient-text">Quiz Challenge</h2>
-                                <p className="text-gray-400">Test your CAT knowledge</p>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <div className="text-right">
-                                    <p className="text-2xl font-bold neon-pink pulse">⏱️ {timeLeft}s</p>
-                                    <p className="text-sm text-gray-400">Time remaining</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                            <div className="glass-card p-4">
-                                <div className="flex items-center gap-4">
-                                    <label className="text-sm font-medium">Topic:</label>
-                                    <select
-                                        value={filterTopic}
-                                        onChange={(e) => {
-                                            setFilterTopic(e.target.value === 'all' ? 'all' : parseInt(e.target.value));
-                                            resetQuiz();
-                                        }}
-                                        className="flex-1 px-3 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white text-sm"
-                                    >
-                                        <option value="all">All Topics</option>
-                                        {courseData.topics.map(topic => (
-                                            <option key={topic.id} value={topic.id}>{topic.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div className="glass-card p-4">
-                                <div className="text-center">
-                                    <p className="text-sm text-gray-400">Question</p>
-                                    <p className="text-lg font-bold">
-                                        {currentQuestionIndex + 1}/{filteredQuizzes.length}
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="glass-card p-4">
-                                <div className="text-center">
-                                    <p className="text-sm text-gray-400">Current Score</p>
-                                    <p className="text-lg font-bold neon-green">
-                                        {score}/{currentQuestionIndex + (showFeedback ? 1 : 0)}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Progress Bar */}
-                        <div className="w-full bg-gray-800 rounded-full h-2 mb-6">
-                            <div
-                                className="h-2 rounded-full bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] transition-all duration-500"
-                                style={{ width: `${((currentQuestionIndex + 1) / filteredQuizzes.length) * 100}%` }}
-                            ></div>
-                        </div>
-                    </div>
-
-                    {/* Question Card */}
-                    <div className="glass-card p-6 mb-8 glow-purple">
+                <div className="max-w-4xl mx-auto fade-in">
+                    <div className="glass-card p-6">
                         <div className="flex justify-between items-start mb-6">
                             <div>
-                                <span className="px-3 py-1 rounded-full text-sm bg-purple-900/30 text-purple-400">
-                                    Multiple Choice
-                                </span>
-                                <span className="text-sm text-gray-400 ml-4">
-                                    Topic {currentQuestion.topic}
-                                </span>
+                                <h2 className="text-2xl font-bold text-white mb-2">Quiz Challenge</h2>
+                                <p className="text-[#94a3b8]">Test your CAT knowledge</p>
                             </div>
                             <div className="text-right">
-                                <p className="text-sm text-gray-400">Time Bonus</p>
-                                <p className="font-bold neon-green">+{Math.max(1, Math.floor(timeLeft / 10))} XP</p>
+                                <div className="text-2xl font-bold text-white mb-2">⏱️ {timeLeft}s</div>
+                                <p className="text-sm text-[#94a3b8]">Time remaining</p>
                             </div>
                         </div>
-                        
-                        <h3 className="text-2xl font-semibold mb-8 leading-relaxed">{currentQuestion.question}</h3>
-                        
-                        <div className="space-y-4">
-                            {currentQuestion.options.map((option, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => !showFeedback && handleAnswer(index)}
-                                    disabled={showFeedback}
-                                    className={`w-full p-4 rounded-xl text-left transition-all ${
-                                        showFeedback
-                                            ? index === currentQuestion.correct
-                                                ? 'bg-green-900/30 border-2 border-green-700'
-                                                : index === selectedAnswer
-                                                ? 'bg-red-900/30 border-2 border-red-700'
-                                                : 'bg-gray-800/50 border border-gray-700'
-                                            : 'bg-gray-800/50 border border-gray-700 hover:border-[#B57EDC] hover:bg-gray-800'
-                                    }`}
-                                >
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-4">
-                                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                                                showFeedback
-                                                    ? index === currentQuestion.correct
-                                                        ? 'bg-green-600'
-                                                        : index === selectedAnswer
-                                                        ? 'bg-red-600'
-                                                        : 'bg-gray-700'
-                                                    : 'bg-gray-700'
-                                            }`}>
-                                                <span className="font-bold">
-                                                    {String.fromCharCode(65 + index)}
-                                                </span>
-                                            </div>
-                                            <span className="text-lg">{option}</span>
-                                        </div>
-                                        {showFeedback && index === currentQuestion.correct && (
-                                            <span className="text-2xl text-green-400">✅</span>
-                                        )}
-                                        {showFeedback && index === selectedAnswer && index !== currentQuestion.correct && (
-                                            <span className="text-2xl text-red-400">❌</span>
-                                        )}
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
 
-                    {showFeedback && (
-                        <div className={`glass-card p-6 mb-8 ${
-                            selectedAnswer === currentQuestion.correct ? 'glow-green' : 'glow-pink'
-                        }`}>
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className={`text-4xl ${selectedAnswer === currentQuestion.correct ? 'neon-green' : 'neon-pink'}`}>
-                                    {selectedAnswer === currentQuestion.correct ? '🎉' : '📝'}
-                                </div>
+                        <div className="progress-bar mb-6">
+                            <div className="progress-fill" style={{ width: `${((currentQuestionIndex + 1) / filteredQuizzes.length) * 100}%` }}></div>
+                        </div>
+
+                        <div className="glass-card p-6 mb-6">
+                            <div className="flex justify-between items-center mb-6">
                                 <div>
-                                    <h3 className={`text-2xl font-bold mb-2 ${
-                                        selectedAnswer === currentQuestion.correct ? 'neon-green' : 'neon-pink'
-                                    }`}>
-                                        {selectedAnswer === currentQuestion.correct ? 'Correct Answer!' : 'Not Quite Right'}
-                                    </h3>
-                                    <p className="text-gray-300">{currentQuestion.explanation}</p>
+                                    <span className="badge badge-primary">Question {currentQuestionIndex + 1}/{filteredQuizzes.length}</span>
+                                    <span className="text-sm text-[#94a3b8] ml-4">Topic {currentQuestion.topic}</span>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm text-[#94a3b8]">Current Score</p>
+                                    <p className="text-lg font-bold text-white">{score}/{currentQuestionIndex + (showFeedback ? 1 : 0)}</p>
                                 </div>
                             </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                <div className="p-4 rounded-xl bg-gray-800/50">
-                                    <p className="text-sm text-gray-400">Time Bonus</p>
-                                    <p className="text-xl font-bold neon-green">
-                                        +{Math.max(1, Math.floor(timeLeft / 10))} XP
-                                    </p>
-                                </div>
-                                <div className="p-4 rounded-xl bg-gray-800/50">
-                                    <p className="text-sm text-gray-400">Total XP Earned</p>
-                                    <p className="text-xl font-bold neon-blue">
-                                        +{selectedAnswer === currentQuestion.correct ? (20 + Math.max(1, Math.floor(timeLeft / 10))) : 5}
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <button
-                                onClick={handleNext}
-                                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] text-white font-semibold hover:opacity-90"
-                            >
-                                {currentQuestionIndex < filteredQuizzes.length - 1 ? 'Next Question →' : 'See Results'}
-                            </button>
-                        </div>
-                    )}
-                </div>
-            );
-        }
 
-        // Mindmap View Component
-        function MindmapView({ courseData, selectedTopic, completeActivity }) {
-            const [selectedMindmap, setSelectedMindmap] = useState(0);
-            
-            return (
-                <div className="max-w-7xl mx-auto">
-                    <div className="mb-8">
-                        <h2 className="text-3xl font-bold gradient-text mb-4">Interactive Mindmaps</h2>
-                        <p className="text-gray-400">Visualize connections between CAT concepts and tools</p>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                        {/* Mindmap List */}
-                        <div className="lg:col-span-1">
-                            <div className="glass-card p-6">
-                                <h3 className="text-xl font-bold mb-4">Available Mindmaps</h3>
-                                <div className="space-y-3 max-h-[500px] overflow-y-auto">
-                                    {courseData.mindmaps.map((mindmap, index) => (
-                                        <button
-                                            key={mindmap.id}
-                                            onClick={() => setSelectedMindmap(index)}
-                                            className={`w-full text-left p-4 rounded-xl transition-all ${
-                                                selectedMindmap === index
-                                                    ? 'bg-gradient-to-r from-[#6EC1E4]/20 to-[#B57EDC]/20 border border-[#6EC1E4]/30'
-                                                    : 'bg-gray-800/50 hover:bg-gray-800'
-                                            }`}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 rounded-lg bg-gray-700">
-                                                    <span className="text-lg">🗺️</span>
-                                                </div>
-                                                <div>
-                                                    <p className="font-medium">{mindmap.title}</p>
-                                                    <p className="text-sm text-gray-400">
-                                                        Topic {mindmap.topic}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Mindmap Display */}
-                        <div className="lg:col-span-3">
-                            <div className="glass-card p-6 h-[600px]">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h3 className="text-2xl font-bold">
-                                        {courseData.mindmaps[selectedMindmap]?.title}
-                                    </h3>
-                                    <button className="px-4 py-2 rounded-lg bg-[#6EC1E4] text-white hover:bg-[#5eb1d4]">
-                                        Export as Image
-                                    </button>
-                                </div>
-                                
-                                {/* Simple Mindmap Visualization */}
-                                <div className="relative w-full h-[450px] bg-gray-900/50 rounded-xl border border-gray-800 overflow-hidden">
-                                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                        <div className="w-40 h-40 rounded-full bg-gradient-to-br from-[#6EC1E4]/30 to-[#B57EDC]/30 border-2 border-[#6EC1E4] flex items-center justify-center">
-                                            <span className="text-lg font-bold">CAT Tools</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="absolute top-1/4 left-1/4">
-                                        <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-[#7FFFD4]/20 to-transparent border border-[#7FFFD4] flex items-center justify-center">
-                                            <span className="text-center p-2">Translation<br/>Memory</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="absolute top-1/4 right-1/4">
-                                        <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-[#FFB6C1]/20 to-transparent border border-[#FFB6C1] flex items-center justify-center">
-                                            <span className="text-center p-2">Terminology<br/>Management</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="absolute bottom-1/4 left-1/4">
-                                        <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-[#B57EDC]/20 to-transparent border border-[#B57EDC] flex items-center justify-center">
-                                            <span className="text-center p-2">Quality<br/>Assurance</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="absolute bottom-1/4 right-1/4">
-                                        <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-[#6EC1E4]/20 to-transparent border border-[#6EC1E4] flex items-center justify-center">
-                                            <span className="text-center p-2">Project<br/>Management</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div className="mt-6">
+                            <h3 className="text-xl font-semibold text-white mb-6">{currentQuestion.question}</h3>
+
+                            <div className="space-y-3">
+                                {currentQuestion.options.map((option, index) => (
                                     <button
-                                        onClick={() => completeActivity('mindmap', courseData.mindmaps[selectedMindmap].id)}
-                                        className="px-6 py-3 rounded-lg bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] text-white font-semibold hover:opacity-90"
+                                        key={index}
+                                        onClick={() => !showFeedback && handleAnswer(index)}
+                                        disabled={showFeedback}
+                                        className={`w-full p-4 text-left rounded-lg transition-all ${showFeedback
+                                            ? index === currentQuestion.correct
+                                                ? 'bg-green-500/10 border border-green-500/20'
+                                                : index === selectedAnswer
+                                                ? 'bg-red-500/10 border border-red-500/20'
+                                                : 'bg-white/5 border border-white/10'
+                                            : 'bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20'
+                                        }`}
                                     >
-                                        Mark as Completed +10 XP
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-4">
+                                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${showFeedback
+                                                    ? index === currentQuestion.correct
+                                                        ? 'bg-green-500'
+                                                        : index === selectedAnswer
+                                                        ? 'bg-red-500'
+                                                        : 'bg-white/10'
+                                                    : 'bg-white/10'
+                                                }`}>
+                                                    <span className="font-bold text-white">{String.fromCharCode(65 + index)}</span>
+                                                </div>
+                                                <span className="text-white">{option}</span>
+                                            </div>
+                                            {showFeedback && index === currentQuestion.correct && (
+                                                <span className="text-green-400">✅</span>
+                                            )}
+                                            {showFeedback && index === selectedAnswer && index !== currentQuestion.correct && (
+                                                <span className="text-red-400">❌</span>
+                                            )}
+                                        </div>
                                     </button>
-                                </div>
+                                ))}
                             </div>
                         </div>
-                    </div>
-                </div>
-            );
-        }
 
-        // Matecat Simulation Component
-        function MatecatSimulation({ exercises, completeActivity, addXP }) {
-            const [currentExercise, setCurrentExercise] = useState(0);
-            const [translation, setTranslation] = useState("");
-            const [showHint, setShowHint] = useState(false);
-            const [qualityScore, setQualityScore] = useState(null);
-            const [segmentStatus, setSegmentStatus] = useState("new");
-            const [currentSegment, setCurrentSegment] = useState(0);
-            
-            const segments = [
-                {
-                    id: 1,
-                    source: "Computer-Assisted Translation (CAT) tools help translators work more efficiently.",
-                    target: "",
-                    status: "new"
-                },
-                {
-                    id: 2,
-                    source: "Translation Memory stores previous translations for future reuse.",
-                    target: "",
-                    status: "new"
-                },
-                {
-                    id: 3,
-                    source: "Terminology management ensures consistent use of technical terms.",
-                    target: "",
-                    status: "new"
-                }
-            ];
-
-            const handleTranslate = () => {
-                if (translation.trim()) {
-                    const score = calculateQualityScore(translation);
-                    setQualityScore(score);
-                    
-                    const xpEarned = score > 80 ? 25 : score > 60 ? 15 : 10;
-                    addXP(xpEarned);
-                    
-                    alert(`Translation saved! Quality: ${score}% (+${xpEarned} XP)`);
-                    
-                    if (currentSegment < segments.length - 1) {
-                        setCurrentSegment(currentSegment + 1);
-                        setTranslation("");
-                        setQualityScore(null);
-                    } else {
-                        completeActivity('exercise', exercises[currentExercise].id);
-                        alert('Exercise completed! All segments translated.');
-                    }
-                }
-            };
-
-            const calculateQualityScore = (text) => {
-                let score = 70;
-                const lengthRatio = text.length / segments[currentSegment].source.length;
-                if (lengthRatio > 0.8 && lengthRatio < 1.2) score += 10;
-                if (text.includes(".")) score += 5;
-                return Math.min(score, 100);
-            };
-
-            const runQualityCheck = () => {
-                if (!translation.trim()) return;
-                const score = calculateQualityScore(translation);
-                setQualityScore(score);
-                return score;
-            };
-
-            return (
-                <div className="max-w-7xl mx-auto">
-                    <div className="mb-8">
-                        <h2 className="text-3xl font-bold gradient-text mb-4">Matecat Simulation</h2>
-                        <p className="text-gray-400">Realistic CAT tool interface for practical translation exercises</p>
-                        
-                        <div className="flex items-center gap-4 mt-4">
-                            <div className="badge badge-gold">
-                                <span>⚙️</span>
-                                <span>Simulation Mode</span>
-                            </div>
-                            <div className="badge badge-silver">
-                                <span>💾</span>
-                                <span>Auto-save Enabled</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                        {/* Exercise List */}
-                        <div className="lg:col-span-1">
-                            <div className="glass-card p-6">
-                                <h3 className="text-xl font-bold mb-4">Translation Exercises</h3>
-                                <div className="space-y-3 max-h-[500px] overflow-y-auto">
-                                    {exercises.map((exercise, index) => (
-                                        <button
-                                            key={exercise.id}
-                                            onClick={() => {
-                                                setCurrentExercise(index);
-                                                setCurrentSegment(0);
-                                                setTranslation("");
-                                                setQualityScore(null);
-                                            }}
-                                            className={`w-full text-left p-4 rounded-xl ${
-                                                currentExercise === index
-                                                    ? 'bg-gradient-to-r from-blue-900/30 to-blue-800/30 border border-blue-700'
-                                                    : 'bg-gray-800/50 hover:bg-gray-800'
-                                            }`}
-                                        >
-                                            <div className="flex items-start gap-3">
-                                                <div className={`p-2 rounded-lg ${currentExercise === index ? 'bg-blue-600' : 'bg-gray-700'}`}>
-                                                    <span className="text-lg">⚙️</span>
-                                                </div>
-                                                <div>
-                                                    <p className="font-medium">{exercise.title}</p>
-                                                    <p className="text-sm text-gray-400">Topic {exercise.topic}</p>
-                                                    <p className="text-xs text-gray-500 mt-1">{exercise.difficulty}</p>
-                                                </div>
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Main Translation Interface */}
-                        <div className="lg:col-span-3">
-                            <div className="matecat-simulation rounded-2xl overflow-hidden border-2 border-blue-700/30">
-                                {/* Matecat Toolbar */}
-                                <div className="matecat-toolbar p-4">
-                                    <div className="flex items-center gap-3 flex-wrap">
-                                        <button className="p-2 rounded bg-white/10 hover:bg-white/20" title="Save">
-                                            <span className="text-lg">💾</span>
-                                        </button>
-                                        <button className="p-2 rounded bg-white/10 hover:bg-white/20" title="Copy">
-                                            <span className="text-lg">📋</span>
-                                        </button>
-                                        <button className="p-2 rounded bg-white/10 hover:bg-white/20" title="Search">
-                                            <span className="text-lg">🔍</span>
-                                        </button>
-                                        
-                                        <div className="flex-1"></div>
-                                        
-                                        <div className="flex items-center gap-4">
-                                            <div className="text-sm">
-                                                <span className="text-gray-300">Project: </span>
-                                                <span className="font-semibold">CAT_Training_EN-AR</span>
-                                            </div>
-                                            <div className="text-sm">
-                                                <span className="text-gray-300">TM: </span>
-                                                <span className="font-semibold text-green-400">92%</span>
-                                            </div>
-                                        </div>
+                        {showFeedback && (
+                            <div className="glass-card p-6 mb-6">
+                                <div className="flex items-start gap-4 mb-4">
+                                    <div className={`text-3xl ${selectedAnswer === currentQuestion.correct ? 'text-green-400' : 'text-red-400'}`}>
+                                        {selectedAnswer === currentQuestion.correct ? '🎉' : '📝'}
                                     </div>
-                                </div>
-                                
-                                {/* Translation Editor */}
-                                <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                    {/* Source Text */}
                                     <div>
-                                        <h4 className="font-bold mb-3 text-blue-300">Source Text (English)</h4>
-                                        <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-700 min-h-[200px]">
-                                            <p className="leading-relaxed">{segments[currentSegment].source}</p>
-                                        </div>
-                                        <div className="mt-4">
-                                            <h5 className="font-bold mb-2 text-sm">Translation Memory Matches</h5>
-                                            <div className="space-y-2">
-                                                <div className="p-3 rounded-lg bg-green-900/20 border border-green-700/30">
-                                                    <div className="flex justify-between">
-                                                        <span className="text-sm">92% Match</span>
-                                                        <span className="text-xs text-gray-400">From: TM_DB_01</span>
-                                                    </div>
-                                                    <p className="text-sm mt-1">The quick brown fox jumps...</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    {/* Translation Area */}
-                                    <div>
-                                        <div className="flex justify-between items-center mb-3">
-                                            <h4 className="font-bold text-green-300">Translation (Arabic)</h4>
-                                            <button
-                                                onClick={() => setShowHint(!showHint)}
-                                                className="text-sm px-3 py-1 rounded bg-yellow-900/30 text-yellow-400 border border-yellow-700/30"
-                                            >
-                                                {showHint ? 'Hide Hint' : 'Show Hint'}
-                                            </button>
-                                        </div>
-                                        <textarea
-                                            value={translation}
-                                            onChange={(e) => setTranslation(e.target.value)}
-                                            className="w-full bg-gray-900/50 p-4 rounded-lg border border-gray-700 min-h-[200px] resize-none focus:outline-none focus:border-green-500"
-                                            placeholder="Type your translation here..."
-                                        />
-                                        
-                                        {showHint && (
-                                            <div className="mt-4 p-3 rounded-lg bg-blue-900/20 border border-blue-700/30">
-                                                <h5 className="font-bold mb-2 text-sm">Suggested Translation</h5>
-                                                <p className="text-sm">تساعد أدوات الترجمة بمساعدة الحاسوب المترجمين على العمل بكفاءة أكبر.</p>
-                                            </div>
-                                        )}
-                                        
-                                        {qualityScore && (
-                                            <div className={`mt-3 p-3 rounded-lg ${
-                                                qualityScore > 80 ? 'bg-green-900/30 border-green-700' :
-                                                qualityScore > 60 ? 'bg-yellow-900/30 border-yellow-700' :
-                                                'bg-red-900/30 border-red-700'
-                                            }`}>
-                                                <div className="flex justify-between items-center">
-                                                    <span className="font-semibold">Quality Score: {qualityScore}%</span>
-                                                    <span className="text-sm">
-                                                        {qualityScore > 80 ? 'Excellent! 🎉' : 
-                                                         qualityScore > 60 ? 'Good! 👍' : 
-                                                         'Needs improvement 📝'}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        )}
-                                        
-                                        <div className="mt-6">
-                                            <button
-                                                onClick={handleTranslate}
-                                                disabled={!translation.trim()}
-                                                className={`px-6 py-3 rounded-lg font-semibold ${
-                                                    translation.trim()
-                                                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:opacity-90'
-                                                    : 'bg-gray-800 cursor-not-allowed'
-                                                }`}
-                                            >
-                                                {currentSegment === segments.length - 1 
-                                                    ? 'Complete Exercise' 
-                                                    : 'Save & Next Segment'}
-                                            </button>
-                                            <button
-                                                onClick={runQualityCheck}
-                                                className="ml-4 px-6 py-3 rounded-lg border border-gray-600 text-gray-400 hover:text-white"
-                                            >
-                                                Check Quality
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            {/* Exercise Instructions */}
-                            <div className="glass-card p-6 mt-6">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 className="text-2xl font-bold">
-                                            {exercises[currentExercise]?.title}
+                                        <h3 className={`text-lg font-semibold mb-2 ${selectedAnswer === currentQuestion.correct ? 'text-green-400' : 'text-red-400'}`}>
+                                            {selectedAnswer === currentQuestion.correct ? 'Correct!' : 'Not quite'}
                                         </h3>
-                                        <p className="text-gray-400">Topic {exercises[currentExercise]?.topic}</p>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="text-2xl font-bold neon-green">
-                                            +{exercises[currentExercise]?.xpReward} XP Available
-                                        </div>
-                                        <p className="text-sm text-gray-400">Complete all segments</p>
+                                        <p className="text-[#94a3b8]">{currentQuestion.explanation}</p>
                                     </div>
                                 </div>
-                                
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <h4 className="font-bold mb-3 neon-blue">📝 Exercise Description</h4>
-                                        <p className="text-gray-300 mb-4">{exercises[currentExercise]?.description}</p>
-                                    </div>
-                                    
-                                    <div>
-                                        <h4 className="font-bold mb-3 neon-green">⚡ Quick Tips</h4>
-                                        <div className="space-y-3">
-                                            <div className="p-3 rounded-lg bg-gray-800/50">
-                                                <p className="font-medium mb-1">Use TM Matches</p>
-                                                <p className="text-sm text-gray-400">Click "Insert" on high-match translations to save time</p>
-                                            </div>
-                                            <div className="p-3 rounded-lg bg-gray-800/50">
-                                                <p className="font-medium mb-1">Check Terminology</p>
-                                                <p className="text-sm text-gray-400">Ensure consistent use of technical terms</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <button 
+                                    onClick={handleNext}
+                                    className="btn-primary w-full"
+                                >
+                                    {currentQuestionIndex < filteredQuizzes.length - 1 ? 'Next Question →' : 'Finish Quiz'}
+                                </button>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             );
@@ -2118,520 +897,63 @@
 
         // Progress View Component
         function ProgressView({ userProgress, courseData }) {
-            const [activeTab, setActiveTab] = useState('overview');
-            
             const completionPercentage = (userProgress.completedTopics.length / courseData.topics.length) * 100;
-            const radius = 120;
-            const circumference = 2 * Math.PI * radius;
-            const strokeDashoffset = circumference - (completionPercentage / 100) * circumference;
             
-            const masteredCards = Object.values(userProgress.flashcardProgress).filter(
-                p => p.mastery === 'mastered'
-            ).length;
-            const learningCards = Object.values(userProgress.flashcardProgress).filter(
-                p => p.mastery === 'learning'
-            ).length;
-            const newCards = courseData.flashcards.length - masteredCards - learningCards;
-
             return (
-                <div className="max-w-7xl mx-auto">
-                    <div className="mb-8">
-                        <h2 className="text-3xl font-bold gradient-text mb-4">Learning Analytics</h2>
-                        <p className="text-gray-400">Track your progress and performance in CAT studies</p>
-                    </div>
-                    
-                    {/* Tabs */}
-                    <div className="flex gap-2 mb-8 overflow-x-auto scrollbar-hide">
-                        {['overview', 'achievements'].map(tab => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`px-6 py-3 rounded-xl font-medium capitalize whitespace-nowrap ${
-                                    activeTab === tab
-                                        ? 'bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] text-white'
-                                        : 'bg-gray-800 text-gray-400 hover:text-white'
-                                }`}
-                            >
-                                {tab}
-                            </button>
-                        ))}
-                    </div>
-                    
-                    {activeTab === 'overview' && (
-                        <div className="space-y-8">
-                            {/* Stats Overview */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                <div className="glass-card p-6">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="p-3 rounded-xl bg-[#6EC1E4]/20">
-                                            <span className="text-2xl">🏆</span>
-                                        </div>
-                                        <span className="text-sm text-gray-400">Level</span>
-                                    </div>
-                                    <p className="text-3xl font-bold neon-blue">{userProgress.level}</p>
-                                    <p className="text-gray-400">Current Level</p>
-                                    <div className="mt-4">
-                                        <div className="flex justify-between text-sm mb-1">
-                                            <span>Progress to Level {userProgress.level + 1}</span>
-                                            <span>{userProgress.totalXP % 250}/250 XP</span>
-                                        </div>
-                                        <div className="w-full bg-gray-800 rounded-full h-2">
-                                            <div
-                                                className="h-2 rounded-full bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC]"
-                                                style={{ width: `${((userProgress.totalXP % 250) / 250) * 100}%` }}
-                                            ></div>
-                                        </div>
-                                    </div>
+                <div className="max-w-4xl mx-auto fade-in">
+                    <div className="glass-card p-6 mb-6">
+                        <h2 className="text-2xl font-bold text-white mb-6">Your Progress</h2>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div className="glass-card p-6 text-center">
+                                <div className="text-3xl font-bold text-white mb-2">{userProgress.level}</div>
+                                <p className="text-sm text-[#94a3b8]">Current Level</p>
+                                <div className="progress-bar mt-4">
+                                    <div className="progress-fill" style={{ width: `${(userProgress.totalXP % 250) / 250 * 100}%` }}></div>
                                 </div>
-                                
-                                <div className="glass-card p-6">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="p-3 rounded-xl bg-[#B57EDC]/20">
-                                            <span className="text-2xl">🔥</span>
-                                        </div>
-                                        <span className="text-sm text-gray-400">Streak</span>
-                                    </div>
-                                    <p className="text-3xl font-bold neon-purple">{userProgress.streak}</p>
-                                    <p className="text-gray-400">Day Streak</p>
-                                </div>
-                                
-                                <div className="glass-card p-6">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="p-3 rounded-xl bg-[#7FFFD4]/20">
-                                            <span className="text-2xl">⏱️</span>
-                                        </div>
-                                        <span className="text-sm text-gray-400">Study Time</span>
-                                    </div>
-                                    <p className="text-3xl font-bold neon-green">
-                                        {Math.floor(userProgress.studyTime / 60)}h {userProgress.studyTime % 60}m
-                                    </p>
-                                    <p className="text-gray-400">Total Time</p>
-                                </div>
-                                
-                                <div className="glass-card p-6">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="p-3 rounded-xl bg-[#FFB6C1]/20">
-                                            <span className="text-2xl">✨</span>
-                                        </div>
-                                        <span className="text-sm text-gray-400">Total XP</span>
-                                    </div>
-                                    <p className="text-3xl font-bold neon-pink">{userProgress.totalXP}</p>
-                                    <p className="text-gray-400">Experience Points</p>
+                                <p className="text-xs text-[#94a3b8] mt-2">{userProgress.totalXP % 250}/250 XP to next level</p>
+                            </div>
+                            
+                            <div className="glass-card p-6 text-center">
+                                <div className="text-3xl font-bold text-white mb-2">{userProgress.streak}</div>
+                                <p className="text-sm text-[#94a3b8]">Day Streak</p>
+                                <div className="mt-4">
+                                    <span className="badge badge-warning">🔥 Active</span>
                                 </div>
                             </div>
                             
-                            {/* Course Progress */}
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                                <div className="glass-card p-6">
-                                    <h3 className="text-xl font-bold mb-6">Course Progress</h3>
-                                    <div className="flex items-center justify-center mb-6">
-                                        <svg className="progress-ring" width="280" height="280">
-                                            <circle
-                                                cx="140"
-                                                cy="140"
-                                                r={radius}
-                                                fill="transparent"
-                                                stroke="rgba(110, 193, 228, 0.2)"
-                                                strokeWidth="20"
-                                            />
-                                            <circle
-                                                className="progress-ring-circle"
-                                                cx="140"
-                                                cy="140"
-                                                r={radius}
-                                                fill="transparent"
-                                                strokeWidth="20"
-                                                strokeDasharray={circumference}
-                                                strokeDashoffset={strokeDashoffset}
-                                                stroke="#6EC1E4"
-                                            />
-                                            <text
-                                                x="140"
-                                                y="140"
-                                                textAnchor="middle"
-                                                dy="0.3em"
-                                                fontSize="40"
-                                                fontWeight="bold"
-                                                fill="#6EC1E4"
-                                            >
-                                                {completionPercentage.toFixed(0)}%
-                                            </text>
-                                        </svg>
-                                    </div>
-                                    <div className="text-center">
-                                        <p className="text-lg">
-                                            {userProgress.completedTopics.length}/{courseData.topics.length} Topics Completed
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <div className="glass-card p-6">
-                                    <h3 className="text-xl font-bold mb-6">Flashcard Mastery</h3>
-                                    <div className="space-y-6">
-                                        <div>
-                                            <div className="flex justify-between mb-2">
-                                                <span className="font-medium">Mastered Cards</span>
-                                                <span className="neon-green font-bold">{masteredCards}</span>
-                                            </div>
-                                            <div className="w-full bg-gray-800 rounded-full h-3">
-                                                <div
-                                                    className="h-3 rounded-full bg-[#7FFFD4]"
-                                                    style={{ width: `${(masteredCards / courseData.flashcards.length) * 100}%` }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div>
-                                            <div className="flex justify-between mb-2">
-                                                <span className="font-medium">Learning Cards</span>
-                                                <span className="neon-pink font-bold">{learningCards}</span>
-                                            </div>
-                                            <div className="w-full bg-gray-800 rounded-full h-3">
-                                                <div
-                                                    className="h-3 rounded-full bg-[#FFB6C1]"
-                                                    style={{ width: `${(learningCards / courseData.flashcards.length) * 100}%` }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div>
-                                            <div className="flex justify-between mb-2">
-                                                <span className="font-medium">New Cards</span>
-                                                <span className="neon-blue font-bold">{newCards}</span>
-                                            </div>
-                                            <div className="w-full bg-gray-800 rounded-full h-3">
-                                                <div
-                                                    className="h-3 rounded-full bg-[#6EC1E4]"
-                                                    style={{ width: `${(newCards / courseData.flashcards.length) * 100}%` }}
-                                                ></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div className="glass-card p-6 text-center">
+                                <div className="text-3xl font-bold text-white mb-2">{userProgress.totalXP}</div>
+                                <p className="text-sm text-[#94a3b8]">Total XP</p>
+                                <div className="mt-4">
+                                    <span className="badge badge-success">✨ Earning</span>
                                 </div>
                             </div>
                         </div>
-                    )}
-                    
-                    {activeTab === 'achievements' && (
+
+                        <div className="glass-card p-6 mb-6">
+                            <h3 className="text-lg font-semibold text-white mb-4">Course Completion</h3>
+                            <div className="progress-bar">
+                                <div className="progress-fill" style={{ width: `${completionPercentage}%` }}></div>
+                            </div>
+                            <div className="flex justify-between mt-2">
+                                <span className="text-sm text-[#94a3b8]">{completionPercentage.toFixed(0)}% complete</span>
+                                <span className="text-sm text-[#94a3b8]">{userProgress.completedTopics.length}/{courseData.topics.length} topics</span>
+                            </div>
+                        </div>
+
                         <div className="glass-card p-6">
-                            <h3 className="text-xl font-bold mb-6">Achievements & Badges</h3>
-                            
-                            {userProgress.badges.length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                                    {userProgress.badges.map((badge, index) => (
-                                        <div key={index} className="p-4 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700">
-                                            <div className="flex items-center gap-3 mb-3">
-                                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-600 to-orange-600 flex items-center justify-center">
-                                                    <span className="text-xl">🏆</span>
-                                                </div>
-                                                <div>
-                                                    <p className="font-bold">{badge}</p>
-                                                    <p className="text-xs text-gray-400">Earned</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="text-center py-8">
-                                    <div className="text-6xl mb-4">🎯</div>
-                                    <p className="text-xl font-bold mb-2">No badges yet</p>
-                                    <p className="text-gray-400">Complete quizzes and activities to earn badges!</p>
-                                </div>
-                            )}
-                            
-                            {/* Available Badges */}
-                            <div className="mt-8">
-                                <h4 className="font-bold mb-4">Available Badges</h4>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    {[
-                                        { name: 'First Steps', requirement: 'Complete 5 flashcards', icon: '🚀', locked: false },
-                                        { name: 'Quiz Master', requirement: 'Score 90%+ on any quiz', icon: '🎯', locked: !userProgress.badges.includes('Quiz Master') },
-                                        { name: 'Flashcard Pro', requirement: 'Master 25 flashcards', icon: '🎴', locked: masteredCards < 25 },
-                                        { name: 'Study Streak', requirement: '7-day study streak', icon: '🔥', locked: userProgress.streak < 7 }
-                                    ].map((badge, index) => (
-                                        <div key={index} className={`p-4 rounded-xl ${
-                                            badge.locked 
-                                            ? 'bg-gray-900/50 border border-gray-700' 
-                                            : 'bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-700/30'
-                                        }`}>
-                                            <div className="flex items-center gap-3 mb-3">
-                                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                                                    badge.locked ? 'bg-gray-800' : 'bg-gradient-to-br from-purple-600 to-blue-600'
-                                                }`}>
-                                                    <span className="text-lg">{badge.icon}</span>
-                                                </div>
-                                                <div>
-                                                    <p className="font-bold text-sm">{badge.name}</p>
-                                                    <p className="text-xs text-gray-400">{badge.requirement}</p>
-                                                </div>
-                                            </div>
-                                            {badge.locked ? (
-                                                <div className="text-xs text-gray-500">Locked</div>
-                                            ) : (
-                                                <div className="text-xs text-green-400">✓ Unlocked</div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
-        }
-
-        // Resources View Component
-        function ResourcesView({ resources }) {
-            return (
-                <div className="max-w-6xl mx-auto">
-                    <div className="mb-8">
-                        <h2 className="text-3xl font-bold gradient-text mb-4">CAT Resources Library</h2>
-                        <p className="text-gray-400">Essential materials, tools, and references for translation students</p>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {resources.map(resource => (
-                            <div key={resource.id} className="glass-card p-6 hover:scale-105 transition-transform">
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="p-3 rounded-xl bg-gray-800">
-                                        <span className="text-2xl">{resource.icon}</span>
+                            <h3 className="text-lg font-semibold text-white mb-4">Achievements</h3>
+                            <div className="flex flex-wrap gap-3">
+                                {userProgress.badges.map((badge, index) => (
+                                    <div key={index} className="badge badge-primary">
+                                        🏆 {badge}
                                     </div>
-                                    <span className="text-xs px-2 py-1 rounded-full bg-gray-800">
-                                        {resource.type}
-                                    </span>
-                                </div>
-                                <h3 className="text-xl font-bold mb-3">{resource.title}</h3>
-                                <p className="text-gray-400 text-sm mb-4">
-                                    Essential resource for CAT students focusing on practical applications
-                                </p>
-                                <button className="w-full py-3 rounded-lg bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-700 hover:border-[#6EC1E4]">
-                                    Access Resource
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        }
-
-        // Case Study View Component
-        function CaseStudyView({ caseStudies }) {
-            const [selectedCase, setSelectedCase] = useState(0);
-            
-            return (
-                <div className="max-w-6xl mx-auto">
-                    <div className="mb-8">
-                        <h2 className="text-3xl font-bold gradient-text mb-4">Real-World Case Studies</h2>
-                        <p className="text-gray-400">Learn from actual CAT implementation scenarios and solutions</p>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Case Studies List */}
-                        <div className="lg:col-span-1">
-                            <div className="glass-card p-6">
-                                <h3 className="text-xl font-bold mb-4">Case Studies</h3>
-                                <div className="space-y-3">
-                                    {caseStudies.map((study, index) => (
-                                        <button
-                                            key={study.id}
-                                            onClick={() => setSelectedCase(index)}
-                                            className={`w-full text-left p-4 rounded-xl ${
-                                                selectedCase === index
-                                                    ? 'bg-gradient-to-r from-purple-900/30 to-purple-800/30 border border-purple-700'
-                                                    : 'bg-gray-800/50 hover:bg-gray-800'
-                                            }`}
-                                        >
-                                            <div className="flex items-start gap-3">
-                                                <div className={`p-2 rounded-lg ${selectedCase === index ? 'bg-purple-600' : 'bg-gray-700'}`}>
-                                                    <span className="text-lg">📋</span>
-                                                </div>
-                                                <div>
-                                                    <p className="font-medium">{study.title}</p>
-                                                    <p className="text-sm text-gray-400">Topic {study.topic}</p>
-                                                </div>
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Case Study Details */}
-                        <div className="lg:col-span-2">
-                            <div className="glass-card p-6">
-                                <h3 className="text-2xl font-bold mb-2">
-                                    {caseStudies[selectedCase]?.title}
-                                </h3>
-                                <p className="text-gray-400 mb-6">Topic {caseStudies[selectedCase]?.topic}</p>
-                                
-                                <div className="mb-8">
-                                    <h4 className="text-xl font-bold mb-3 neon-blue">Scenario</h4>
-                                    <p className="text-gray-300 leading-relaxed">
-                                        {caseStudies[selectedCase]?.scenario}
-                                    </p>
-                                </div>
-                                
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                                    <div>
-                                        <h4 className="text-xl font-bold mb-3 neon-pink">Challenges</h4>
-                                        <ul className="space-y-2">
-                                            {caseStudies[selectedCase]?.challenges.map((challenge, idx) => (
-                                                <li key={idx} className="flex items-start gap-2">
-                                                    <span className="text-red-400 mt-1">•</span>
-                                                    <span>{challenge}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    
-                                    <div>
-                                        <h4 className="text-xl font-bold mb-3 neon-green">Solutions</h4>
-                                        <ul className="space-y-2">
-                                            {caseStudies[selectedCase]?.solutions.map((solution, idx) => (
-                                                <li key={idx} className="flex items-start gap-2">
-                                                    <span className="text-green-400 mt-1">✓</span>
-                                                    <span>{solution}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                                
-                                <div className="flex gap-4 mt-6">
-                                    <button className="px-6 py-3 rounded-lg bg-gradient-to-r from-[#6EC1E4] to-[#B57EDC] text-white font-semibold">
-                                        Download Case Study (PDF)
-                                    </button>
-                                    <button className="px-6 py-3 rounded-lg border border-gray-600 text-gray-400 hover:text-white">
-                                        Discussion Questions
-                                    </button>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
-            );
-        }
-
-        // Study Timer Component
-        function StudyTimer({ onTimeUpdate }) {
-            const [isActive, setIsActive] = useState(false);
-            const [time, setTime] = useState(0);
-            const intervalRef = useRef(null);
-
-            useEffect(() => {
-                if (isActive) {
-                    intervalRef.current = setInterval(() => {
-                        setTime(prev => {
-                            const newTime = prev + 1;
-                            if (newTime % 60 === 0) {
-                                onTimeUpdate(1);
-                            }
-                            return newTime;
-                        });
-                    }, 1000);
-                } else {
-                    clearInterval(intervalRef.current);
-                }
-                
-                return () => clearInterval(intervalRef.current);
-            }, [isActive, onTimeUpdate]);
-
-            const formatTime = (seconds) => {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            };
-
-            return (
-                <div className="fixed bottom-24 left-6 glass-card p-4 rounded-2xl border border-[#6EC1E4]/30 z-40">
-                    <div className="text-center mb-3">
-                        <div className="text-2xl font-bold neon-green">{formatTime(time)}</div>
-                        <div className="text-xs text-gray-400">Study Timer</div>
-                    </div>
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => setIsActive(!isActive)}
-                            className={`flex-1 py-2 rounded-lg font-medium ${
-                                isActive 
-                                    ? 'bg-red-500/20 text-red-400 border border-red-500/30' 
-                                    : 'bg-[#6EC1E4] text-white'
-                            }`}
-                        >
-                            {isActive ? 'Pause' : 'Start'}
-                        </button>
-                        <button
-                            onClick={() => setTime(0)}
-                            className="px-4 py-2 rounded-lg bg-gray-800 text-gray-400 border border-gray-700"
-                        >
-                            Reset
-                        </button>
-                    </div>
-                </div>
-            );
-        }
-
-        // Footer Component
-        function Footer() {
-            return (
-                <footer className="glass-card mt-12 mx-4 border border-[#6EC1E4]/20 rounded-2xl">
-                    <div className="container mx-auto px-6 py-8">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                            <div>
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="logo-icon"></div>
-                                    <div>
-                                        <h3 className="brand-logo text-xl">CATalyst</h3>
-                                        <p className="brand-subtitle">Academy</p>
-                                    </div>
-                                </div>
-                                <p className="text-gray-400 text-sm">
-                                    An intelligent platform for mastering Computer Assisted Translation 
-                                    tools and techniques developed for translation students.
-                                </p>
-                            </div>
-                            
-                            <div>
-                                <h4 className="font-bold text-lg mb-4 neon-blue">Quick Links</h4>
-                                <ul className="space-y-2">
-                                    <li><a href="#" className="text-gray-400 hover:text-[#6EC1E4] text-sm">Dashboard</a></li>
-                                    <li><a href="#" className="text-gray-400 hover:text-[#6EC1E4] text-sm">Flashcards</a></li>
-                                    <li><a href="#" className="text-gray-400 hover:text-[#6EC1E4] text-sm">Quizzes</a></li>
-                                    <li><a href="#" className="text-gray-400 hover:text-[#6EC1E4] text-sm">Matecat Lab</a></li>
-                                </ul>
-                            </div>
-                            
-                            <div>
-                                <h4 className="font-bold text-lg mb-4 neon-purple">Resources</h4>
-                                <ul className="space-y-2">
-                                    <li><a href="#" className="text-gray-400 hover:text-[#B57EDC] text-sm">CAT Documentation</a></li>
-                                    <li><a href="#" className="text-gray-400 hover:text-[#B57EDC] text-sm">Video Tutorials</a></li>
-                                    <li><a href="#" className="text-gray-400 hover:text-[#B57EDC] text-sm">Research Papers</a></li>
-                                    <li><a href="#" className="text-gray-400 hover:text-[#B57EDC] text-sm">Tool Guides</a></li>
-                                </ul>
-                            </div>
-                            
-                            <div>
-                                <h4 className="font-bold text-lg mb-4 neon-green">Contact</h4>
-                                <div className="space-y-3">
-                                    <p className="text-sm text-gray-400">
-                                        Developed by:<br/>
-                                        <span className="font-semibold text-[#7FFFD4]">Halim Faroug A. Elhag</span><br/>
-                                        Lecturer of English Language<br/>
-                                        UHB/UofK
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-                            <p className="text-sm text-gray-500">
-                                © 2024 CATalyst Academy. Developed for ENGL465 Computer Assisted Translation Course.
-                                All educational materials are property of UHB/UofK.
-                            </p>
-                        </div>
-                    </div>
-                </footer>
             );
         }
 
