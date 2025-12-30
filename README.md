@@ -1,35 +1,20 @@
-# ENGL465 CAT Interactive Learning Tool
+# CATalyst Academy - Interactive CAT Learning Platform
 
-An interactive study platform for Computer Assisted Translation course.
+A single-file, interactive learning platform for Computer Assisted Translation education. Features 50+ interactive modules, Matecat simulations, gamified learning, and comprehensive progress tracking.
 
-## 🌐 Live Demo
-[Access the learning tool here](https://YOUR-USERNAME.github.io/engl465-learning-tool/)
+## 🎯 Features
+- **Interactive Learning**: 50 flashcards, 25 quizzes, 30 mindmaps
+- **Practical Training**: 10 Matecat simulation exercises
+- **Progress Tracking**: XP system, badges, analytics dashboard
+- **Zero Installation**: Single HTML file, works in any browser
+- **Academic Focus**: Somers' CAT guide
 
-## ✨ Features
-- 64 flashcards covering all 14 course topics
-- 28 quiz questions with instant feedback
-- Progress tracking and XP system
-- Gamified learning experience
-- Mobile-friendly design
+## 🚀 Quick Start
+1. Download the HTML file
+2. Open in browser
+3. Start learning - no setup required!
 
-## 📚 Topics Covered
-1. Introduction to CAT
-2. Translator's Workstation
-3. Translation Memory Systems
-4. Terminology Tools
-5. Localization & Translation
-6. Minority Languages
-7. Corpora & Translation
-8. MT Challenges
-9. Linguistics in MT
-10. Commercial MT
-11. MT Evaluation
-12. Sublanguage
-13. Post-Editing
-14. MT in Classroom
+## 📚 For University of Khartoum Students
+This platform is specifically designed for Computer Assisted Translation learning, integrating academic theory with practical Matecat tool experience.
 
-## 👨‍💻 Developer
-Halim Faroug A. Elhag
-
-## 📄 License
-Educational use only
+**Developer**: Halim Faroug A. Elhag, Lecturer of English Language, UHB/UofK
