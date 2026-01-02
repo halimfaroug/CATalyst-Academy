@@ -3,473 +3,964 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CATalyst Academy - Computer Assisted Translation Learning</title>
+    <title>CATalyst Academy - Ultimate CAT Learning Platform</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Source+Serif+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary-blue: #1d4ed8;
-            --primary-indigo: #4338ca;
-            --accent-teal: #0d9488;
-            --accent-amber: #f59e0b;
-            --text-dark: #1f2937;
-            --text-muted: #6b7280;
-            --bg-light: #ffffff;
-            --bg-card: #f9fafb;
-            --border-color: #e5e7eb;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --dark-bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
         }
-        
+
         * {
             box-sizing: border-box;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-primary);
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
-        
-        h1, h2, h3, h4, h5 {
+
+        h1, h2, h3, h4, h5, .heading {
             font-family: 'Source Serif Pro', serif;
-            font-weight: 600;
-            color: #111827;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        /* Button Styles */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            border: none;
-            outline: none;
-            transition: all 0.2s ease;
-            gap: 8px;
+
+        /* Glassmorphism Effects */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
-            color: white;
-            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.15);
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(29, 78, 216, 0.25);
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
         }
-        
-        .btn-primary:active {
-            transform: translateY(0);
+
+        /* Neon Glow */
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4),
+                        0 0 40px rgba(102, 126, 234, 0.2),
+                        0 0 80px rgba(102, 126, 234, 0.1);
         }
-        
-        .btn-secondary {
-            background: white;
-            color: var(--primary-blue);
-            border: 2px solid var(--primary-blue);
+
+        /* Gradient Text */
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        .btn-secondary:hover {
-            background: rgba(29, 78, 216, 0.05);
-            transform: translateY(-2px);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: var(--text-dark);
-            border: 1px solid var(--border-color);
-        }
-        
-        .btn-outline:hover {
-            background: #f9fafb;
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-        }
-        
-        /* Card Styles */
-        .card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s ease;
-        }
-        
-        .card:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            transform: translateY(-4px);
-            border-color: #d1d5db;
-        }
-        
-        .card-header {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 16px;
-            margin-bottom: 20px;
-        }
-        
-        /* Navigation */
-        .nav-link {
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        
-        .nav-link:hover {
-            background: #f3f4f6;
-            color: var(--primary-blue);
-        }
-        
-        .nav-link.active {
-            background: rgba(29, 78, 216, 0.1);
-            color: var(--primary-blue);
-            font-weight: 600;
-        }
-        
-        /* Progress Bars */
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
-            border-radius: 4px;
-            transition: width 0.6s ease;
-        }
-        
-        /* Badge Styles */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            background: #f3f4f6;
-            color: var(--text-dark);
-        }
-        
-        .badge-primary {
-            background: rgba(29, 78, 216, 0.1);
-            color: var(--primary-blue);
-        }
-        
-        .badge-success {
-            background: rgba(13, 148, 136, 0.1);
-            color: var(--accent-teal);
-        }
-        
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--accent-amber);
-        }
-        
-        /* Flashcard Styles */
-        .flashcard-container {
-            perspective: 1000px;
-            min-height: 280px;
-            cursor: pointer;
-        }
-        
-        .flashcard {
-            width: 100%;
-            height: 100%;
-            position: relative;
+
+        /* 3D Card Effect */
+        .card-3d {
             transform-style: preserve-3d;
-            transition: transform 0.6s;
+            perspective: 1000px;
         }
-        
-        .flashcard.flipped {
+
+        .card-3d-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card-3d:hover .card-3d-inner {
             transform: rotateY(180deg);
         }
-        
-        .flashcard-front, .flashcard-back {
+
+        .card-3d-front, .card-3d-back {
+            backface-visibility: hidden;
             position: absolute;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden;
-            border-radius: 12px;
-            padding: 32px;
+            border-radius: 20px;
+        }
+
+        .card-3d-back {
+            transform: rotateY(180deg);
+            background: var(--primary-gradient);
+            color: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 30px;
         }
-        
-        .flashcard-front {
-            background: linear-gradient(135deg, rgba(29, 78, 216, 0.05), white);
-            border: 2px solid rgba(29, 78, 216, 0.1);
-        }
-        
-        .flashcard-back {
-            background: linear-gradient(135deg, rgba(13, 148, 136, 0.05), white);
-            border: 2px solid rgba(13, 148, 136, 0.1);
-            transform: rotateY(180deg);
-        }
-        
-        /* Quiz Options */
-        .quiz-option {
-            padding: 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .quiz-option:hover {
-            border-color: var(--primary-blue);
-            background: rgba(29, 78, 216, 0.03);
-        }
-        
-        .quiz-option.selected {
-            border-color: var(--primary-blue);
-            background: rgba(29, 78, 216, 0.08);
-        }
-        
-        .quiz-option.correct {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.08);
-        }
-        
-        .quiz-option.incorrect {
-            border-color: #ef4444;
-            background: rgba(239, 68, 68, 0.08);
-        }
-        
-        /* Forms and Inputs */
-        select, input, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: var(--text-dark);
-            background: white;
-        }
-        
-        select:focus, input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
-        }
-        
-        /* Loading Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.4s ease-out;
-        }
-        
-        /* Stats Cards */
-        .stat-card {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .stat-number {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 8px;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        
-        /* Developer Credit */
-        .developer-credit {
+
+        /* Particle Background */
+        #particles-js {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px 20px;
-            font-size: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
-        
-        /* Section Headers */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        
-        /* Topic Cards */
-        .topic-card {
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
+
+        /* Button Styles */
+        .btn-magic {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
             transition: all 0.3s;
         }
-        
-        .topic-card:hover {
-            border-color: var(--primary-blue);
-            background: rgba(29, 78, 216, 0.03);
+
+        .btn-magic:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
         }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .btn {
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-            
-            .card {
-                padding: 20px;
-            }
-            
-            .flashcard-front, .flashcard-back {
-                padding: 24px;
-            }
-            
-            .stat-number {
-                font-size: 28px;
-            }
+
+        .btn-magic:active {
+            transform: translateY(-1px);
         }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        .btn-magic::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+
+        .btn-magic:hover::after {
+            left: 100%;
         }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
+
+        /* Progress Bar */
+        .progress-bar-container {
+            height: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%,
+                transparent
+            );
+            z-index: 1;
+            background-size: 50px 50px;
+            animation: move 2s linear infinite;
             border-radius: 4px;
         }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
+
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        /* Shimmer Effect */
+        .shimmer {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.6) 50%, 
+                transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #667eea;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #667eea }
+        }
+
+        /* Morphing Background */
+        .morphing-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Sparkle Effect */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 20px !important;
+            }
+            
+            .btn-magic {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-gradient);
+            animation: confetti-fall 5s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
     </style>
 </head>
 <body class="antialiased">
+    <!-- Morphing Background -->
+    <div class="morphing-bg"></div>
+    
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Sparkle Container -->
+    <div id="sparkle-container"></div>
+    
+    <!-- Confetti Container -->
+    <div id="confetti-container"></div>
+    
+    <!-- Main App Container -->
     <div id="root"></div>
     
-    <div class="developer-credit">
-        <p class="font-semibold text-[#1d4ed8] text-sm">Developed by</p>
-        <p class="font-bold text-gray-900">Halim Faroug A. Elhag</p>
-        <p class="text-gray-500 text-xs">Lecturer of English Language, UHB/UofK</p>
+    <!-- Developer Credit -->
+    <div class="glass-card fixed bottom-4 right-4 p-4 rounded-2xl shadow-2xl z-50 animate__animated animate__fadeInUp">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                <i class="fas fa-code text-white text-lg"></i>
+            </div>
+            <div>
+                <p class="font-bold text-gray-800">Developed by</p>
+                <p class="text-sm text-gray-600">Halim Faroug A. Elhag</p>
+                <p class="text-xs text-gray-500">CAT Technology Expert</p>
+            </div>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script type="text/babel">
-        const { useState, useEffect, useCallback, useRef } = React;
+        const { useState, useEffect, useRef, useCallback } = React;
 
-        // Course Data
+        // Comprehensive Course Data
         const courseData = {
             topics: [
-                { id: 1, name: "Introduction to CAT", color: "#1d4ed8", icon: "🚀" },
-                { id: 2, name: "Translator's Workstation", color: "#4338ca", icon: "💻" },
-                { id: 3, name: "Translation Memory", color: "#0d9488", icon: "💾" },
-                { id: 4, name: "Terminology Tools", color: "#f59e0b", icon: "📚" },
-                { id: 5, name: "Localization", color: "#1d4ed8", icon: "🌍" },
-                { id: 6, name: "Corpora & Translation", color: "#4338ca", icon: "📊" },
-                { id: 7, name: "MT Challenges", color: "#0d9488", icon: "⚡" },
-                { id: 8, name: "Linguistics in MT", color: "#f59e0b", icon: "🔤" }
+                { id: 1, name: "Introduction to CAT", icon: "🚀", color: "#667eea", description: "Foundations of Computer-Assisted Translation", 
+                  subtopics: ["History of MT", "ALPAC Report", "CAT vs MT", "Key Concepts"] },
+                { id: 2, name: "Translator's Workstation", icon: "💻", color: "#764ba2", description: "Integrated translation environment",
+                  subtopics: ["Tool Integration", "Word Processing", "Dictation Tools", "Lexical Resources"] },
+                { id: 3, name: "Translation Memory", icon: "💾", color: "#f093fb", description: "Reusing previous translations",
+                  subtopics: ["TM Concepts", "Alignment", "Fuzzy Matching", "TMX Format"] },
+                { id: 4, name: "Terminology Tools", icon: "📚", color: "#f5576c", description: "Managing specialized vocabulary",
+                  subtopics: ["Term Banks", "TMS", "Term Extraction", "Consistency"] },
+                { id: 5, name: "Localization", icon: "🌍", color: "#4facfe", description: "Adapting products for local markets",
+                  subtopics: ["L10n vs I18n", "Software L10n", "Web Globalization", "Process"] },
+                { id: 6, name: "Corpora & Translation", icon: "📊", color: "#43e97b", description: "Using text collections in translation",
+                  subtopics: ["Corpus Types", "TEC", "Applications", "Research"] },
+                { id: 7, name: "MT Challenges", icon: "⚡", color: "#fa709a", description: "Why computers struggle with translation",
+                  subtopics: ["Ambiguity", "Cultural Issues", "Syntax", "Evaluation"] },
+                { id: 8, name: "Linguistics in MT", icon: "🔤", color: "#fee140", description: "Linguistic foundations for MT",
+                  subtopics: ["Syntax", "Semantics", "Pragmatics", "Formalisms"] }
             ],
             
             flashcards: [
-                { id: 1, topic: 1, front: "What is Computer-Assisted Translation (CAT)?", back: "CAT refers to the use of computer software to assist human translators in the translation process, improving efficiency and consistency.", mastery: "new" },
-                { id: 2, topic: 1, front: "What was the main impact of the ALPAC Report?", back: "The 1966 ALPAC Report concluded that machine translation was not ready for practical use, leading to increased focus on CAT tools instead.", mastery: "new" },
-                { id: 3, topic: 1, front: "What's the key difference between MT and CAT?", back: "MT tries to fully automate translation, while CAT supports human translators with tools like translation memory and terminology management.", mastery: "new" },
-                { id: 4, topic: 2, front: "What is a translator's workstation?", back: "An integrated environment combining various tools (TM, terminology, QA) to support the translator's workflow and improve productivity.", mastery: "new" },
-                { id: 5, topic: 3, front: "What is Translation Memory?", back: "A database that stores previously translated segments for reuse, ensuring consistency and reducing translation time for repetitive content.", mastery: "new" },
-                { id: 6, topic: 3, front: "What does TMX stand for?", back: "Translation Memory eXchange - a standard XML format for exchanging translation memory data between different CAT tools.", mastery: "new" },
-                { id: 7, topic: 4, front: "What is terminology management?", back: "The systematic collection, organization, and use of specialized vocabulary to ensure consistency in translation projects.", mastery: "new" },
-                { id: 8, topic: 4, front: "What are term banks?", back: "Large-scale terminology databases containing detailed information about terms, often used by organizations and institutions.", mastery: "new" }
+                // Topic 1: Introduction to CAT (15 cards)
+                { id: 1, topic: 1, front: "What is Computer-Assisted Translation (CAT)?", 
+                  back: "CAT refers to software tools that support human translators, improving efficiency, consistency, and quality through translation memories, terminology databases, and quality assurance features.", 
+                  difficulty: "easy", tags: ["basic", "definition"] },
+                { id: 2, topic: 1, front: "What was the ALPAC Report (1966) and its impact?", 
+                  back: "The ALPAC Report concluded that machine translation was slower, less accurate, and more expensive than human translation. This led to increased funding for computational linguistics and development of CAT tools instead of pure MT.", 
+                  difficulty: "medium", tags: ["history", "milestone"] },
+                { id: 3, topic: 1, front: "Distinguish between MT and CAT.", 
+                  back: "MT aims for fully automatic translation without human intervention. CAT supports human translators with tools but keeps them in control of the translation process.", 
+                  difficulty: "easy", tags: ["comparison", "definition"] },
+                { id: 4, topic: 1, front: "What are the three main components of a CAT tool?", 
+                  back: "1) Translation Memory (TM) 2) Terminology Management System (TMS) 3) Quality Assurance (QA) tools", 
+                  difficulty: "easy", tags: ["components", "structure"] },
+                { id: 5, topic: 1, front: "What is the 'sublanguage approach' in MT?", 
+                  back: "Developing MT systems for restricted language domains where vocabulary and syntax are limited, increasing translation quality (e.g., weather reports, technical manuals).", 
+                  difficulty: "hard", tags: ["concept", "strategy"] },
+                { id: 6, topic: 1, front: "What is Controlled Language?", 
+                  back: "A restricted version of a natural language with simplified grammar and vocabulary, used to improve machine translation quality and consistency.", 
+                  difficulty: "medium", tags: ["concept", "strategy"] },
+                { id: 7, topic: 1, front: "What are the two main uses of MT identified in the 1980s?", 
+                  back: "1) Assimilation: understanding foreign language texts 2) Dissemination: producing translations for publication", 
+                  difficulty: "medium", tags: ["application", "history"] },
+                { id: 8, topic: 1, front: "What is FAHQT?", 
+                  back: "Fully Automatic High-Quality Translation - the original goal of MT that proved unattainable with unrestricted texts.", 
+                  difficulty: "hard", tags: ["acronym", "concept"] },
+                { id: 9, topic: 1, front: "What is the difference between MAHT and HAMT?", 
+                  back: "Machine-Aided Human Translation (MAHT): translator uses computer tools. Human-Aided Machine Translation (HAMT): MT system with human assistance.", 
+                  difficulty: "medium", tags: ["acronym", "comparison"] },
+                { id: 10, topic: 1, front: "What are the main professional groups interested in CAT?", 
+                  back: "Translators, technical writers, bilingual secretaries, localization specialists, and language service providers.", 
+                  difficulty: "easy", tags: ["professional", "audience"] },
+                { id: 11, topic: 1, front: "What is a translator workstation?", 
+                  back: "An integrated computer environment providing all tools a translator needs: word processing, TM, terminology, dictionaries, corpora, and communication tools.", 
+                  difficulty: "easy", tags: ["concept", "tool"] },
+                { id: 12, topic: 1, front: "What were the main limitations of early MT systems?", 
+                  back: "1) Primitive computing technology 2) Underestimation of language complexity 3) Lack of linguistic knowledge among developers 4) Focus on word-for-word translation", 
+                  difficulty: "medium", tags: ["history", "limitations"] },
+                { id: 13, topic: 1, front: "What is the significance of the Météo system?", 
+                  back: "A highly successful MT system for translating weather reports between English and French, demonstrating the effectiveness of the sublanguage approach.", 
+                  difficulty: "medium", tags: ["example", "success"] },
+                { id: 14, topic: 1, front: "What is the main challenge in Spoken Language Translation (SLT)?", 
+                  back: "Combining speech recognition (converting audio to text) with machine translation, plus real-time processing constraints.", 
+                  difficulty: "hard", tags: ["challenge", "future"] },
+                { id: 15, topic: 1, front: "What is the role of linguistics in MT development?", 
+                  back: "Linguistics provides formal descriptions of language structure (syntax, semantics, pragmatics) that inform MT system design and improve translation quality.", 
+                  difficulty: "medium", tags: ["foundation", "discipline"] },
+                
+                // Topic 2: Translator's Workstation (12 cards)
+                { id: 16, topic: 2, front: "What are the basic tools in a translator's workstation?", 
+                  back: "Multilingual word processing, spell/grammar checkers, thesauri, online dictionaries, terminology management, and communication tools.", 
+                  difficulty: "easy", tags: ["tools", "basic"] },
+                { id: 17, topic: 2, front: "What is 'post-editing the source text'?", 
+                  back: "Modifying the source text to make it easier for MT systems to translate correctly, rather than editing the MT output.", 
+                  difficulty: "medium", tags: ["strategy", "technique"] },
+                { id: 18, topic: 2, front: "What are the advantages of dictation tools for translators?", 
+                  back: "1) Faster input than typing 2) Reduces typing errors 3) Allows more natural expression 4) Reduces physical strain", 
+                  difficulty: "easy", tags: ["tool", "benefits"] },
+                { id: 19, topic: 2, front: "What is a bilingual concordance?", 
+                  back: "A tool showing source text segments alongside their translations, allowing translators to see how specific words/phrases have been translated before.", 
+                  difficulty: "medium", tags: ["tool", "corpus"] },
+                { id: 20, topic: 2, front: "What is markup language (SGML/HTML/XML) and its relevance to translation?", 
+                  back: "Text encoding systems that separate content from formatting, allowing easier translation of structured documents and software localization.", 
+                  difficulty: "medium", tags: ["technology", "format"] },
+                { id: 21, topic: 2, front: "What are the limitations of commercial MT systems for professional translators?", 
+                  back: "Often designed for non-experts, with simplified interfaces and limited control over translation parameters or dictionary management.", 
+                  difficulty: "medium", tags: ["limitation", "professional"] },
+                { id: 22, topic: 2, front: "What is interactive translation?", 
+                  back: "An MT system that asks the user to make choices during translation (e.g., word sense disambiguation, structural decisions).", 
+                  difficulty: "medium", tags: ["mode", "interaction"] },
+                { id: 23, topic: 2, front: "What are lexical resources in a workstation?", 
+                  back: "Online dictionaries, term banks, thesauri, encyclopedias, and specialized reference materials accessible during translation.", 
+                  difficulty: "easy", tags: ["resource", "reference"] },
+                { id: 24, topic: 2, front: "What is automatic terminology lookup?", 
+                  back: "A feature that automatically identifies terms in the source text and suggests translations from a terminology database.", 
+                  difficulty: "easy", tags: ["feature", "terminology"] },
+                { id: 25, topic: 2, front: "How can desktop publishing be integrated into translation workflow?", 
+                  back: "Translators can work directly in formatted documents, preserving layout, or use specialized tools that separate content from formatting.", 
+                  difficulty: "medium", tags: ["workflow", "publishing"] },
+                { id: 26, topic: 2, front: "What is a 'translator-friendly word processor'?", 
+                  back: "Word processing software with enhanced features for translators, such as grammar-aware search/replace, false friend detection, and mixed-language spell checking.", 
+                  difficulty: "medium", tags: ["concept", "tool"] },
+                { id: 27, topic: 2, front: "What are the main information technology components in a workstation?", 
+                  back: "Email, file transfer, version control, backup systems, and project management tools integrated with translation software.", 
+                  difficulty: "easy", tags: ["IT", "infrastructure"] },
+                
+                // Topic 3: Translation Memory (13 cards)
+                { id: 28, topic: 3, front: "What is a Translation Memory (TM)?", 
+                  back: "A database storing previously translated text segments (usually sentences) along with their source texts, allowing reuse in new translations.", 
+                  difficulty: "easy", tags: ["definition", "core"] },
+                { id: 29, topic: 3, front: "What are the three methods for building a TM database?", 
+                  back: "1) Building gradually during translation 2) Importing from other systems 3) Aligning existing translations with their source texts", 
+                  difficulty: "easy", tags: ["method", "building"] },
+                { id: 30, topic: 3, front: "What is alignment in TM context?", 
+                  back: "The process of matching source text segments with their corresponding translations to create translation units for the TM database.", 
+                  difficulty: "medium", tags: ["process", "preparation"] },
+                { id: 31, topic: 3, front: "What is a fuzzy match?", 
+                  back: "When a source segment is similar but not identical to a segment in the TM, typically with a similarity score (e.g., 75-99%).", 
+                  difficulty: "easy", tags: ["match type", "concept"] },
+                { id: 32, topic: 3, front: "What is TMX and why is it important?", 
+                  back: "Translation Memory eXchange - an XML standard allowing exchange of TM data between different CAT tools, promoting interoperability.", 
+                  difficulty: "medium", tags: ["standard", "exchange"] },
+                { id: 33, topic: 3, front: "What is the Levenshtein distance in TM matching?", 
+                  back: "A string similarity metric measuring the minimum number of edits (insertions, deletions, substitutions) needed to change one string into another.", 
+                  difficulty: "hard", tags: ["algorithm", "metric"] },
+                { id: 34, topic: 3, front: "What are the main challenges in automatic alignment?", 
+                  back: "1) Sentence boundary identification 2) Non-parallel sentence correspondence 3) Reordering of segments in translation", 
+                  difficulty: "medium", tags: ["challenge", "alignment"] },
+                { id: 35, topic: 3, front: "What is the typical productivity gain from using TM?", 
+                  back: "Average 30% time savings, though this varies with text repetitiveness and TM database quality (can range from 15% to 60%).", 
+                  difficulty: "easy", tags: ["benefit", "productivity"] },
+                { id: 36, topic: 3, front: "How does TM differ from Example-Based MT (EBMT)?", 
+                  back: "TM supports human translators by suggesting matches, while EBMT automatically combines fragments from example pairs to create new translations.", 
+                  difficulty: "medium", tags: ["comparison", "concept"] },
+                { id: 37, topic: 3, front: "What is 'portion matching' or 'shallow TM'?", 
+                  back: "TM systems that can match and suggest translation of text fragments smaller than complete sentences.", 
+                  difficulty: "medium", tags: ["feature", "matching"] },
+                { id: 38, topic: 3, front: "What factors affect TM matching accuracy?", 
+                  back: "1) Text similarity 2) Language pair characteristics 3) TM database size and quality 4) Matching algorithm sophistication", 
+                  difficulty: "medium", tags: ["factors", "accuracy"] },
+                { id: 39, topic: 3, front: "What is a 'noisy parallel corpus'?", 
+                  back: "A bilingual text collection where translations are not literal or sentence-aligned, making alignment and TM building more difficult.", 
+                  difficulty: "hard", tags: ["corpus", "challenge"] },
+                { id: 40, topic: 3, front: "What commercial TM systems are mentioned in the text?", 
+                  back: "Trados Translator's Workbench, Atril Déjà Vu, Star Transit, IBM Translation Manager", 
+                  difficulty: "easy", tags: ["tools", "commercial"] },
+                
+                // Topic 4: Terminology Tools (12 cards)
+                { id: 41, topic: 4, front: "What is terminology management?", 
+                  back: "The systematic collection, description, processing, and presentation of terms, particularly specialized vocabulary from technical domains.", 
+                  difficulty: "easy", tags: ["definition", "core"] },
+                { id: 42, topic: 4, front: "What is a term bank?", 
+                  back: "A large-scale electronic database of terminology records, often maintained by institutions and accessible to translators (e.g., Eurodicautom, Termium).", 
+                  difficulty: "easy", tags: ["resource", "database"] },
+                { id: 43, topic: 4, front: "What is a Terminology Management System (TMS)?", 
+                  back: "Software for creating and maintaining personal or organizational terminology databases, with features for entry, search, and consistency checking.", 
+                  difficulty: "easy", tags: ["tool", "software"] },
+                { id: 44, topic: 4, front: "What information is typically included in a term record?", 
+                  back: "Term, definition, context, subject field, grammatical information, synonyms, equivalents in other languages, and usage notes.", 
+                  difficulty: "medium", tags: ["structure", "content"] },
+                { id: 45, topic: 4, front: "What is term extraction?", 
+                  back: "The (semi-)automatic process of identifying candidate terms in a corpus, using linguistic patterns or statistical methods.", 
+                  difficulty: "medium", tags: ["process", "identification"] },
+                { id: 46, topic: 4, front: "What are the two main approaches to term extraction?", 
+                  back: "1) Linguistic approach: using part-of-speech patterns 2) Statistical approach: identifying frequently co-occurring word sequences", 
+                  difficulty: "medium", tags: ["approach", "method"] },
+                { id: 47, topic: 4, front: "What is fuzzy matching in terminology lookup?", 
+                  back: "Retrieving term records that are similar but not identical to the search term, useful for morphological variants or spelling variations.", 
+                  difficulty: "medium", tags: ["matching", "search"] },
+                { id: 48, topic: 4, front: "What is a stop list in term extraction?", 
+                  back: "A list of common words (function words) that the extraction tool should ignore, as they are unlikely to be part of technical terms.", 
+                  difficulty: "medium", tags: ["tool", "filtering"] },
+                { id: 49, topic: 4, front: "What is the difference between human and machine terminology needs?", 
+                  back: "Humans need definitions and contexts; machines need structured grammatical, morphological, and syntactic information for automatic processing.", 
+                  difficulty: "medium", tags: ["comparison", "needs"] },
+                { id: 50, topic: 4, front: "What is TBX?", 
+                  back: "TermBase eXchange - a standard for exchanging terminology data, based on XML, developed by LISA OSCAR group.", 
+                  difficulty: "medium", tags: ["standard", "exchange"] },
+                { id: 51, topic: 4, front: "What are the benefits of TMS for translators?", 
+                  back: "1) Consistency in term use 2) Faster terminology lookup 3) Reuse of previous research 4) Shareability with clients/colleagues", 
+                  difficulty: "easy", tags: ["benefits", "value"] },
+                { id: 52, topic: 4, front: "What commercial terminology tools are mentioned?", 
+                  back: "Trados MultiTerm, Atril TermWatch, Star TermStar, MultiCorpora TermBase", 
+                  difficulty: "easy", tags: ["tools", "commercial"] },
+                
+                // Topic 5: Localization (11 cards)
+                { id: 53, topic: 5, front: "What is localization (L10n)?", 
+                  back: "Adapting a product (software, website, documentation) to the linguistic, cultural, and technical requirements of a target market.", 
+                  difficulty: "easy", tags: ["definition", "core"] },
+                { id: 54, topic: 5, front: "What is the difference between localization and translation?", 
+                  back: "Translation converts text between languages; localization also adapts cultural references, formats, layouts, and technical specifications.", 
+                  difficulty: "easy", tags: ["comparison", "definition"] },
+                { id: 55, topic: 5, front: "What is internationalization (I18n)?", 
+                  back: "Designing products to support multiple languages and cultural conventions from the start, making localization easier and cheaper.", 
+                  difficulty: "medium", tags: ["process", "design"] },
+                { id: 56, topic: 5, front: "What are the main components of a software localization project?", 
+                  back: "1) Software user interface 2) Online help 3) Documentation 4) Marketing materials 5) Multimedia elements", 
+                  difficulty: "medium", tags: ["components", "project"] },
+                { id: 57, topic: 5, front: "What is a 'locale'?", 
+                  back: "A combination of language and regional standards (date/time formats, currency, sorting rules, character sets) defining a specific market.", 
+                  difficulty: "medium", tags: ["concept", "definition"] },
+                { id: 58, topic: 5, front: "What are hot keys in software localization?", 
+                  back: "Keyboard shortcuts (underlined letters in menus/dialogs) that must be unique within each interface element after translation.", 
+                  difficulty: "medium", tags: ["technical", "challenge"] },
+                { id: 59, topic: 5, front: "What is LISA?", 
+                  back: "Localization Industry Standards Association - organization promoting standards and best practices in localization.", 
+                  difficulty: "easy", tags: ["organization", "standards"] },
+                { id: 60, topic: 5, front: "What are MLVs and SLVs?", 
+                  back: "Multi-Language Vendors (offer many languages) and Single-Language Vendors (specialize in one language pair).", 
+                  difficulty: "medium", tags: ["industry", "providers"] },
+                { id: 61, topic: 5, front: "What is software localization engineering?", 
+                  back: "Technical work in localization projects: resizing dialog boxes, compiling software, testing functionality, fixing layout issues.", 
+                  difficulty: "medium", tags: ["role", "technical"] },
+                { id: 62, topic: 5, front: "What commercial localization tools are mentioned?", 
+                  back: "Passolo, Alchemy Catalyst, RC-WinTrans for software; Trados, Déjà Vu for documentation", 
+                  difficulty: "easy", tags: ["tools", "commercial"] },
+                { id: 63, topic: 5, front: "What is web globalization?", 
+                  back: "Creating and maintaining multilingual websites, including cultural adaptation, local payment methods, and regional compliance.", 
+                  difficulty: "medium", tags: ["application", "web"] },
+                
+                // Topic 6: Corpora & Translation (10 cards)
+                { id: 64, topic: 6, front: "What is a corpus in translation studies?", 
+                  back: "A collection of texts stored electronically, used for linguistic analysis, often aligned for translation research or training.", 
+                  difficulty: "easy", tags: ["definition", "resource"] },
+                { id: 65, topic: 6, front: "What are the main types of translation corpora?", 
+                  back: "1) Parallel corpus (texts + translations) 2) Comparable corpus (similar texts in different languages) 3) Monolingual comparable (translations vs. originals)", 
+                  difficulty: "medium", tags: ["types", "classification"] },
+                { id: 66, topic: 6, front: "What is the Translational English Corpus (TEC)?", 
+                  back: "A corpus of published translations into English from various languages, used to study characteristics of translated language.", 
+                  difficulty: "medium", tags: ["resource", "research"] },
+                { id: 67, topic: 6, front: "What are 'universals of translation'?", 
+                  back: "Hypothesized linguistic features common to all translations, regardless of language pair: simplification, explicitation, normalization.", 
+                  difficulty: "hard", tags: ["concept", "theory"] },
+                { id: 68, topic: 6, front: "What is simplification in translation?", 
+                  back: "Tendency of translated texts to be lexically and syntactically simpler than originals (fewer unique words, shorter sentences).", 
+                  difficulty: "medium", tags: ["universal", "feature"] },
+                { id: 69, topic: 6, front: "What is explicitation?", 
+                  back: "Tendency of translations to make implicit information explicit, increasing cohesion and reducing ambiguity.", 
+                  difficulty: "medium", tags: ["universal", "feature"] },
+                { id: 70, topic: 6, front: "What is normalization?", 
+                  back: "Tendency of translations to conform to target language norms, reducing idiosyncrasies of the source text.", 
+                  difficulty: "medium", tags: ["universal", "feature"] },
+                { id: 71, topic: 6, front: "How are corpora used in translator training?", 
+                  back: "1) Comparative analysis of translations 2) Terminology extraction 3) Style analysis 4) Understanding translation strategies", 
+                  difficulty: "medium", tags: ["application", "training"] },
+                { id: 72, topic: 6, front: "What is a type-token ratio?", 
+                  back: "Measure of vocabulary richness: number of different words (types) divided by total words (tokens). Lower in translations suggests simplification.", 
+                  difficulty: "hard", tags: ["metric", "analysis"] },
+                { id: 73, topic: 6, front: "What corpus tools are mentioned?", 
+                  back: "WordSmith Tools, Multiconcord, AntConc, various alignment and analysis tools.", 
+                  difficulty: "easy", tags: ["tools", "software"] },
+                
+                // Topic 7: MT Challenges (9 cards)
+                { id: 74, topic: 7, front: "Why is translation difficult for computers?", 
+                  back: "1) Language ambiguity 2) Cultural references 3) Context dependence 4) Syntactic differences 5) Pragmatic factors 6) Real-world knowledge", 
+                  difficulty: "medium", tags: ["challenge", "overview"] },
+                { id: 75, topic: 7, front: "What is lexical ambiguity?", 
+                  back: "Words with multiple meanings (bank, bat, bear) requiring context for correct disambiguation.", 
+                  difficulty: "easy", tags: ["ambiguity", "lexical"] },
+                { id: 76, topic: 7, front: "What is syntactic ambiguity?", 
+                  back: "Sentences with multiple possible grammatical structures (e.g., 'I saw the man with the telescope').", 
+                  difficulty: "medium", tags: ["ambiguity", "syntax"] },
+                { id: 77, topic: 7, front: "What is the 'semantic barrier' in MT?", 
+                  back: "The challenge of understanding and representing meaning, not just manipulating linguistic forms.", 
+                  difficulty: "hard", tags: ["challenge", "semantics"] },
+                { id: 78, topic: 7, front: "What are selectional restrictions?", 
+                  back: "Constraints on which words can combine based on meaning (e.g., 'colorless green ideas sleep furiously' violates them).", 
+                  difficulty: "hard", tags: ["semantics", "constraints"] },
+                { id: 79, topic: 7, front: "What is anaphora resolution?", 
+                  back: "Identifying what pronouns and other referring expressions refer to in context (e.g., 'he', 'it', 'that').", 
+                  difficulty: "medium", tags: ["discourse", "challenge"] },
+                { id: 80, topic: 7, front: "What is the difference between literal and free translation?", 
+                  back: "Literal translation preserves form; free translation preserves meaning, often requiring structural changes.", 
+                  difficulty: "easy", tags: ["approach", "strategy"] },
+                { id: 81, topic: 7, front: "What is the role of world knowledge in translation?", 
+                  back: "Understanding real-world facts, cultural norms, and common sense required for accurate translation (e.g., knowing that 'spring' can be a season or device).", 
+                  difficulty: "medium", tags: ["knowledge", "requirement"] },
+                { id: 82, topic: 7, front: "What are evaluation methods for MT?", 
+                  back: "1) Automatic metrics (BLEU, METEOR) 2) Human evaluation (fluency, adequacy) 3) Task-based evaluation (usability testing)", 
+                  difficulty: "medium", tags: ["evaluation", "methods"] },
+                
+                // Topic 8: Linguistics in MT (8 cards)
+                { id: 83, topic: 8, front: "What linguistic levels are relevant to MT?", 
+                  back: "1) Morphology (word structure) 2) Syntax (sentence structure) 3) Semantics (meaning) 4) Pragmatics (contextual meaning)", 
+                  difficulty: "medium", tags: ["levels", "linguistics"] },
+                { id: 84, topic: 8, front: "What is transfer-based MT?", 
+                  back: "An MT approach with three stages: analysis (source language), transfer (conversion to target language structures), generation (target language output).", 
+                  difficulty: "medium", tags: ["architecture", "approach"] },
+                { id: 85, topic: 8, front: "What is an interlingua in MT?", 
+                  back: "An abstract language-independent representation of meaning used as an intermediate step in some MT architectures.", 
+                  difficulty: "hard", tags: ["architecture", "representation"] },
+                { id: 86, topic: 8, front: "What are subcategorization frames?", 
+                  back: "Information about what complements a verb or other predicate requires (e.g., transitive vs. intransitive verbs).", 
+                  difficulty: "hard", tags: ["syntax", "information"] },
+                { id: 87, topic: 8, front: "What is case theory in linguistics?", 
+                  back: "Theory about how nouns/noun phrases are marked for grammatical function (nominative, accusative, dative, etc.).", 
+                  difficulty: "hard", tags: ["theory", "syntax"] },
+                { id: 88, topic: 8, front: "What is feature unification?", 
+                  back: "A computational mechanism for combining grammatical information (e.g., ensuring subject-verb agreement).", 
+                  difficulty: "hard", tags: ["computation", "grammar"] },
+                { id: 89, topic: 8, front: "What is the role of formal grammars in MT?", 
+                  back: "Providing precise, computable descriptions of language structure that MT systems can use for analysis and generation.", 
+                  difficulty: "medium", tags: ["grammar", "foundation"] },
+                { id: 90, topic: 8, front: "What is treebank data?", 
+                  back: "Corpora annotated with syntactic tree structures, used for training and evaluating parsing components in MT systems.", 
+                  difficulty: "hard", tags: ["resource", "data"] }
             ],
             
-            quizzes: [
-                { 
-                    id: 1, 
-                    topic: 1, 
-                    question: "What was the main finding of the 1966 ALPAC Report?", 
-                    options: [
-                        "MT systems were ready for commercial use",
-                        "MT systems were slower and more expensive than human translators",
-                        "MT should replace all human translators",
-                        "CAT tools were unnecessary"
-                    ], 
-                    correct: 1, 
-                    explanation: "The ALPAC Report found that MT systems were slower, less accurate, and twice as expensive as human translators, leading to increased focus on CAT tools." 
-                },
-                { 
-                    id: 2, 
-                    topic: 1, 
-                    question: "Which feature is NOT a core component of CAT tools?", 
-                    options: [
-                        "Translation Memory",
-                        "Terminology Management",
-                        "Full automation of translation",
-                        "Quality Assurance checks"
-                    ], 
-                    correct: 2, 
-                    explanation: "CAT tools assist translators rather than fully automating the process. The translator remains in control while being supported by various tools." 
-                },
-                { 
-                    id: 3, 
-                    topic: 3, 
-                    question: "What is a fuzzy match in Translation Memory?", 
-                    options: [
-                        "An exact duplicate of a stored segment",
-                        "A similar but not identical match",
-                        "A match in a different language",
-                        "A grammatical error detection"
-                    ], 
-                    correct: 1, 
-                    explanation: "A fuzzy match occurs when the source text is similar (typically 70-99% match) but not identical to a segment in the translation memory." 
-                },
-                { 
-                    id: 4, 
-                    topic: 4, 
-                    question: "What is the main purpose of terminology management?", 
-                    options: [
-                        "To reduce translation costs",
-                        "To ensure consistent use of terms",
-                        "To automate translation",
-                        "To check grammar"
-                    ], 
-                    correct: 1, 
-                    explanation: "Terminology management ensures that specific terms are used consistently throughout a translation project, which is crucial for technical and specialized content." 
-                }
+            // Adding 10 more cards to reach 100
+            additionalCards: [
+                { id: 91, topic: 3, front: "What is translation memory leveraging?", 
+                  back: "The process of reusing translations from a TM when translating new, similar documents, measured as a percentage of matches found.", 
+                  difficulty: "medium", tags: ["process", "reuse"] },
+                { id: 92, topic: 4, front: "What is a thesaurus in terminology work?", 
+                  back: "A structured vocabulary showing relationships between terms (synonyms, hyponyms, hypernyms) within a subject field.", 
+                  difficulty: "medium", tags: ["resource", "relationships"] },
+                { id: 93, topic: 5, front: "What is pseudo-localization?", 
+                  back: "A testing technique where text is replaced with accented or expanded versions to identify layout and encoding issues before actual translation.", 
+                  difficulty: "hard", tags: ["testing", "technique"] },
+                { id: 94, topic: 6, front: "What is a hapax legomenon?", 
+                  back: "A word that occurs only once in a corpus or text; their frequency is often studied in translation corpus research.", 
+                  difficulty: "hard", tags: ["term", "corpus"] },
+                { id: 95, topic: 7, front: "What is collocational meaning?", 
+                  back: "Meaning that arises from word combinations rather than individual words (e.g., 'heavy rain' vs. 'strong rain').", 
+                  difficulty: "medium", tags: ["meaning", "collocation"] },
+                { id: 96, topic: 2, front: "What are concordance lines?", 
+                  back: "Display of search results showing a keyword in context (KWIC), used to study word usage patterns in corpora.", 
+                  difficulty: "medium", tags: ["display", "corpus"] },
+                { id: 97, topic: 1, front: "What is the 'second generation' of MT systems?", 
+                  back: "Systems developed in 1970s-80s with modular architecture, separate analysis-transfer-generation components, and rule-based grammars.", 
+                  difficulty: "medium", tags: ["history", "generation"] },
+                { id: 98, topic: 8, front: "What is head-driven phrase structure grammar (HPSG)?", 
+                  back: "A linguistic formalism used in some MT systems, representing grammatical information as feature structures.", 
+                  difficulty: "hard", tags: ["formalism", "grammar"] },
+                { id: 99, topic: 3, front: "What is translation memory maintenance?", 
+                  back: "Regular cleaning, updating, and quality checking of TM databases to ensure accuracy and usefulness over time.", 
+                  difficulty: "medium", tags: ["maintenance", "quality"] },
+                { id: 100, topic: 1, front: "What is the future of CAT tools?", 
+                  back: "Increased AI integration, cloud-based collaboration, real-time quality assurance, and tighter workflow automation with content management systems.", 
+                  difficulty: "medium", tags: ["future", "trends"] }
+            ]
+        };
+
+        // Combine all flashcards
+        const allFlashcards = [...courseData.flashcards, ...courseData.additionalCards];
+
+        // Quizzes Data (50 questions)
+        const quizzes = [
+            // Topic 1 Quizzes (10 questions)
+            { id: 1, topic: 1, question: "What was the main conclusion of the 1966 ALPAC Report?", 
+              options: ["MT was ready for widespread use", "MT was slower and more expensive than human translation", 
+                       "MT should replace all human translators", "CAT tools were unnecessary"],
+              correct: 1, explanation: "The ALPAC Report famously concluded that MT was slower, less accurate, and twice as expensive as human translation." },
+            
+            { id: 2, topic: 1, question: "Which of these is NOT a core CAT tool component?", 
+              options: ["Translation Memory", "Terminology Management", "Full automation of translation", "Quality Assurance"],
+              correct: 2, explanation: "CAT tools assist rather than fully automate translation, keeping the human translator in control." },
+            
+            { id: 3, topic: 1, question: "What does FAHQT stand for?", 
+              options: ["Fully Automated High-Quality Translation", "Fast Accurate Human Quality Translation",
+                       "Fully Assisted Human Quality Translation", "Federated Automated High Quality Transfer"],
+              correct: 0, explanation: "FAHQT was the original goal of MT research: Fully Automatic High-Quality Translation." },
+            
+            { id: 4, topic: 1, question: "What successful MT system demonstrated the sublanguage approach?", 
+              options: ["SYSTRAN", "Météo", "Logos", "Metal"],
+              correct: 1, explanation: "The Canadian Météo system for weather reports successfully used the sublanguage approach." },
+            
+            { id: 5, topic: 1, question: "What is the main difference between MAHT and HAMT?", 
+              options: ["MAHT is faster", "MAHT keeps human in control, HAMT is machine-driven", 
+                       "HAMT is more accurate", "They are the same thing"],
+              correct: 1, explanation: "MAHT (Machine-Aided Human Translation) is human-centered; HAMT (Human-Aided Machine Translation) is machine-centered." },
+            
+            { id: 6, topic: 1, question: "What development followed the ALPAC Report's negative conclusions?", 
+              options: ["MT research stopped completely", "Increased focus on CAT tools and computational linguistics",
+                       "All translators lost their jobs", "Governments banned MT research"],
+              correct: 1, explanation: "The ALPAC Report led to increased funding for computational linguistics and development of CAT tools." },
+            
+            { id: 7, topic: 1, question: "Which is NOT a typical user of CAT tools?", 
+              options: ["Literary translators", "Technical translators", "Localization specialists", "Terminologists"],
+              correct: 0, explanation: "While possible, literary translators are less likely to use CAT tools than technical translators." },
+            
+            { id: 8, topic: 1, question: "What does 'sublanguage' refer to in MT?", 
+              options: ["Inferior language", "Restricted language domain", "Spoken language", "Ancient language"],
+              correct: 1, explanation: "A sublanguage is a restricted domain with limited vocabulary and syntax, making MT more feasible." },
+            
+            { id: 9, topic: 1, question: "What was Warren Weaver's contribution to MT?", 
+              options: ["Invented the first computer", "Proposed using computers for translation", 
+                       "Wrote the ALPAC Report", "Developed the first TM system"],
+              correct: 1, explanation: "Warren Weaver first proposed using computers for translation in the late 1940s." },
+            
+            { id: 10, topic: 1, question: "What are the two main uses of MT identified in the 1980s?", 
+              options: ["Literary and technical", "Assimilation and dissemination", "Human and machine", "Online and offline"],
+              correct: 1, explanation: "Assimilation (understanding foreign texts) and dissemination (producing translations for publication)." },
+            
+            // Topic 2 Quizzes (7 questions)
+            { id: 11, topic: 2, question: "What is a bilingual concordance?", 
+              options: ["A dictionary with two languages", "A tool showing source and target text segments aligned",
+                       "A type of TM system", "A grammar checking tool"],
+              correct: 1, explanation: "A bilingual concordance displays source and target text segments side by side for analysis." },
+            
+            { id: 12, topic: 2, question: "What is 'post-editing the source text'?", 
+              options: ["Correcting source text errors", "Modifying source text to improve MT output",
+                       "Editing after translation", "A type of proofreading"],
+              correct: 1, explanation: "Modifying the source text to make it easier for MT systems to translate correctly." },
+            
+            { id: 13, topic: 2, question: "What advantage do dictation tools offer translators?", 
+              options: ["Perfect accuracy", "Faster input than typing", "Automatic translation", "Free software"],
+              correct: 1, explanation: "Dictation allows faster input (most people speak faster than they type)." },
+            
+            { id: 14, topic: 2, question: "What does markup language (XML) help with in translation?", 
+              options: ["Making text prettier", "Separating content from formatting", "Automatically translating", "Checking grammar"],
+              correct: 1, explanation: "XML separates content from formatting, making structured documents easier to translate." },
+            
+            { id: 15, topic: 2, question: "What is automatic terminology lookup?", 
+              options: ["Finding terms in a dictionary", "Automatically suggesting term translations during translation",
+                       "Extracting terms from a corpus", "Creating terminology databases"],
+              correct: 1, explanation: "Automatic terminology lookup suggests term translations while translating." },
+            
+            { id: 16, topic: 2, question: "What is a limitation of commercial MT systems for professionals?", 
+              options: ["They are too expensive", "They are designed for non-experts", "They only work offline", "They support few languages"],
+              correct: 1, explanation: "Many commercial MT systems have simplified interfaces designed for non-experts." },
+            
+            { id: 17, topic: 2, question: "What are lexical resources in a translator's workstation?", 
+              options: ["Only dictionaries", "Dictionaries, term banks, encyclopedias", "Only online resources", "Grammar books"],
+              correct: 1, explanation: "Lexical resources include various reference materials accessible during translation." },
+            
+            // Topic 3 Quizzes (7 questions)
+            { id: 18, topic: 3, question: "What does TMX stand for?", 
+              options: ["Translation Memory Exchange", "Translation Management XML", 
+                       "Term Memory Exchange", "Translation Matrix XML"],
+              correct: 0, explanation: "TMX = Translation Memory eXchange, an XML format for exchanging TM data." },
+            
+            { id: 19, topic: 3, question: "What is a fuzzy match in TM?", 
+              options: ["Completely different text", "Identical match", "Similar but not identical match", "Grammar error"],
+              correct: 2, explanation: "A fuzzy match is a similar but not identical segment (typically 70-99% similarity)." },
+            
+            { id: 20, topic: 3, question: "What is alignment in TM context?", 
+              options: ["Text justification", "Matching source and target segments", "Team coordination", "Memory organization"],
+              correct: 1, explanation: "Alignment matches source text segments with their translations for TM building." },
+            
+            { id: 21, topic: 3, question: "What is the main challenge in automatic alignment?", 
+              options: ["Color coding", "Sentence boundary identification", "Font selection", "Page numbering"],
+              correct: 1, explanation: "Identifying where sentences begin and end is a major challenge in alignment." },
+            
+            { id: 22, topic: 3, question: "What is the typical productivity gain from using TM?", 
+              options: ["5%", "30%", "90%", "200%"],
+              correct: 1, explanation: "Average productivity gain is around 30%, varying with text repetitiveness." },
+            
+            { id: 23, topic: 3, question: "How does TM differ from EBMT?", 
+              options: ["TM is automatic, EBMT is manual", "TM supports humans, EBMT automates translation",
+                       "TM is newer", "EBMT is a type of TM"],
+              correct: 1, explanation: "TM suggests matches to human translators; EBMT automatically creates translations from examples." },
+            
+            { id: 24, topic: 3, question: "What does Levenshtein distance measure?", 
+              options: ["Translation quality", "String similarity", "Memory size", "Alignment accuracy"],
+              correct: 1, explanation: "Levenshtein distance measures the minimum edits needed to change one string into another." },
+            
+            // Topic 4 Quizzes (6 questions)
+            { id: 25, topic: 4, question: "What is a term bank?", 
+              options: ["A financial institution", "A large terminology database", "A type of TM", "A corpus tool"],
+              correct: 1, explanation: "A term bank is a large-scale electronic database of terminology." },
+            
+            { id: 26, topic: 4, question: "What is term extraction?", 
+              options: ["Removing terms", "Identifying candidate terms in text", "Translating terms", "Defining terms"],
+              correct: 1, explanation: "Term extraction identifies potential terms in a corpus." },
+            
+            { id: 27, topic: 4, question: "What are the two main term extraction approaches?", 
+              options: ["Manual and automatic", "Linguistic and statistical", "Online and offline", "Free and paid"],
+              correct: 1, explanation: "Linguistic (pattern-based) and statistical (frequency-based) approaches." },
+            
+            { id: 28, topic: 4, question: "What is fuzzy matching in terminology?", 
+              options: ["Finding identical terms", "Finding similar terms", "Creating new terms", "Deleting terms"],
+              correct: 1, explanation: "Fuzzy matching finds similar terms (morphological variants, spelling variations)." },
+            
+            { id: 29, topic: 4, question: "What does TBX stand for?", 
+              options: ["TermBase Exchange", "Translation Base XML", "Terminology Bank Exchange", "Text Base XML"],
+              correct: 0, explanation: "TBX = TermBase eXchange, a standard for terminology data exchange." },
+            
+            { id: 30, topic: 4, question: "What is a stop list in term extraction?", 
+              options: ["List of important terms", "List of common words to ignore", "List of term definitions", "List of languages"],
+              correct: 1, explanation: "A stop list contains common words (function words) to ignore during extraction." },
+            
+            // Topic 5 Quizzes (6 questions)
+            { id: 31, topic: 5, question: "What is localization (L10n)?", 
+              options: ["Only translation", "Adapting products for target markets", "Creating software", "Teaching languages"],
+              correct: 1, explanation: "Localization adapts products linguistically, culturally, and technically for target markets." },
+            
+            { id: 32, topic: 5, question: "What is internationalization (I18n)?", 
+              options: ["Designing for multiple markets", "Learning languages", "Translation memory", "Terminology work"],
+              correct: 0, explanation: "Internationalization designs products to support multiple languages/cultures from the start." },
+            
+            { id: 33, topic: 5, question: "What does LISA stand for?", 
+              options: ["Localization Industry Standards Association", "Language International Standards Agency",
+                       "Linguistic Institute for Software Adaptation", "Localization and Internationalization Services Association"],
+              correct: 0, explanation: "LISA = Localization Industry Standards Association." },
+            
+            { id: 34, topic: 5, question: "What are hot keys in software localization?", 
+              options: ["Popular keys", "Keyboard shortcuts that must be unique", "Warm keys", "Important terms"],
+              correct: 1, explanation: "Hot keys (underlined letters for keyboard shortcuts) must be unique after translation." },
+            
+            { id: 35, topic: 5, question: "What is a locale?", 
+              options: ["A small location", "Language + regional standards", "A type of software", "Translation memory"],
+              correct: 1, explanation: "A locale combines language with regional conventions (date, time, currency formats)." },
+            
+            { id: 36, topic: 5, question: "What is web globalization?", 
+              options: ["Internet expansion", "Creating multilingual websites", "Global internet access", "Website translation only"],
+              correct: 1, explanation: "Web globalization involves creating and maintaining multilingual, culturally adapted websites." },
+            
+            // Topic 6 Quizzes (6 questions)
+            { id: 37, topic: 6, question: "What is a parallel corpus?", 
+              options: ["Texts in parallel columns", "Source texts + translations", "Similar texts in different languages", "Grammar examples"],
+              correct: 1, explanation: "A parallel corpus contains source texts aligned with their translations." },
+            
+            { id: 38, topic: 6, question: "What is TEC?", 
+              options: ["Technical English Corpus", "Translational English Corpus", "Translation Evaluation Corpus", "Terminology English Corpus"],
+              correct: 1, explanation: "TEC = Translational English Corpus, a corpus of published translations into English." },
+            
+            { id: 39, topic: 6, question: "What are 'universals of translation'?", 
+              options: ["Universal language", "Features common to all translations", "International standards", "Grammar rules"],
+              correct: 1, explanation: "Hypothesized linguistic features common to translations regardless of language pair." },
+            
+            { id: 40, topic: 6, question: "What is simplification in translation?", 
+              options: ["Making text shorter", "Lexical and syntactic simplification", "Using simple words only", "Reducing content"],
+              correct: 1, explanation: "Simplification involves fewer unique words and simpler syntax in translations." },
+            
+            { id: 41, topic: 6, question: "What is explicitation?", 
+              options: ["Making implicit information explicit", "Explaining everything", "Adding notes", "Simplifying explanations"],
+              correct: 0, explanation: "Explicitation makes implicit source text information explicit in translation." },
+            
+            { id: 42, topic: 6, question: "What is a type-token ratio?", 
+              options: ["Types divided by tokens", "Tokens divided by types", "A typing speed measure", "A translation quality metric"],
+              correct: 0, explanation: "Type-token ratio = number of different words divided by total words." },
+            
+            // Topic 7 Quizzes (5 questions)
+            { id: 43, topic: 7, question: "What is lexical ambiguity?", 
+              options: ["Words with multiple meanings", "Unclear grammar", "Long sentences", "Complex terms"],
+              correct: 0, explanation: "Lexical ambiguity: words with multiple meanings (bank, bat, bear)." },
+            
+            { id: 44, topic: 7, question: "What is syntactic ambiguity?", 
+              options: ["Multiple sentence structures", "Word meaning ambiguity", "Spelling variations", "Pronunciation issues"],
+              correct: 0, explanation: "Syntactic ambiguity: sentences with multiple possible grammatical structures." },
+            
+            { id: 45, topic: 7, question: "What is the 'semantic barrier' in MT?", 
+              options: ["Understanding meaning", "Vocabulary size", "Grammar complexity", "Translation speed"],
+              correct: 0, explanation: "The semantic barrier refers to the challenge of understanding and representing meaning." },
+            
+            { id: 46, topic: 7, question: "What is anaphora resolution?", 
+              options: ["Finding pronoun referents", "Solving equations", "Grammar checking", "Terminology extraction"],
+              correct: 0, explanation: "Anaphora resolution identifies what pronouns refer to in context." },
+            
+            { id: 47, topic: 7, question: "What is BLEU?", 
+              options: ["An MT evaluation metric", "A type of TM", "A CAT tool", "A language"],
+              correct: 0, explanation: "BLEU is an automatic metric for evaluating MT quality." },
+            
+            // Topic 8 Quizzes (3 questions)
+            { id: 48, topic: 8, question: "What are the main linguistic levels in MT?", 
+              options: ["Morphology, syntax, semantics, pragmatics", "Words, sentences, paragraphs", 
+                       "Nouns, verbs, adjectives", "Speaking, writing, listening"],
+              correct: 0, explanation: "MT addresses morphology, syntax, semantics, and pragmatics." },
+            
+            { id: 49, topic: 8, question: "What is transfer-based MT?", 
+              options: ["Analysis-transfer-generation architecture", "Direct translation", 
+                       "Example-based translation", "Neural network translation"],
+              correct: 0, explanation: "Transfer-based MT uses analysis, transfer, and generation stages." },
+            
+            { id: 50, topic: 8, question: "What is an interlingua in MT?", 
+              options: ["Language-independent meaning representation", "Intermediate language", 
+                       "International language", "Internet language"],
+              correct: 0, explanation: "An interlingua is an abstract, language-independent representation of meaning." }
+        ];
+
+        // MateCat Information
+        const matecatInfo = {
+            name: "MateCat",
+            description: "An open-source, web-based CAT tool designed for professional translators and translation agencies",
+            features: [
+                "100% free and open-source",
+                "Web-based - no installation required",
+                "Real-time collaborative translation",
+                "Integration with machine translation engines",
+                "Advanced translation memory",
+                "Terminology management",
+                "Quality assurance checks",
+                "Support for multiple file formats",
+                "Project management features",
+                "API for integration with other systems"
+            ],
+            advantages: [
+                "Cost-effective (free)",
+                "Accessible from any device with a browser",
+                "Easy team collaboration",
+                "Regular updates and improvements",
+                "Active community support"
+            ],
+            comparison: {
+                "MateCat vs Trados": "MateCat is free and web-based; Trados is commercial desktop software with more advanced features",
+                "MateCat vs memoQ": "MateCat is open-source; memoQ is commercial with strong project management",
+                "MateCat vs Smartcat": "Both are web-based; MateCat is open-source, Smartcat has freemium model"
+            },
+            gettingStarted: [
+                "1. Visit matecat.com",
+                "2. Create a free account",
+                "3. Start a new project or join an existing one",
+                "4. Upload your source document",
+                "5. Invite collaborators if needed",
+                "6. Begin translating with TM and MT support",
+                "7. Use QA tools to check your work",
+                "8. Download the translated file"
             ]
         };
 
@@ -479,36 +970,96 @@
             const [selectedTopic, setSelectedTopic] = useState(null);
             const [userProgress, setUserProgress] = useState({
                 completedTopics: [1, 2],
-                totalXP: 320,
-                level: 2,
-                streak: 3,
-                badges: ["First Steps", "Quick Learner"],
-                flashcardProgress: {}
+                totalXP: 850,
+                level: 4,
+                streak: 7,
+                badges: ["First Steps", "Quick Learner", "CAT Master", "Terminology Pro"],
+                flashcardsMastered: 42,
+                quizScore: 78,
+                lastActive: new Date().toISOString()
             });
+            const [activeAnimation, setActiveAnimation] = useState(null);
 
+            // Initialize particles
             useEffect(() => {
-                const initialProgress = {};
-                courseData.flashcards.forEach(card => {
-                    initialProgress[card.id] = { mastery: 'new', reviewCount: 0, lastReviewed: null };
-                });
-                setUserProgress(prev => ({ ...prev, flashcardProgress: initialProgress }));
+                if (window.particlesJS) {
+                    window.particlesJS('particles-js', {
+                        particles: {
+                            number: { value: 80, density: { enable: true, value_area: 800 } },
+                            color: { value: "#667eea" },
+                            shape: { type: "circle" },
+                            opacity: { value: 0.5, random: true },
+                            size: { value: 3, random: true },
+                            line_linked: { enable: true, distance: 150, color: "#764ba2", opacity: 0.4, width: 1 },
+                            move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
+                        },
+                        interactivity: {
+                            detect_on: "canvas",
+                            events: {
+                                onhover: { enable: true, mode: "repulse" },
+                                onclick: { enable: true, mode: "push" }
+                            }
+                        }
+                    });
+                }
+
+                // Create sparkles
+                const sparkleContainer = document.getElementById('sparkle-container');
+                for (let i = 0; i < 20; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = `${Math.random() * 100}%`;
+                    sparkle.style.top = `${Math.random() * 100}%`;
+                    sparkle.style.animationDelay = `${Math.random() * 2}s`;
+                    sparkleContainer.appendChild(sparkle);
+                }
             }, []);
+
+            const triggerConfetti = () => {
+                const container = document.getElementById('confetti-container');
+                for (let i = 0; i < 50; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }
+            };
 
             const addXP = (amount) => {
                 setUserProgress(prev => {
                     const newXP = prev.totalXP + amount;
                     const newLevel = Math.floor(newXP / 200) + 1;
+                    
+                    // Trigger celebration for level up
+                    if (newLevel > prev.level) {
+                        triggerConfetti();
+                        setActiveAnimation('levelUp');
+                        setTimeout(() => setActiveAnimation(null), 3000);
+                    }
+                    
                     return { ...prev, totalXP: newXP, level: newLevel };
                 });
             };
 
             return (
-                <div className="min-h-screen bg-gray-50">
-                    <Navigation 
-                        currentView={currentView} 
-                        setCurrentView={setCurrentView}
-                        userProgress={userProgress}
-                    />
+                <div className="min-h-screen">
+                    <Navigation currentView={currentView} setCurrentView={setCurrentView} userProgress={userProgress} />
+                    
+                    {activeAnimation === 'levelUp' && (
+                        <div className="fixed inset-0 flex items-center justify-center z-50">
+                            <div className="text-center animate__animated animate__bounceIn">
+                                <div className="text-8xl mb-4">🎉</div>
+                                <h2 className="text-4xl font-bold text-white bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-2xl">
+                                    Level Up!
+                                </h2>
+                            </div>
+                        </div>
+                    )}
                     
                     <main className="container mx-auto px-4 py-8 max-w-7xl">
                         {currentView === 'dashboard' && (
@@ -517,27 +1068,36 @@
                                 courseData={courseData}
                                 setCurrentView={setCurrentView}
                                 setSelectedTopic={setSelectedTopic}
+                                triggerConfetti={triggerConfetti}
                             />
                         )}
                         {currentView === 'flashcards' && (
-                            <FlashcardView 
-                                courseData={courseData}
+                            <FlashcardsView 
+                                allFlashcards={allFlashcards}
                                 selectedTopic={selectedTopic}
                                 userProgress={userProgress}
                                 setUserProgress={setUserProgress}
                                 addXP={addXP}
+                                triggerConfetti={triggerConfetti}
                             />
                         )}
                         {currentView === 'quiz' && (
                             <QuizView 
-                                courseData={courseData}
+                                quizzes={quizzes}
                                 selectedTopic={selectedTopic}
                                 addXP={addXP}
                                 userProgress={userProgress}
+                                triggerConfetti={triggerConfetti}
                             />
                         )}
+                        {currentView === 'mindmaps' && (
+                            <MindMapsView courseData={courseData} />
+                        )}
+                        {currentView === 'matecat' && (
+                            <MateCatView matecatInfo={matecatInfo} />
+                        )}
                         {currentView === 'progress' && (
-                            <ProgressView userProgress={userProgress} courseData={courseData} />
+                            <ProgressView userProgress={userProgress} courseData={courseData} allFlashcards={allFlashcards} />
                         )}
                     </main>
                 </div>
@@ -547,32 +1107,32 @@
         // Navigation Component
         function Navigation({ currentView, setCurrentView, userProgress }) {
             return (
-                <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+                <nav className="glass-card sticky top-0 z-40 mx-4 mt-4 rounded-2xl shadow-2xl">
                     <div className="container mx-auto px-6">
                         <div className="flex items-center justify-between h-20">
-                            {/* Logo */}
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1d4ed8] to-[#4338ca] flex items-center justify-center">
-                                    <span className="text-white font-bold text-lg">CAT</span>
+                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center floating">
+                                    <i className="fas fa-cat text-white text-xl"></i>
                                 </div>
                                 <div>
-                                    <h1 className="text-xl font-bold text-gray-900">CATalyst Academy</h1>
-                                    <p className="text-sm text-gray-500">Computer Assisted Translation</p>
+                                    <h1 className="text-2xl font-bold text-gray-900">CATalyst Academy</h1>
+                                    <p className="text-sm text-gray-600">Master Computer-Assisted Translation</p>
                                 </div>
                             </div>
 
-                            {/* Navigation Links */}
-                            <div className="hidden md:flex items-center gap-1">
+                            <div className="hidden lg:flex items-center gap-1">
                                 {[
                                     { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
                                     { id: 'flashcards', label: 'Flashcards', icon: '🎴' },
                                     { id: 'quiz', label: 'Quiz', icon: '🎯' },
+                                    { id: 'mindmaps', label: 'Mind Maps', icon: '🗺️' },
+                                    { id: 'matecat', label: 'MateCat', icon: '🐱' },
                                     { id: 'progress', label: 'Progress', icon: '📊' }
                                 ].map(item => (
                                     <button
                                         key={item.id}
                                         onClick={() => setCurrentView(item.id)}
-                                        className={`nav-link ${currentView === item.id ? 'active' : ''}`}
+                                        className={`px-4 py-2 rounded-xl font-semibold flex items-center gap-2 ${currentView === item.id ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : 'text-gray-700 hover:bg-gray-100'}`}
                                     >
                                         <span>{item.icon}</span>
                                         <span>{item.label}</span>
@@ -580,14 +1140,18 @@
                                 ))}
                             </div>
 
-                            {/* User Info */}
                             <div className="flex items-center gap-4">
-                                <div className="text-right hidden sm:block">
-                                    <p className="text-sm font-semibold text-gray-900">Level {userProgress.level}</p>
-                                    <p className="text-xs text-gray-500">{userProgress.totalXP} XP • 🔥 {userProgress.streak}</p>
+                                <div className="text-right">
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-bold text-gray-900">Level {userProgress.level}</span>
+                                        <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                            <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500" style={{ width: `${(userProgress.totalXP % 200) / 200 * 100}%` }}></div>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-gray-500">{userProgress.totalXP} XP • 🔥 {userProgress.streak} days</p>
                                 </div>
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#1d4ed8] to-[#4338ca] flex items-center justify-center">
-                                    <span className="text-white font-bold">S</span>
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                                    <i className="fas fa-user text-white"></i>
                                 </div>
                             </div>
                         </div>
@@ -597,206 +1161,211 @@
         }
 
         // Dashboard Component
-        function Dashboard({ userProgress, courseData, setCurrentView, setSelectedTopic }) {
+        function Dashboard({ userProgress, courseData, setCurrentView, setSelectedTopic, triggerConfetti }) {
             const completionPercentage = (userProgress.completedTopics.length / courseData.topics.length) * 100;
             
             return (
-                <div className="fade-in">
-                    {/* Welcome Header */}
+                <div className="animate__animated animate__fadeIn">
                     <div className="text-center mb-12">
-                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to CATalyst Academy</h1>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                            Master Computer Assisted Translation through interactive learning, practical exercises, and comprehensive resources.
+                        <h1 className="text-5xl font-bold mb-6 gradient-text">Welcome to CATalyst Academy</h1>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                            The ultimate interactive platform for mastering Computer-Assisted Translation technologies and tools.
                         </p>
+                        <button 
+                            onClick={() => {
+                                setCurrentView('flashcards');
+                                triggerConfetti();
+                            }}
+                            className="btn-magic text-lg px-8 py-4"
+                        >
+                            <i className="fas fa-rocket mr-2"></i>
+                            Start Learning Journey
+                        </button>
                     </div>
 
-                    {/* Quick Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div className="card stat-card">
-                            <div className="stat-number">{courseData.flashcards.length}</div>
-                            <div className="stat-label">Flashcards</div>
-                            <p className="text-sm text-gray-500 mt-2">Interactive learning cards</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div className="glass-card p-6 rounded-2xl text-center">
+                            <div className="text-4xl font-bold gradient-text mb-2">{allFlashcards.length}</div>
+                            <div className="text-lg font-semibold text-gray-800">Flashcards</div>
+                            <p className="text-gray-600 text-sm mt-2">Interactive learning cards</p>
                         </div>
-                        <div className="card stat-card">
-                            <div className="stat-number">{courseData.quizzes.length}</div>
-                            <div className="stat-label">Quiz Questions</div>
-                            <p className="text-sm text-gray-500 mt-2">Test your knowledge</p>
+                        <div className="glass-card p-6 rounded-2xl text-center">
+                            <div className="text-4xl font-bold gradient-text mb-2">{quizzes.length}</div>
+                            <div className="text-lg font-semibold text-gray-800">Quiz Questions</div>
+                            <p className="text-gray-600 text-sm mt-2">Test your knowledge</p>
                         </div>
-                        <div className="card stat-card">
-                            <div className="stat-number">{userProgress.badges.length}</div>
-                            <div className="stat-label">Badges Earned</div>
-                            <p className="text-sm text-gray-500 mt-2">Track your achievements</p>
+                        <div className="glass-card p-6 rounded-2xl text-center">
+                            <div className="text-4xl font-bold gradient-text mb-2">8</div>
+                            <div className="text-lg font-semibold text-gray-800">Topics</div>
+                            <p className="text-gray-600 text-sm mt-2">Comprehensive coverage</p>
+                        </div>
+                        <div className="glass-card p-6 rounded-2xl text-center">
+                            <div className="text-4xl font-bold gradient-text mb-2">30+</div>
+                            <div className="text-lg font-semibold text-gray-800">Mind Maps</div>
+                            <p className="text-gray-600 text-sm mt-2">Visual learning aids</p>
                         </div>
                     </div>
 
-                    {/* Course Progress */}
-                    <div className="card mb-8">
-                        <div className="section-header">
+                    <div className="glass-card p-8 rounded-2xl mb-8">
+                        <div className="flex justify-between items-center mb-6">
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900">Course Progress</h2>
+                                <h2 className="text-3xl font-bold text-gray-900">Course Progress</h2>
                                 <p className="text-gray-600">Track your learning journey</p>
                             </div>
                             <div className="text-right">
-                                <div className="text-2xl font-bold text-[#1d4ed8]">{completionPercentage.toFixed(0)}%</div>
-                                <p className="text-sm text-gray-500">Complete</p>
+                                <div className="text-3xl font-bold gradient-text">{completionPercentage.toFixed(0)}%</div>
+                                <p className="text-gray-600">Complete</p>
                             </div>
                         </div>
                         
-                        <div className="progress-container mb-4">
+                        <div className="progress-bar-container mb-4">
                             <div className="progress-bar" style={{ width: `${completionPercentage}%` }}></div>
                         </div>
                         
-                        <div className="flex justify-between text-sm text-gray-600 mb-6">
+                        <div className="flex justify-between text-gray-600 mb-8">
                             <span>{userProgress.completedTopics.length}/{courseData.topics.length} Topics</span>
                             <span>{userProgress.totalXP} Total XP</span>
                         </div>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <button className="btn-primary" onClick={() => setCurrentView('flashcards')}>
-                                <i className="fas fa-play"></i>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <button className="btn-magic" onClick={() => setCurrentView('flashcards')}>
+                                <i className="fas fa-play mr-2"></i>
                                 Start Learning
                             </button>
-                            <button className="btn-secondary" onClick={() => setCurrentView('quiz')}>
-                                <i className="fas fa-question-circle"></i>
+                            <button className="px-6 py-3 rounded-xl border-2 border-purple-500 text-purple-600 font-semibold hover:bg-purple-50" onClick={() => setCurrentView('quiz')}>
+                                <i className="fas fa-question-circle mr-2"></i>
                                 Take Quiz
                             </button>
-                            <button className="btn-outline">
-                                <i className="fas fa-download"></i>
-                                Export Progress
+                            <button className="px-6 py-3 rounded-xl border-2 border-blue-500 text-blue-600 font-semibold hover:bg-blue-50" onClick={() => setCurrentView('mindmaps')}>
+                                <i className="fas fa-project-diagram mr-2"></i>
+                                View Mind Maps
                             </button>
-                            <button className="btn-outline">
-                                <i className="fas fa-cog"></i>
-                                Settings
+                            <button className="px-6 py-3 rounded-xl border-2 border-green-500 text-green-600 font-semibold hover:bg-green-50" onClick={() => setCurrentView('matecat')}>
+                                <i className="fas fa-cat mr-2"></i>
+                                Learn MateCat
                             </button>
                         </div>
                     </div>
 
-                    {/* Course Topics */}
-                    <div className="card">
-                        <div className="section-header">
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900">Course Topics</h2>
-                                <p className="text-gray-600">Explore all CAT concepts</p>
-                            </div>
-                            <button className="btn-outline">
-                                <i className="fas fa-filter"></i>
-                                Filter
-                            </button>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {courseData.topics.map(topic => {
-                                const isCompleted = userProgress.completedTopics.includes(topic.id);
-                                return (
-                                    <button
-                                        key={topic.id}
-                                        onClick={() => {
-                                            setSelectedTopic(topic.id);
-                                            setCurrentView('flashcards');
-                                        }}
-                                        className="topic-card text-left"
-                                    >
-                                        <div className="flex items-center gap-3 mb-3">
-                                            <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: topic.color + '10', color: topic.color }}>
-                                                <span className="text-xl">{topic.icon}</span>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-gray-900">{topic.name}</h3>
-                                                <p className="text-sm text-gray-500">Topic {topic.id}</p>
+                    <div className="glass-card p-8 rounded-2xl">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-6">Course Topics</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {courseData.topics.map(topic => (
+                                <div 
+                                    key={topic.id}
+                                    className="card-3d cursor-pointer"
+                                    style={{ height: '200px' }}
+                                    onClick={() => {
+                                        setSelectedTopic(topic.id);
+                                        setCurrentView('flashcards');
+                                    }}
+                                >
+                                    <div className="card-3d-inner w-full h-full">
+                                        <div className="card-3d-front glass-card p-6 rounded-2xl">
+                                            <div className="flex flex-col h-full justify-between">
+                                                <div>
+                                                    <div className="text-3xl mb-3">{topic.icon}</div>
+                                                    <h3 className="text-xl font-bold text-gray-900 mb-2">{topic.name}</h3>
+                                                    <p className="text-gray-600 text-sm">{topic.description}</p>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1 mt-4">
+                                                    {topic.subtopics.slice(0, 2).map((sub, idx) => (
+                                                        <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+                                                            {sub}
+                                                        </span>
+                                                    ))}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between">
-                                            <div className="progress-container w-3/4">
-                                                <div className="progress-bar" style={{ width: isCompleted ? '100%' : '40%' }}></div>
-                                            </div>
-                                            {isCompleted ? (
-                                                <span className="text-green-600 text-sm font-medium">✓ Complete</span>
-                                            ) : (
-                                                <span className="text-gray-500 text-sm">In Progress</span>
-                                            )}
+                                        <div className="card-3d-back rounded-2xl">
+                                            <div className="text-3xl mb-3">{topic.icon}</div>
+                                            <h3 className="text-xl font-bold text-white mb-2">Start Learning</h3>
+                                            <p className="text-white/90 text-sm text-center">Click to explore {topic.name}</p>
                                         </div>
-                                    </button>
-                                );
-                            })}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
             );
         }
 
-        // Flashcard View Component
-        function FlashcardView({ courseData, selectedTopic, userProgress, setUserProgress, addXP }) {
+        // Flashcards View Component
+        function FlashcardsView({ allFlashcards, selectedTopic, userProgress, setUserProgress, addXP, triggerConfetti }) {
             const [currentCardIndex, setCurrentCardIndex] = useState(0);
             const [isFlipped, setIsFlipped] = useState(false);
             const [filterTopic, setFilterTopic] = useState(selectedTopic || 'all');
-            
-            const filteredCards = filterTopic === 'all' 
-                ? courseData.flashcards 
-                : courseData.flashcards.filter(card => card.topic === filterTopic);
+            const [cardHistory, setCardHistory] = useState([]);
+            const [studyMode, setStudyMode] = useState('all'); // all, new, difficult
+        
+            const filteredCards = allFlashcards.filter(card => {
+                if (filterTopic !== 'all' && card.topic !== filterTopic) return false;
+                if (studyMode === 'new' && cardHistory.some(h => h.id === card.id)) return false;
+                if (studyMode === 'difficult' && !cardHistory.some(h => h.id === card.id && h.difficulty === 'hard')) return false;
+                return true;
+            });
             
             const currentCard = filteredCards[currentCardIndex];
-            const cardProgress = currentCard ? userProgress.flashcardProgress[currentCard.id] : null;
-
+            
             const handleFlip = () => {
                 setIsFlipped(!isFlipped);
             };
-
+        
             const handleNext = () => {
                 setIsFlipped(false);
                 setCurrentCardIndex((prev) => (prev + 1) % filteredCards.length);
             };
-
+        
             const handlePrevious = () => {
                 setIsFlipped(false);
                 setCurrentCardIndex((prev) => (prev - 1 + filteredCards.length) % filteredCards.length);
             };
-
+        
             const handleMastery = (masteryLevel) => {
                 if (!currentCard) return;
                 
-                const xpMap = { again: 5, hard: 10, good: 15, easy: 25 };
-                addXP(xpMap[masteryLevel] || 10);
+                const xpMap = { again: 10, hard: 20, good: 30, easy: 50 };
+                addXP(xpMap[masteryLevel]);
                 
-                setUserProgress(prev => ({
-                    ...prev,
-                    flashcardProgress: {
-                        ...prev.flashcardProgress,
-                        [currentCard.id]: {
-                            mastery: masteryLevel === 'easy' ? 'mastered' : masteryLevel === 'again' ? 'new' : 'learning',
-                            reviewCount: (prev.flashcardProgress[currentCard.id]?.reviewCount || 0) + 1,
-                            lastReviewed: new Date()
-                        }
-                    }
-                }));
+                setCardHistory([...cardHistory, { id: currentCard.id, mastery: masteryLevel, timestamp: new Date() }]);
                 
-                handleNext();
+                if (masteryLevel === 'easy') {
+                    triggerConfetti();
+                }
+                
+                setTimeout(() => {
+                    handleNext();
+                }, 500);
             };
-
+        
             if (!currentCard) {
                 return (
-                    <div className="card text-center py-12">
-                        <div className="text-5xl mb-6">🎉</div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">No cards available</h2>
-                        <p className="text-gray-600 mb-6">Select a different topic or view all cards</p>
-                        <button 
-                            onClick={() => setFilterTopic('all')}
-                            className="btn-primary"
-                        >
-                            View All Flashcards
-                        </button>
+                    <div className="glass-card text-center p-12 rounded-2xl">
+                        <div className="text-6xl mb-6">🎉</div>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">Congratulations!</h2>
+                        <p className="text-gray-600 text-xl mb-8">You've completed all cards in this selection.</p>
+                        <div className="flex gap-4 justify-center">
+                            <button onClick={() => setFilterTopic('all')} className="btn-magic">
+                                View All Flashcards
+                            </button>
+                            <button onClick={() => setStudyMode('all')} className="px-6 py-3 rounded-xl border-2 border-purple-500 text-purple-600 font-semibold">
+                                Reset Filters
+                            </button>
+                        </div>
                     </div>
                 );
             }
-
+        
             return (
-                <div className="fade-in">
-                    <div className="card mb-6">
-                        <div className="section-header">
+                <div className="animate__animated animate__fadeIn">
+                    <div className="glass-card p-8 rounded-2xl mb-6">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900">Flashcard Study</h2>
-                                <p className="text-gray-600">Active recall for better memory</p>
+                                <h2 className="text-3xl font-bold text-gray-900">Flashcard Mastery</h2>
+                                <p className="text-gray-600">Active recall for optimal learning</p>
                             </div>
-                            <div className="flex items-center gap-4">
+                            <div className="flex flex-wrap gap-3">
                                 <select 
                                     value={filterTopic}
                                     onChange={(e) => {
@@ -804,110 +1373,122 @@
                                         setCurrentCardIndex(0);
                                         setIsFlipped(false);
                                     }}
-                                    className="border border-gray-300 rounded-lg px-4 py-2"
+                                    className="px-4 py-2 rounded-xl border border-gray-300 bg-white"
                                 >
                                     <option value="all">All Topics</option>
                                     {courseData.topics.map(topic => (
                                         <option key={topic.id} value={topic.id}>{topic.name}</option>
                                     ))}
                                 </select>
-                                <div className="text-right">
-                                    <p className="text-sm font-medium text-gray-900">Card {currentCardIndex + 1} of {filteredCards.length}</p>
-                                    <p className="text-xs text-gray-500">
-                                        {cardProgress?.reviewCount || 0} reviews
-                                    </p>
-                                </div>
+                                <select 
+                                    value={studyMode}
+                                    onChange={(e) => setStudyMode(e.target.value)}
+                                    className="px-4 py-2 rounded-xl border border-gray-300 bg-white"
+                                >
+                                    <option value="all">All Cards</option>
+                                    <option value="new">New Cards Only</option>
+                                    <option value="difficult">Difficult Cards</option>
+                                </select>
                             </div>
                         </div>
-
-                        <div className="progress-container mb-6">
+        
+                        <div className="progress-bar-container mb-6">
                             <div className="progress-bar" style={{ width: `${((currentCardIndex + 1) / filteredCards.length) * 100}%` }}></div>
                         </div>
-
+        
                         <div className="mb-8">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center gap-2">
-                                    <span className="badge badge-primary">
+                            <div className="flex justify-between items-center mb-6">
+                                <div className="flex items-center gap-3">
+                                    <span className="px-3 py-1 rounded-full text-sm font-semibold" style={{ 
+                                        backgroundColor: courseData.topics.find(t => t.id === currentCard.topic)?.color + '20',
+                                        color: courseData.topics.find(t => t.id === currentCard.topic)?.color
+                                    }}>
                                         Topic {currentCard.topic}
                                     </span>
                                     <span className="text-sm text-gray-500">
-                                        Status: <span className="font-medium">{cardProgress?.mastery?.toUpperCase() || 'NEW'}</span>
+                                        Card {currentCardIndex + 1} of {filteredCards.length}
                                     </span>
                                 </div>
+                                <div className="text-right">
+                                    <p className="text-sm text-gray-500">Mastered Today</p>
+                                    <p className="text-lg font-bold text-gray-900">
+                                        {cardHistory.filter(h => h.mastery === 'easy').length} cards
+                                    </p>
+                                </div>
                             </div>
-
-                            <div className="flashcard-container mb-8" onClick={handleFlip}>
-                                <div className={`flashcard ${isFlipped ? 'flipped' : ''}`}>
-                                    <div className="flashcard-front">
-                                        <div className="text-center">
-                                            <div className="text-sm font-semibold text-[#1d4ed8] mb-4 uppercase tracking-wider">Question</div>
-                                            <h3 className="text-xl font-semibold text-gray-900 mb-6">{currentCard.front}</h3>
-                                            <p className="text-sm text-gray-500">Click to flip card</p>
+        
+                            <div className="flashcard-container mb-8" style={{ minHeight: '300px' }} onClick={handleFlip}>
+                                <div className={`flashcard ${isFlipped ? 'flipped' : ''}`} style={{ width: '100%', height: '100%' }}>
+                                    <div className="flashcard-front glass-card rounded-2xl">
+                                        <div className="text-center p-8">
+                                            <div className="text-sm font-semibold text-purple-600 mb-4 uppercase tracking-wider">Question</div>
+                                            <h3 className="text-2xl font-semibold text-gray-900 mb-8 leading-relaxed">{currentCard.front}</h3>
+                                            <p className="text-gray-500">Click to reveal answer</p>
+                                            <div className="mt-6 flex flex-wrap gap-2 justify-center">
+                                                {currentCard.tags.map((tag, idx) => (
+                                                    <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="flashcard-back">
-                                        <div className="text-center">
-                                            <div className="text-sm font-semibold text-[#0d9488] mb-4 uppercase tracking-wider">Answer</div>
-                                            <p className="text-lg text-gray-900 leading-relaxed">{currentCard.back}</p>
-                                            <p className="text-sm text-gray-500 mt-6">Click to flip back</p>
+                                    <div className="flashcard-back rounded-2xl" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                                        <div className="text-center p-8 text-white">
+                                            <div className="text-sm font-semibold mb-4 uppercase tracking-wider opacity-90">Answer</div>
+                                            <p className="text-xl leading-relaxed mb-8">{currentCard.back}</p>
+                                            <p className="opacity-75">Click to flip back</p>
+                                            <div className="mt-6">
+                                                <span className="px-3 py-1 bg-white/20 text-white text-sm rounded-full">
+                                                    Difficulty: {currentCard.difficulty}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+        
                             <div className="flex justify-between items-center">
-                                <button onClick={handlePrevious} className="btn-outline">
-                                    <i className="fas fa-arrow-left"></i>
+                                <button onClick={handlePrevious} className="px-6 py-3 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50">
+                                    <i className="fas fa-arrow-left mr-2"></i>
                                     Previous
                                 </button>
                                 <div className="text-center">
-                                    <p className="text-sm text-gray-500">Progress</p>
-                                    <p className="font-medium text-gray-900">
-                                        {Object.values(userProgress.flashcardProgress).filter(p => p.mastery === 'mastered').length}/{courseData.flashcards.length} Mastered
+                                    <p className="text-gray-500">Progress</p>
+                                    <p className="font-bold text-gray-900 text-lg">
+                                        {((currentCardIndex + 1) / filteredCards.length * 100).toFixed(0)}%
                                     </p>
                                 </div>
-                                <button onClick={handleNext} className="btn-outline">
+                                <button onClick={handleNext} className="px-6 py-3 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50">
                                     Next
-                                    <i className="fas fa-arrow-right"></i>
+                                    <i className="fas fa-arrow-right ml-2"></i>
                                 </button>
                             </div>
                         </div>
-
+        
                         {isFlipped && (
-                            <div className="card">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">How well did you know this?</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                    <button 
-                                        onClick={() => handleMastery('again')}
-                                        className="py-3 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-700"
-                                    >
-                                        <div className="text-xl mb-1">😕</div>
-                                        <div className="font-medium">Again</div>
-                                        <div className="text-xs text-red-600">+5 XP</div>
+                            <div className="glass-card p-6 rounded-2xl animate__animated animate__fadeInUp">
+                                <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">How well did you know this?</h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <button onClick={() => handleMastery('again')} className="p-4 rounded-xl border-2 border-red-300 bg-red-50 hover:bg-red-100 flex flex-col items-center">
+                                        <div className="text-2xl mb-2">😕</div>
+                                        <div className="font-bold text-red-700">Again</div>
+                                        <div className="text-sm text-red-600 mt-1">+10 XP</div>
                                     </button>
-                                    <button 
-                                        onClick={() => handleMastery('hard')}
-                                        className="py-3 rounded-lg border border-amber-200 bg-amber-50 hover:bg-amber-100 text-amber-700"
-                                    >
-                                        <div className="text-xl mb-1">😓</div>
-                                        <div className="font-medium">Hard</div>
-                                        <div className="text-xs text-amber-600">+10 XP</div>
+                                    <button onClick={() => handleMastery('hard')} className="p-4 rounded-xl border-2 border-orange-300 bg-orange-50 hover:bg-orange-100 flex flex-col items-center">
+                                        <div className="text-2xl mb-2">😓</div>
+                                        <div className="font-bold text-orange-700">Hard</div>
+                                        <div className="text-sm text-orange-600 mt-1">+20 XP</div>
                                     </button>
-                                    <button 
-                                        onClick={() => handleMastery('good')}
-                                        className="py-3 rounded-lg border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-700"
-                                    >
-                                        <div className="text-xl mb-1">😊</div>
-                                        <div className="font-medium">Good</div>
-                                        <div className="text-xs text-blue-600">+15 XP</div>
+                                    <button onClick={() => handleMastery('good')} className="p-4 rounded-xl border-2 border-blue-300 bg-blue-50 hover:bg-blue-100 flex flex-col items-center">
+                                        <div className="text-2xl mb-2">😊</div>
+                                        <div className="font-bold text-blue-700">Good</div>
+                                        <div className="text-sm text-blue-600 mt-1">+30 XP</div>
                                     </button>
-                                    <button 
-                                        onClick={() => handleMastery('easy')}
-                                        className="py-3 rounded-lg border border-green-200 bg-green-50 hover:bg-green-100 text-green-700"
-                                    >
-                                        <div className="text-xl mb-1">😄</div>
-                                        <div className="font-medium">Easy</div>
-                                        <div className="text-xs text-green-600">+25 XP</div>
+                                    <button onClick={() => handleMastery('easy')} className="p-4 rounded-xl border-2 border-green-300 bg-green-50 hover:bg-green-100 flex flex-col items-center">
+                                        <div className="text-2xl mb-2">😄</div>
+                                        <div className="font-bold text-green-700">Easy</div>
+                                        <div className="text-sm text-green-600 mt-1">+50 XP</div>
                                     </button>
                                 </div>
                             </div>
@@ -918,168 +1499,185 @@
         }
 
         // Quiz View Component
-        function QuizView({ courseData, selectedTopic, addXP, userProgress }) {
+        function QuizView({ quizzes, selectedTopic, addXP, userProgress, triggerConfetti }) {
             const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
             const [selectedAnswer, setSelectedAnswer] = useState(null);
             const [showFeedback, setShowFeedback] = useState(false);
             const [score, setScore] = useState(0);
-            const [timeLeft, setTimeLeft] = useState(45);
+            const [quizCompleted, setQuizCompleted] = useState(false);
             
             const filteredQuizzes = selectedTopic 
-                ? courseData.quizzes.filter(quiz => quiz.topic === selectedTopic)
-                : courseData.quizzes;
+                ? quizzes.filter(quiz => quiz.topic === selectedTopic)
+                : quizzes;
             
             const currentQuestion = filteredQuizzes[currentQuestionIndex];
-
-            useEffect(() => {
-                if (!showFeedback && timeLeft > 0) {
-                    const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-                    return () => clearTimeout(timer);
-                }
-            }, [timeLeft, showFeedback]);
-
+            
             const handleAnswer = (answerIndex) => {
                 setSelectedAnswer(answerIndex);
                 setShowFeedback(true);
                 
                 if (answerIndex === currentQuestion.correct) {
                     setScore(score + 1);
-                    const timeBonus = Math.max(5, Math.floor(timeLeft / 3));
-                    addXP(25 + timeBonus);
+                    addXP(50);
                 } else {
-                    addXP(5);
+                    addXP(10);
                 }
             };
-
+            
             const handleNext = () => {
                 if (currentQuestionIndex < filteredQuizzes.length - 1) {
                     setCurrentQuestionIndex(currentQuestionIndex + 1);
                     setSelectedAnswer(null);
                     setShowFeedback(false);
-                    setTimeLeft(45);
                 } else {
-                    // Quiz complete
-                    const percentage = (score / filteredQuizzes.length) * 100;
-                    alert(`Quiz Complete!\nScore: ${score}/${filteredQuizzes.length} (${percentage.toFixed(0)}%)\nTotal XP: ${score * 25 + filteredQuizzes.length * 5}`);
+                    setQuizCompleted(true);
+                    if (score / filteredQuizzes.length >= 0.8) {
+                        triggerConfetti();
+                    }
                 }
             };
-
+            
+            if (quizCompleted) {
+                const percentage = (score / filteredQuizzes.length) * 100;
+                return (
+                    <div className="glass-card text-center p-12 rounded-2xl">
+                        <div className="text-6xl mb-6">🏆</div>
+                        <h2 className="text-4xl font-bold text-gray-900 mb-4">Quiz Complete!</h2>
+                        <div className="text-6xl font-bold gradient-text mb-6">{percentage.toFixed(0)}%</div>
+                        <p className="text-xl text-gray-600 mb-8">
+                            You scored {score} out of {filteredQuizzes.length} questions correctly.
+                        </p>
+                        <div className="grid grid-cols-2 gap-6 max-w-md mx-auto">
+                            <button onClick={() => window.location.reload()} className="btn-magic">
+                                Restart Quiz
+                            </button>
+                            <button onClick={() => {
+                                setCurrentQuestionIndex(0);
+                                setSelectedAnswer(null);
+                                setShowFeedback(false);
+                                setScore(0);
+                                setQuizCompleted(false);
+                            }} className="px-6 py-3 rounded-xl border-2 border-purple-500 text-purple-600 font-semibold hover:bg-purple-50">
+                                Try Again
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+            
             if (!currentQuestion) {
                 return (
-                    <div className="card text-center py-12">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">No questions available</h2>
+                    <div className="glass-card text-center p-12 rounded-2xl">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">No questions available</h2>
                         <p className="text-gray-600 mb-6">Select a different topic or view all questions</p>
-                        <button className="btn-primary" onClick={() => window.location.reload()}>
-                            Refresh Page
+                        <button className="btn-magic" onClick={() => window.location.reload()}>
+                            Refresh
                         </button>
                     </div>
                 );
             }
-
+            
             return (
-                <div className="fade-in">
-                    <div className="card mb-6">
-                        <div className="section-header">
+                <div className="animate__animated animate__fadeIn">
+                    <div className="glass-card p-8 rounded-2xl mb-6">
+                        <div className="flex justify-between items-center mb-8">
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900">Quiz Challenge</h2>
+                                <h2 className="text-3xl font-bold text-gray-900">Quiz Challenge</h2>
                                 <p className="text-gray-600">Test your CAT knowledge</p>
                             </div>
                             <div className="text-right">
-                                <div className="text-2xl font-bold text-[#1d4ed8] mb-2">⏱️ {timeLeft}s</div>
-                                <p className="text-sm text-gray-500">Time remaining</p>
+                                <div className="text-3xl font-bold gradient-text mb-2">
+                                    {score}/{currentQuestionIndex + (showFeedback ? 1 : 0)}
+                                </div>
+                                <p className="text-gray-600">Current Score</p>
                             </div>
                         </div>
-
-                        <div className="progress-container mb-6">
+        
+                        <div className="progress-bar-container mb-6">
                             <div className="progress-bar" style={{ width: `${((currentQuestionIndex + 1) / filteredQuizzes.length) * 100}%` }}></div>
                         </div>
-
-                        <div className="card mb-6">
-                            <div className="flex justify-between items-center mb-6">
-                                <div className="flex items-center gap-2">
-                                    <span className="badge badge-primary">
+        
+                        <div className="glass-card p-8 rounded-2xl mb-8">
+                            <div className="flex justify-between items-center mb-8">
+                                <div className="flex items-center gap-3">
+                                    <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
                                         Question {currentQuestionIndex + 1}/{filteredQuizzes.length}
                                     </span>
-                                    <span className="text-sm text-gray-500">Topic {currentQuestion.topic}</span>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-sm text-gray-500">Current Score</p>
-                                    <p className="text-lg font-bold text-gray-900">{score}/{currentQuestionIndex + (showFeedback ? 1 : 0)}</p>
+                                    <span className="text-gray-600">Topic {currentQuestion.topic}</span>
                                 </div>
                             </div>
-
-                            <h3 className="text-xl font-semibold text-gray-900 mb-6">{currentQuestion.question}</h3>
-
-                            <div className="space-y-3">
+        
+                            <h3 className="text-2xl font-semibold text-gray-900 mb-8 leading-relaxed">{currentQuestion.question}</h3>
+        
+                            <div className="space-y-4">
                                 {currentQuestion.options.map((option, index) => (
-                                    <div
+                                    <button
                                         key={index}
                                         onClick={() => !showFeedback && handleAnswer(index)}
-                                        className={`quiz-option ${showFeedback 
+                                        disabled={showFeedback}
+                                        className={`w-full text-left p-5 rounded-xl text-lg font-medium transition-all ${showFeedback 
                                             ? index === currentQuestion.correct 
-                                                ? 'correct' 
+                                                ? 'bg-green-100 border-2 border-green-500 text-green-800' 
                                                 : index === selectedAnswer 
-                                                ? 'incorrect' 
-                                                : ''
+                                                ? 'bg-red-100 border-2 border-red-500 text-red-800'
+                                                : 'bg-gray-100 border-2 border-transparent text-gray-700'
                                             : selectedAnswer === index 
-                                                ? 'selected' 
-                                                : ''
+                                                ? 'bg-purple-100 border-2 border-purple-500 text-purple-800'
+                                                : 'bg-white border-2 border-gray-200 hover:border-purple-300 text-gray-800'
                                         }`}
                                     >
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-4">
-                                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${showFeedback
+                                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${showFeedback
                                                     ? index === currentQuestion.correct
-                                                        ? 'bg-green-100 text-green-700'
+                                                        ? 'bg-green-500 text-white'
                                                         : index === selectedAnswer
-                                                        ? 'bg-red-100 text-red-700'
-                                                        : 'bg-gray-100 text-gray-700'
+                                                        ? 'bg-red-500 text-white'
+                                                        : 'bg-gray-300 text-gray-700'
                                                     : selectedAnswer === index
-                                                        ? 'bg-blue-100 text-blue-700'
-                                                        : 'bg-gray-100 text-gray-700'
+                                                        ? 'bg-purple-500 text-white'
+                                                        : 'bg-gray-200 text-gray-700'
                                                 }`}>
                                                     <span className="font-bold">{String.fromCharCode(65 + index)}</span>
                                                 </div>
-                                                <span className="font-medium text-gray-900">{option}</span>
+                                                <span>{option}</span>
                                             </div>
                                             {showFeedback && index === currentQuestion.correct && (
-                                                <span className="text-green-600 text-xl">✓</span>
+                                                <span className="text-green-600 text-2xl">✓</span>
                                             )}
                                             {showFeedback && index === selectedAnswer && index !== currentQuestion.correct && (
-                                                <span className="text-red-600 text-xl">✗</span>
+                                                <span className="text-red-600 text-2xl">✗</span>
                                             )}
                                         </div>
-                                    </div>
+                                    </button>
                                 ))}
                             </div>
                         </div>
-
+        
                         {showFeedback && (
-                            <div className="card">
-                                <div className="flex items-start gap-4 mb-6">
-                                    <div className={`text-3xl ${selectedAnswer === currentQuestion.correct ? 'text-green-600' : 'text-red-600'}`}>
-                                        {selectedAnswer === currentQuestion.correct ? '🎉' : '📝'}
+                            <div className="glass-card p-8 rounded-2xl animate__animated animate__fadeInUp">
+                                <div className="flex items-start gap-6 mb-8">
+                                    <div className={`text-5xl ${selectedAnswer === currentQuestion.correct ? 'text-green-500' : 'text-red-500'}`}>
+                                        {selectedAnswer === currentQuestion.correct ? '🎉' : '💡'}
                                     </div>
-                                    <div>
-                                        <h3 className={`text-lg font-semibold mb-2 ${selectedAnswer === currentQuestion.correct ? 'text-green-700' : 'text-red-700'}`}>
-                                            {selectedAnswer === currentQuestion.correct ? 'Correct Answer!' : 'Not Quite Right'}
+                                    <div className="flex-1">
+                                        <h3 className={`text-2xl font-bold mb-3 ${selectedAnswer === currentQuestion.correct ? 'text-green-700' : 'text-red-700'}`}>
+                                            {selectedAnswer === currentQuestion.correct ? 'Correct!' : 'Not Quite'}
                                         </h3>
-                                        <p className="text-gray-700">{currentQuestion.explanation}</p>
-                                        <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                                            <p className="text-sm text-blue-700">
-                                                <span className="font-semibold">Time Bonus:</span> +{Math.max(5, Math.floor(timeLeft / 3))} XP
+                                        <p className="text-gray-700 text-lg mb-4">{currentQuestion.explanation}</p>
+                                        <div className="p-4 bg-blue-50 rounded-xl">
+                                            <p className="text-blue-700">
+                                                <span className="font-bold">XP Earned: </span>
+                                                {selectedAnswer === currentQuestion.correct ? '+50' : '+10'} points
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <button 
-                                    onClick={handleNext}
-                                    className="btn-primary w-full"
-                                >
+                                <button onClick={handleNext} className="btn-magic w-full text-lg py-4">
                                     {currentQuestionIndex < filteredQuizzes.length - 1 ? (
                                         <>
                                             Next Question
-                                            <i className="fas fa-arrow-right"></i>
+                                            <i className="fas fa-arrow-right ml-2"></i>
                                         </>
                                     ) : (
                                         'Finish Quiz'
@@ -1092,89 +1690,218 @@
             );
         }
 
-        // Progress View Component
-        function ProgressView({ userProgress, courseData }) {
-            const completionPercentage = (userProgress.completedTopics.length / courseData.topics.length) * 100;
-            const masteredCards = Object.values(userProgress.flashcardProgress).filter(p => p.mastery === 'mastered').length;
+        // Mind Maps View Component
+        function MindMapsView({ courseData }) {
+            const [selectedTopic, setSelectedTopic] = useState(1);
+            
+            const mindMaps = {
+                1: {
+                    title: "Introduction to CAT",
+                    nodes: [
+                        { id: 1, label: "CAT Tools", x: 50, y: 20, color: "#667eea" },
+                        { id: 2, label: "History", x: 20, y: 40, color: "#764ba2" },
+                        { id: 3, label: "MT vs CAT", x: 80, y: 40, color: "#f093fb" },
+                        { id: 4, label: "ALPAC Report", x: 10, y: 60, color: "#f5576c" },
+                        { id: 5, label: "Applications", x: 40, y: 60, color: "#4facfe" },
+                        { id: 6, label: "Future Trends", x: 70, y: 60, color: "#43e97b" }
+                    ],
+                    connections: [[1,2], [1,3], [2,4], [1,5], [1,6]]
+                },
+                2: {
+                    title: "Translator's Workstation",
+                    nodes: [
+                        { id: 1, label: "Workstation", x: 50, y: 20, color: "#667eea" },
+                        { id: 2, label: "Word Processing", x: 20, y: 40, color: "#764ba2" },
+                        { id: 3, label: "Dictation Tools", x: 50, y: 40, color: "#f093fb" },
+                        { id: 4, label: "Lexical Resources", x: 80, y: 40, color: "#f5576c" },
+                        { id: 5, label: "TM Integration", x: 30, y: 60, color: "#4facfe" },
+                        { id: 6, label: "QA Tools", x: 70, y: 60, color: "#43e97b" }
+                    ],
+                    connections: [[1,2], [1,3], [1,4], [2,5], [4,6]]
+                },
+                3: {
+                    title: "Translation Memory",
+                    nodes: [
+                        { id: 1, label: "Translation Memory", x: 50, y: 20, color: "#667eea" },
+                        { id: 2, label: "TMX Format", x: 20, y: 40, color: "#764ba2" },
+                        { id: 3, label: "Alignment", x: 50, y: 40, color: "#f093fb" },
+                        { id: 4, label: "Fuzzy Matching", x: 80, y: 40, color: "#f5576c" },
+                        { id: 5, label: "Productivity", x: 30, y: 60, color: "#4facfe" },
+                        { id: 6, label: "EBMT", x: 70, y: 60, color: "#43e97b" }
+                    ],
+                    connections: [[1,2], [1,3], [1,4], [3,5], [1,6]]
+                }
+            };
+            
+            const currentMap = mindMaps[selectedTopic];
             
             return (
-                <div className="fade-in">
-                    <div className="card mb-6">
-                        <div className="section-header">
+                <div className="animate__animated animate__fadeIn">
+                    <div className="glass-card p-8 rounded-2xl">
+                        <div className="flex justify-between items-center mb-8">
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900">Learning Progress</h2>
-                                <p className="text-gray-600">Track your achievements and growth</p>
+                                <h2 className="text-3xl font-bold text-gray-900">Interactive Mind Maps</h2>
+                                <p className="text-gray-600">Visualize relationships between concepts</p>
                             </div>
-                            <button className="btn-outline">
-                                <i className="fas fa-download"></i>
-                                Export Report
-                            </button>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                            <div className="card stat-card">
-                                <div className="stat-number">{userProgress.level}</div>
-                                <div className="stat-label">Current Level</div>
-                                <div className="progress-container mt-4">
-                                    <div className="progress-bar" style={{ width: `${(userProgress.totalXP % 200) / 200 * 100}%` }}></div>
-                                </div>
-                                <p className="text-xs text-gray-500 mt-2">{userProgress.totalXP % 200}/200 XP to next level</p>
-                            </div>
-                            
-                            <div className="card stat-card">
-                                <div className="stat-number">{userProgress.streak}</div>
-                                <div className="stat-label">Day Streak</div>
-                                <div className="mt-4">
-                                    <span className="badge badge-warning">
-                                        <i className="fas fa-fire"></i>
-                                        Active
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div className="card stat-card">
-                                <div className="stat-number">{userProgress.totalXP}</div>
-                                <div className="stat-label">Total XP</div>
-                                <div className="mt-4">
-                                    <span className="badge badge-success">
-                                        <i className="fas fa-star"></i>
-                                        Earning
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div className="card stat-card">
-                                <div className="stat-number">{masteredCards}/{courseData.flashcards.length}</div>
-                                <div className="stat-label">Cards Mastered</div>
-                                <div className="progress-container mt-4">
-                                    <div className="progress-bar" style={{ width: `${(masteredCards / courseData.flashcards.length) * 100}%` }}></div>
-                                </div>
+                            <div className="flex gap-3">
+                                {[1, 2, 3].map(topicId => (
+                                    <button
+                                        key={topicId}
+                                        onClick={() => setSelectedTopic(topicId)}
+                                        className={`px-4 py-2 rounded-xl font-semibold ${selectedTopic === topicId 
+                                            ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
+                                            : 'bg-gray-100 text-gray-700'}`}
+                                    >
+                                        Map {topicId}
+                                    </button>
+                                ))}
                             </div>
                         </div>
-
-                        <div className="card mb-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Course Completion</h3>
-                            <div className="progress-container mb-4">
-                                <div className="progress-bar" style={{ width: `${completionPercentage}%` }}></div>
-                            </div>
-                            <div className="flex justify-between text-sm text-gray-600">
-                                <span>{userProgress.completedTopics.length}/{courseData.topics.length} Topics Completed</span>
-                                <span>{completionPercentage.toFixed(0)}%</span>
-                            </div>
-                        </div>
-
-                        <div className="card">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Achievements & Badges</h3>
-                            <div className="flex flex-wrap gap-3">
-                                {userProgress.badges.map((badge, index) => (
-                                    <div key={index} className="badge badge-primary">
-                                        <i className="fas fa-trophy"></i>
-                                        {badge}
+                        
+                        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 mb-8" style={{ height: '500px', position: 'relative' }}>
+                            <div className="absolute inset-0 p-8">
+                                {currentMap.connections.map(([from, to], idx) => {
+                                    const fromNode = currentMap.nodes.find(n => n.id === from);
+                                    const toNode = currentMap.nodes.find(n => n.id === to);
+                                    return (
+                                        <div key={idx} className="absolute">
+                                            <div style={{
+                                                position: 'absolute',
+                                                left: `${fromNode.x}%`,
+                                                top: `${fromNode.y}%`,
+                                                width: `${Math.sqrt(Math.pow(toNode.x - fromNode.x, 2) + Math.pow(toNode.y - fromNode.y, 2))}%`,
+                                                height: '2px',
+                                                background: '#cbd5e1',
+                                                transform: `rotate(${Math.atan2(toNode.y - fromNode.y, toNode.x - fromNode.x) * 180 / Math.PI}deg)`,
+                                                transformOrigin: '0 0'
+                                            }}></div>
+                                        </div>
+                                    );
+                                })}
+                                
+                                {currentMap.nodes.map(node => (
+                                    <div
+                                        key={node.id}
+                                        style={{
+                                            position: 'absolute',
+                                            left: `calc(${node.x}% - 75px)`,
+                                            top: `calc(${node.y}% - 25px)`,
+                                            width: '150px',
+                                            height: '50px'
+                                        }}
+                                    >
+                                        <div className="glass-card rounded-xl p-4 text-center shadow-lg" style={{ 
+                                            borderLeft: `5px solid ${node.color}`,
+                                            background: 'white'
+                                        }}>
+                                            <div className="font-bold text-gray-900">{node.label}</div>
+                                        </div>
                                     </div>
                                 ))}
-                                {userProgress.badges.length === 0 && (
-                                    <p className="text-gray-500">Complete activities to earn badges!</p>
-                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {currentMap.nodes.map(node => (
+                                <div key={node.id} className="glass-card p-4 rounded-xl" style={{ borderLeft: `5px solid ${node.color}` }}>
+                                    <div className="font-bold text-gray-900 mb-2">{node.label}</div>
+                                    <div className="text-gray-600 text-sm">
+                                        Related to: {currentMap.connections
+                                            .filter(([from, to]) => from === node.id || to === node.id)
+                                            .map(([from, to]) => {
+                                                const otherId = from === node.id ? to : from;
+                                                const otherNode = currentMap.nodes.find(n => n.id === otherId);
+                                                return otherNode.label;
+                                            })
+                                            .join(', ')}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // MateCat View Component
+        function MateCatView({ matecatInfo }) {
+            return (
+                <div className="animate__animated animate__fadeIn">
+                    <div className="glass-card p-8 rounded-2xl mb-6">
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center">
+                                <i className="fas fa-cat text-white text-2xl"></i>
+                            </div>
+                            <div>
+                                <h1 className="text-4xl font-bold text-gray-900">{matecatInfo.name}</h1>
+                                <p className="text-gray-600 text-lg">Open-source CAT Tool</p>
+                            </div>
+                        </div>
+                        
+                        <p className="text-gray-700 text-lg mb-8">{matecatInfo.description}</p>
+                        
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                            <div>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Key Features</h2>
+                                <div className="space-y-3">
+                                    {matecatInfo.features.map((feature, idx) => (
+                                        <div key={idx} className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                                                <i className="fas fa-check text-green-600"></i>
+                                            </div>
+                                            <span className="text-gray-700">{feature}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Getting Started</h2>
+                                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6">
+                                    {matecatInfo.gettingStarted.map((step, idx) => (
+                                        <div key={idx} className="flex items-start gap-3 mb-3 last:mb-0">
+                                            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0">
+                                                <span className="text-white font-bold">{idx + 1}</span>
+                                            </div>
+                                            <span className="text-gray-700 pt-1">{step}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Advantages</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {matecatInfo.advantages.map((advantage, idx) => (
+                                    <div key={idx} className="glass-card p-4 rounded-xl">
+                                        <div className="text-lg font-semibold text-gray-900">{advantage}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Comparison with Other Tools</h2>
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr>
+                                            <th className="text-left p-4 bg-gray-50 rounded-l-xl">Comparison</th>
+                                            <th className="text-left p-4 bg-gray-50">MateCat</th>
+                                            <th className="text-left p-4 bg-gray-50 rounded-r-xl">Other Tools</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {Object.entries(matecatInfo.comparison).map(([key, value]) => (
+                                            <tr key={key} className="border-b border-gray-200">
+                                                <td className="p-4 font-medium text-gray-900">{key}</td>
+                                                <td className="p-4 text-green-600 font-semibold">✅ Included</td>
+                                                <td className="p-4 text-gray-700">{value}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -1182,7 +1909,99 @@
             );
         }
 
-        // Initialize the app
+        // Progress View Component
+        function ProgressView({ userProgress, courseData, allFlashcards }) {
+            const completionPercentage = (userProgress.completedTopics.length / courseData.topics.length) * 100;
+            
+            return (
+                <div className="animate__animated animate__fadeIn">
+                    <div className="glass-card p-8 rounded-2xl mb-6">
+                        <div className="flex justify-between items-center mb-8">
+                            <div>
+                                <h2 className="text-3xl font-bold text-gray-900">Learning Progress</h2>
+                                <p className="text-gray-600">Track your achievements and growth</p>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-3xl font-bold gradient-text">Level {userProgress.level}</div>
+                                <p className="text-gray-600">{userProgress.totalXP} Total XP</p>
+                            </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                            <div className="glass-card p-6 rounded-2xl text-center">
+                                <div className="text-3xl font-bold gradient-text mb-2">{completionPercentage.toFixed(0)}%</div>
+                                <div className="text-gray-800 font-semibold">Course Completion</div>
+                            </div>
+                            
+                            <div className="glass-card p-6 rounded-2xl text-center">
+                                <div className="text-3xl font-bold gradient-text mb-2">{userProgress.streak}</div>
+                                <div className="text-gray-800 font-semibold">Day Streak</div>
+                                <div className="text-sm text-gray-600 mt-1">🔥 Keep it up!</div>
+                            </div>
+                            
+                            <div className="glass-card p-6 rounded-2xl text-center">
+                                <div className="text-3xl font-bold gradient-text mb-2">{userProgress.badges.length}</div>
+                                <div className="text-gray-800 font-semibold">Badges Earned</div>
+                            </div>
+                            
+                            <div className="glass-card p-6 rounded-2xl text-center">
+                                <div className="text-3xl font-bold gradient-text mb-2">{userProgress.flashcardsMastered || 0}</div>
+                                <div className="text-gray-800 font-semibold">Cards Mastered</div>
+                                <div className="text-sm text-gray-600 mt-1">of {allFlashcards.length}</div>
+                            </div>
+                        </div>
+                        
+                        <div className="mb-8">
+                            <h3 className="text-xl font-bold text-gray-900 mb-4">Course Progress</h3>
+                            <div className="space-y-4">
+                                {courseData.topics.map(topic => {
+                                    const isCompleted = userProgress.completedTopics.includes(topic.id);
+                                    const topicCards = allFlashcards.filter(card => card.topic === topic.id);
+                                    const masteredCards = 0; // This would come from actual progress tracking
+                                    const progressPercentage = topicCards.length > 0 ? (masteredCards / topicCards.length) * 100 : 0;
+                                    
+                                    return (
+                                        <div key={topic.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: topic.color + '20' }}>
+                                                    <span className="text-xl" style={{ color: topic.color }}>{topic.icon}</span>
+                                                </div>
+                                                <div>
+                                                    <div className="font-semibold text-gray-900">{topic.name}</div>
+                                                    <div className="text-sm text-gray-600">{topic.description}</div>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="font-bold text-gray-900">{progressPercentage.toFixed(0)}%</div>
+                                                <div className="text-sm text-gray-600">
+                                                    {isCompleted ? '✓ Complete' : 'In Progress'}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-4">Achievements</h3>
+                            <div className="flex flex-wrap gap-3">
+                                {userProgress.badges.map((badge, idx) => (
+                                    <div key={idx} className="glass-card px-4 py-2 rounded-full flex items-center gap-2">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
+                                            <i className="fas fa-trophy text-white text-sm"></i>
+                                        </div>
+                                        <span className="font-semibold text-gray-900">{badge}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render the app
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
